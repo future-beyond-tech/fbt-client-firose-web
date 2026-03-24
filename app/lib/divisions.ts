@@ -13,7 +13,7 @@ export type DivisionDefinition = {
   theme?: 'default' | 'tech';
 };
 
-export const FBT_WEBSITE_URL = 'https://futurebeyondtech.in/';
+export const FBT_WEBSITE_URL = 'https://futurebeyondtech.com/';
 export const NEAT_FRESH_WEBSITE_URL = 'https://neatfresh.online';
 export const AR_PERFUMES_WEBSITE_URL = 'https://arperfumes.in';
 export const FEMISON_WEBSITE_URL = 'https://femison.in';

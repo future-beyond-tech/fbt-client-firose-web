@@ -445,6 +445,79 @@
   }
 }
 
+  /* Scroll progress bar */
+  .au-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 9990;
+    pointer-events: none;
+    background: rgba(200, 168, 107, 0.08);
+  }
+
+  .au-progressBar {
+    display: block;
+    height: 100%;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #c8a86b, #e1ca96, #c8a86b);
+    box-shadow: 0 0 8px rgba(200, 168, 107, 0.4);
+    transition: none;
+  }
+
+  /* Route change pulse */
+  .au-routePulse {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 9991;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, #e1ca96, transparent);
+    opacity: 0;
+    animation: auRoutePulse 0.6s var(--ease-out) forwards;
+  }
+
+  @keyframes auRoutePulse {
+    0% { opacity: 0.8; transform: scaleX(0.3); }
+    100% { opacity: 0; transform: scaleX(1); }
+  }
+
+  /* Link hover glow for inline text links */
+  a:not(.fe-btn-primary):not(.fe-link-chip):not([class*="Action"]):not([class*="action"]):not([class*="instagram"]) {
+    transition: text-shadow var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+
+  /* Form field focus glow */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: rgba(224, 200, 147, 0.7);
+    box-shadow: 0 0 0 3px rgba(200, 168, 107, 0.2);
+    outline: none;
+  }
+
+  /* Image loading skeleton shimmer */
+  @keyframes feShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .fe-skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(200, 168, 107, 0.04) 0%,
+      rgba(200, 168, 107, 0.1) 40%,
+      rgba(200, 168, 107, 0.04) 80%
+    );
+    background-size: 200% 100%;
+    animation: feShimmer 1.8s ease-in-out infinite;
+    border-radius: var(--radius-card);
+  }
+
 @media (prefers-reduced-motion: reduce) {
   .fe-ambient-drift::before,
   .fe-reveal,
@@ -477,6 +550,15 @@
   .fe-interactive-media img {
     transition: none !important;
     transform: none !important;
+  }
+
+  .au-routePulse {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .fe-skeleton {
+    animation: none !important;
   }
 }
 

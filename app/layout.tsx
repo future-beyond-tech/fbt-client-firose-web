@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import CorporateHeader from '@/app/components/CorporateHeader';
+import FloatingBackToTop from '@/app/components/FloatingBackToTop';
+import WelcomeOverlay from '@/app/components/WelcomeOverlay';
+import { ToastProvider } from '@/app/components/Toast';
 import MotionProvider from '@/app/components/motion/MotionProvider';
 import RouteTransition from '@/app/components/motion/RouteTransition';
 import { FBT_WEBSITE_URL, divisionCatalog, type DivisionDefinition } from '@/app/lib/divisions';
@@ -107,80 +110,99 @@ function ExternalLinkIcon({ className }: Readonly<{ className?: string }>) {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" id="top">
       <body>
         <MotionProvider>
-          <div className="fe-shell">
-            <CorporateHeader />
+          <ToastProvider>
+            <div className="fe-shell">
+              <CorporateHeader />
 
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-            />
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+              />
 
-            <RouteTransition>{children}</RouteTransition>
+              <RouteTransition>{children}</RouteTransition>
 
-            <footer className="mt-auto border-t border-[#e0c8932b] bg-[linear-gradient(180deg,#0c0a08,#090807)]">
-              <div className="mx-auto w-[min(1240px,calc(100%_-_1.25rem))] md:w-[min(1240px,calc(100%_-_2rem))] py-8">
-                <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr_1fr]">
-                  <div className="grid gap-2">
-                    <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#d7bb85]">Firose Enterprises</p>
-                    <p className="max-w-[44ch] text-sm text-[#a99d87]">
-                      One group. Multiple trusted divisions operating with heritage discipline and future-facing capability.
+              <footer className="relative mt-auto border-t border-[#e0c8932b] bg-[linear-gradient(180deg,#0c0a08,#090807)]">
+                <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[#c8a86b44] to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(80%_100%_at_50%_0%,rgba(200,168,107,0.06)_0%,transparent_70%)]" />
+
+                <div className="relative mx-auto w-[min(1240px,calc(100%_-_1.25rem))] md:w-[min(1240px,calc(100%_-_2rem))] py-10 lg:py-12">
+                  <div className="grid gap-8 lg:grid-cols-[1.25fr_1fr_1fr]">
+                    <div className="grid gap-3">
+                      <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#d7bb85]">Firose Enterprises</p>
+                      <p className="max-w-[44ch] text-sm leading-relaxed text-[#a99d87]">
+                        One group. Multiple trusted divisions operating with heritage discipline and future-facing capability.
+                      </p>
+                      <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7d745f]">
+                        Trusted across India
+                      </p>
+                    </div>
+
+                    <div className="grid gap-3">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">Our Companies</p>
+                      <nav className="grid gap-1.5" aria-label="Our companies">
+                        {divisionCatalog.map((division) => {
+                          const footerExternalHref = FOOTER_EXTERNAL_DIVISION_LINKS[division.id];
+                          const useExternalLink = Boolean(footerExternalHref) || division.external;
+                          const linkHref = footerExternalHref ?? division.href;
+
+                          return useExternalLink ? (
+                            <a
+                              key={division.id}
+                              href={linkHref}
+                              target="_self"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-between rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]"
+                              aria-label={`Visit ${division.name} external website`}
+                            >
+                              <span>{division.name}</span>
+                              <ExternalLinkIcon className="h-4 w-4 text-[#a99d87]" />
+                            </a>
+                          ) : (
+                            <Link
+                              key={division.id}
+                              href={linkHref}
+                              className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]"
+                            >
+                              {division.name}
+                            </Link>
+                          );
+                        })}
+                      </nav>
+                    </div>
+
+                    <div className="grid gap-3">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">Corporate</p>
+                      <nav className="grid gap-1.5" aria-label="Footer links">
+                        <Link href="/about" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">About</Link>
+                        <Link href="/brands" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Our Divisions</Link>
+                        <Link href="/manufacturing-quality" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Manufacturing &amp; Quality</Link>
+                        <Link href="/business-with-us" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Business With Us</Link>
+                        <Link href="/contact" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Contact</Link>
+                      </nav>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 flex flex-col items-center gap-4 border-t border-[#e0c89318] pt-6 sm:flex-row sm:justify-between">
+                    <p className="text-xs uppercase tracking-[0.12em] text-[#968a74]">
+                      &copy; {new Date().getFullYear()} Firose Enterprises. All rights reserved.
                     </p>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">Our Companies</p>
-                    <nav className="grid gap-1" aria-label="Our companies">
-                      {divisionCatalog.map((division) => {
-                        const footerExternalHref = FOOTER_EXTERNAL_DIVISION_LINKS[division.id];
-                        const useExternalLink = Boolean(footerExternalHref) || division.external;
-                        const linkHref = footerExternalHref ?? division.href;
-
-                        return useExternalLink ? (
-                          <a
-                            key={division.id}
-                            href={linkHref}
-                            target="_self"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-between rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]"
-                            aria-label={`Visit ${division.name} external website`}
-                          >
-                            <span>{division.name}</span>
-                            <ExternalLinkIcon className="h-4 w-4 text-[#a99d87]" />
-                          </a>
-                        ) : (
-                          <Link
-                            key={division.id}
-                            href={linkHref}
-                            className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]"
-                          >
-                            {division.name}
-                          </Link>
-                        );
-                      })}
-                    </nav>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">Corporate</p>
-                    <nav className="grid gap-1" aria-label="Footer links">
-                      <Link href="/about" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">About</Link>
-                      <Link href="/brands" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Our Divisions</Link>
-                      <Link href="/manufacturing-quality" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Manufacturing &amp; Quality</Link>
-                      <Link href="/business-with-us" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Business With Us</Link>
-                      <Link href="/contact" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Contact</Link>
-                    </nav>
+                    <a
+                      href="#top"
+                      className="text-[11px] uppercase tracking-[0.16em] text-[#9e927b] transition hover:text-[#c8a86b]"
+                    >
+                      Back to Top &uarr;
+                    </a>
                   </div>
                 </div>
+              </footer>
 
-                <p className="mt-6 border-t border-[#e0c89324] pt-4 text-xs uppercase tracking-[0.12em] text-[#968a74]">
-                  © {new Date().getFullYear()} FiroseEnterprises. All rights reserved.
-                </p>
-              </div>
-            </footer>
-          </div>
+              <FloatingBackToTop />
+              <WelcomeOverlay />
+            </div>
+          </ToastProvider>
         </MotionProvider>
       </body>
     </html>

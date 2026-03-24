@@ -36,7 +36,7 @@ const capabilitySignals = [
 export const metadata: Metadata = {
   title: 'Future Beyond Technology (FBT)',
   description:
-    'Future Beyond Technology (FBT) is the AI and cybersecurity division under Firose Enterprises. Explore the dedicated website at futurebeyondtech.in.',
+    'Future Beyond Technology (FBT) is the AI and cybersecurity division under Firose Enterprises. Explore the dedicated website at futurebeyondtech.com.',
 };
 
 export default function FutureBeyondTechnologyPage() {
@@ -104,7 +104,7 @@ export default function FutureBeyondTechnologyPage() {
           Back to All Brands
         </Link>
         <a href={FBT_WEBSITE_URL} target="_self" rel="noopener noreferrer" className={`${styles.inlineBrandAction} ${brandStyles.brandAction}`}>
-          Visit futurebeyondtech.in
+          Visit futurebeyondtech.com
         </a>
         </div>
       </MotionWrapper>

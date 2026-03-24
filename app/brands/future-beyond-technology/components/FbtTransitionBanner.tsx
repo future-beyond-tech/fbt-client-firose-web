@@ -25,7 +25,7 @@ export default function FbtTransitionBanner() {
           <p className={styles.transitionDescription}>
             Visit{' '}
             <a href={FBT_WEBSITE_URL} target="_self" rel="noopener noreferrer" className={styles.transitionLink}>
-              futurebeyondtech.in
+              futurebeyondtech.com
             </a>{' '}
             for the complete FBT service experience while remaining part of the Firose Enterprises group.
           </p>
@@ -39,7 +39,7 @@ export default function FbtTransitionBanner() {
             className={styles.transitionButton}
             aria-label="Visit Future Beyond Technology website"
           >
-            Visit futurebeyondtech.in
+            Visit futurebeyondtech.com
             <svg
               viewBox="0 0 20 20"
               fill="none"

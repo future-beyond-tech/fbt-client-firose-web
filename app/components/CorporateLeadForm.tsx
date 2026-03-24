@@ -3,6 +3,7 @@
 import { FormEvent, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { MOTION_EASE, buttonPress, hoverLift } from '@/lib/motion';
+import { useToast } from '@/app/components/Toast';
 import styles from '@/app/corporate.module.css';
 
 type CorporateLeadFormProps = {
@@ -40,6 +41,7 @@ export default function CorporateLeadForm({
   showInquiryType = false,
 }: Readonly<CorporateLeadFormProps>) {
   const reduceMotion = useReducedMotion();
+  const { showToast } = useToast();
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<FormState>({
     name: '',
@@ -76,6 +78,7 @@ export default function CorporateLeadForm({
     const mailtoUrl = buildMailToUrl(`${contextLabel} Enquiry`, lines.join('\n'));
     window.location.href = mailtoUrl;
     setSubmitted(true);
+    showToast('Message prepared — your email client will open shortly');
   }
 
   return (

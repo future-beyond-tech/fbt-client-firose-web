@@ -18,7 +18,7 @@ const BRAND_LINKS: BrandLink[] = [
   },
   {
     name: 'Future Beyond Tech',
-    href: 'https://futurebeyondtech.in',
+    href: 'https://futurebeyondtech.com',
     subtitle: 'Engineering & Technology',
   },
 ];

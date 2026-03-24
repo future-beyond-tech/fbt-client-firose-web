@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { MOTION_EASE, buttonPress, fadeIn, staggerContainer } from '@/lib/motion';
 import { corporateVisuals } from '@/app/lib/brandVisuals';
 
@@ -41,17 +42,28 @@ export default function HeroSection({
   const words = title.split(' ');
   const reduceMotion = useReducedMotion();
   const wordVariants = buildWordVariants(0.04);
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['0%', '5%']);
 
   return (
-    <section aria-labelledby="hero-title" className="relative isolate min-h-[calc(100vh-74px)] overflow-hidden">
-      <Image
-        src={corporateVisuals.heroImage}
-        alt="Firose Enterprises luxury corporate direction"
-        fill
-        priority
-        className="object-cover"
-        sizes="100vw"
-      />
+    <section ref={sectionRef} aria-labelledby="hero-title" className="relative isolate min-h-[calc(100vh-74px)] overflow-hidden">
+      <motion.div
+        className="absolute inset-0"
+        style={{ y: reduceMotion ? 0 : parallaxY }}
+      >
+        <Image
+          src={corporateVisuals.heroImage}
+          alt="Firose Enterprises luxury corporate direction"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+      </motion.div>
 
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-[#060504f0] via-[#090806cf] to-[#090806a8]"
