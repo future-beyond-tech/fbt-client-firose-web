@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function NeatFresh() {
   return (
-    <main className={`${styles.brandPage} ${brandStyles.brandPageTheme} ${brandStyles.pageFrame}`}>
+    <main id="main-content" className={`${styles.brandPage} ${brandStyles.brandPageTheme} ${brandStyles.pageFrame}`}>
       <MotionWrapper delay={0.04}>
         <section className={brandStyles.masthead}>
         <div className={brandStyles.mastheadMedia}>
@@ -102,13 +102,43 @@ export default function NeatFresh() {
         <NeatFreshProductSections />
       </MotionWrapper>
       <MotionWrapper delay={0.28}>
+        <section className="fe-panel p-5 sm:p-7">
+          <header className="grid gap-2">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Key Metrics</p>
+            <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">Neat &amp; Fresh at a Glance</h2>
+          </header>
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {/* PLACEHOLDER: METRIC - Neat & Fresh product SKUs (owner to provide) */}
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Product SKUs</p>
+            </article>
+            {/* PLACEHOLDER: METRIC - Neat & Fresh institutional clients (owner to provide) */}
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Institutional Clients</p>
+            </article>
+            {/* PLACEHOLDER: METRIC - Neat & Fresh cities covered (owner to provide) */}
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Cities Covered</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>Quality Assured</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Standards</p>
+            </article>
+          </div>
+        </section>
+      </MotionWrapper>
+
+      <MotionWrapper delay={0.32}>
         <NeatFreshContactCard
           contact={neatFreshContact}
           whatsappUrl={neatFreshWhatsAppUrl}
           mailtoUrl={neatFreshMailToUrl}
         />
       </MotionWrapper>
-      <MotionWrapper delay={0.32}>
+      <MotionWrapper delay={0.36}>
         <NeatFreshCtaBlocks whatsappUrl={neatFreshWhatsAppUrl} mailtoUrl={neatFreshMailToUrl} />
       </MotionWrapper>
     </main>

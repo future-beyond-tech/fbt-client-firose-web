@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 
 export default function FutureBeyondTechnologyPage() {
   return (
-    <main className={`${styles.brandPage} ${brandStyles.brandPageTheme} ${brandStyles.pageFrame}`}>
+    <main id="main-content" className={`${styles.brandPage} ${brandStyles.brandPageTheme} ${brandStyles.pageFrame}`}>
       <MotionWrapper delay={0.04}>
         <section className={brandStyles.masthead}>
         <div className={brandStyles.mastheadMedia}>
@@ -99,6 +99,34 @@ export default function FutureBeyondTechnologyPage() {
       </MotionWrapper>
 
       <MotionWrapper delay={0.22}>
+        <section className="fe-panel p-5 sm:p-7">
+          <header className="grid gap-2">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Key Metrics</p>
+            <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">FBT at a Glance</h2>
+          </header>
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>4</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Core Capabilities</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>AI &amp; Security</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Primary Focus</p>
+            </article>
+            {/* PLACEHOLDER: METRIC - FBT enterprise clients count (owner to provide) */}
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Enterprise Clients</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>Production-Grade</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Delivery Standard</p>
+            </article>
+          </div>
+        </section>
+      </MotionWrapper>
+
+      <MotionWrapper delay={0.26}>
         <div className={styles.actionRow}>
         <Link href="/brands" className={styles.backLink}>
           Back to All Brands

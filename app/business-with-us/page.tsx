@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import CorporateLeadForm from '@/app/components/CorporateLeadForm';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import styles from '../corporate.module.css';
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
 
 export default function BusinessWithUsPage() {
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
+      <BreadcrumbSchema items={[{ name: 'Home', href: '/' }, { name: 'Business With Us', href: '/business-with-us' }]} />
       <MotionWrapper delay={0.04}>
         <section className={styles.section}>
         <header className={styles.sectionHeading}>

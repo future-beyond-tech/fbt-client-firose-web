@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
+import LeadershipCard from '@/app/components/LeadershipCard';
 import MeaningBehindFirose from '@/app/components/MeaningBehindFirose';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import { corporateVisuals } from '@/app/lib/brandVisuals';
@@ -41,7 +43,8 @@ const differentiators = [
 
 export default function AboutPage() {
   return (
-    <main className="fe-main fe-ambient-drift">
+    <main id="main-content" className="fe-main fe-ambient-drift">
+      <BreadcrumbSchema items={[{ name: 'Home', href: '/' }, { name: 'About', href: '/about' }]} />
       <MotionWrapper delay={0.04}>
         <section className="fe-panel-strong relative isolate overflow-hidden p-0">
         <div className="absolute inset-0">
@@ -174,7 +177,74 @@ export default function AboutPage() {
         <MeaningBehindFirose />
       </MotionWrapper>
 
-      <MotionWrapper delay={0.28}>
+      <MotionWrapper delay={0.25}>
+        <section className="fe-panel p-5 sm:p-7">
+          <header className="grid gap-2">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Leadership</p>
+            <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">The People Behind Firose</h2>
+            <p className="max-w-[72ch] text-[#b7ac97]">
+              A leadership team committed to building durable brand value through disciplined execution and technology-driven transformation.
+            </p>
+          </header>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <LeadershipCard
+              name="Feroze"
+              title="Founder & Lead Software Engineer, Future Beyond Technology"
+              bio="Leading the vision of transforming a heritage enterprise into a modern, technology-enabled conglomerate."
+            />
+            <LeadershipCard
+              name="Gorantla Srikanth"
+              title="CTO, Future Beyond Technology"
+              bio="Driving technology architecture and engineering execution with a focus on AI automation and enterprise security."
+            />
+          </div>
+
+          <div className="mt-4">
+            <Link href="/about/leadership" className="fe-link-chip">
+              View Full Leadership Team
+            </Link>
+          </div>
+        </section>
+      </MotionWrapper>
+
+      <MotionWrapper delay={0.27}>
+        <section className="fe-panel p-5 sm:p-7">
+          <header className="grid gap-2">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Heritage</p>
+            <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">Since 1980</h2>
+            <p className="max-w-[72ch] text-[#b7ac97]">
+              Over four decades of building consumer trust and expanding into new categories — from fragrance and baby care to AI engineering.
+            </p>
+          </header>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">1980</p>
+              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>Foundation</h3>
+              <p className="mt-1.5 text-sm text-[#b7ac97]">Established in Chennai with a focus on consumer product operations.</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2024</p>
+              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>FBT Launches</h3>
+              <p className="mt-1.5 text-sm text-[#b7ac97]">Future Beyond Technology established as the AI and cybersecurity division.</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2025–2026</p>
+              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>Integration</h3>
+              <p className="mt-1.5 text-sm text-[#b7ac97]">Unified corporate platform connecting all divisions under one digital identity.</p>
+            </article>
+          </div>
+
+          <div className="mt-4">
+            <Link href="/about/timeline" className="fe-link-chip">
+              View Full Timeline
+            </Link>
+          </div>
+        </section>
+      </MotionWrapper>
+
+      <MotionWrapper delay={0.32}>
         <section className="fe-panel p-5 sm:p-7">
         <header className="grid gap-2">
           <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Group Divisions</p>

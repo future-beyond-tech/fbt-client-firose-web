@@ -1,32 +1,21 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
-
-export const metadata: Metadata = {
-  title: 'Page Not Found',
-  description: 'The page you are looking for does not exist.',
-};
 
 export default function NotFound() {
   return (
-    <main className="fe-main">
-      <section className="fe-panel-strong flex min-h-[60vh] flex-col items-center justify-center gap-6 p-8 text-center">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">404</p>
-        <h1 className="max-w-[16ch] text-4xl font-normal text-[#f8f1e3] sm:text-5xl">
-          Page Not Found
+    <main id="main-content" className="fe-main fe-ambient-drift" style={{ minHeight: '60vh' }}>
+      <section className="fe-panel-strong flex flex-col items-center justify-center p-8 text-center sm:p-12 lg:p-16">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Page Not Found</p>
+        <h1 className="mt-4 text-5xl font-normal text-[#f8f1e3] sm:text-6xl lg:text-7xl" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+          404
         </h1>
-        <p className="max-w-[52ch] text-[#b7ac97]">
-          The page you are looking for may have been moved, removed, or does not exist.
-          Return to the homepage to continue exploring Firose Enterprises.
+        <p className="mt-3 max-w-[48ch] text-sm leading-relaxed text-[#b7ac97] sm:text-base">
+          The page you are looking for does not exist or has been moved. Return to the homepage or explore our divisions.
         </p>
-        <div className="mt-2 flex flex-wrap justify-center gap-3">
-          <Link href="/" className="fe-btn-primary">
-            Return Home
-          </Link>
-          <Link href="/contact" className="fe-link-chip">
-            Contact Us
-          </Link>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <Link href="/" className="fe-btn-primary">Back to Home</Link>
+          <Link href="/brands" className="fe-link-chip">Explore Divisions</Link>
+          <Link href="/contact" className="fe-link-chip">Contact Us</Link>
         </div>
-        <div className="mt-4 h-px w-16 bg-gradient-to-r from-transparent via-[#c8a86b44] to-transparent" />
       </section>
     </main>
   );

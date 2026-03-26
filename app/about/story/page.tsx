@@ -5,7 +5,7 @@ export const metadata: Metadata = corporateStoryMetadata;
 
 export default function CorporateStoryPage() {
   return (
-    <main className="fe-main fe-ambient-drift">
+    <main id="main-content" className="fe-main fe-ambient-drift">
       <CorporateStory />
     </main>
   );

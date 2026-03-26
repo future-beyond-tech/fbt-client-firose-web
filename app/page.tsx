@@ -4,6 +4,7 @@ import Link from 'next/link';
 import BrandNavigation from '@/app/components/BrandNavigation';
 import DivisionCard from '@/app/components/DivisionCard';
 import HeroSection from '@/app/components/HeroSection';
+import ProofPoints from '@/app/components/ProofPoints';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import { FBT_WEBSITE_URL, divisionCatalog } from '@/app/lib/divisions';
 import { corporateVisuals } from './lib/brandVisuals';
@@ -29,7 +30,11 @@ export default function Home() {
         secondaryCtaHref="/about/story"
       />
 
-      <main className="fe-main fe-ambient-drift">
+      <main id="main-content" className="fe-main fe-ambient-drift">
+        <MotionWrapper delay={0.02}>
+          <ProofPoints />
+        </MotionWrapper>
+
         <MotionWrapper delay={0.04}>
           <section className="fe-panel p-5 sm:p-7 lg:p-8">
             <header className="grid gap-2">

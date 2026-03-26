@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import {
   getDivisionPageHref,
@@ -34,7 +35,8 @@ function ExternalLinkIcon({ className }: Readonly<{ className?: string }>) {
 
 export default function BrandsOverview() {
   return (
-    <main className={styles.brandPage}>
+    <main id="main-content" className={styles.brandPage}>
+      <BreadcrumbSchema items={[{ name: 'Home', href: '/' }, { name: 'Divisions', href: '/brands' }]} />
       <MotionWrapper delay={0.04}>
         <section className={styles.portfolioHero}>
         <p className={styles.brandItemTag}>FIROSE Division Architecture</p>

@@ -92,6 +92,9 @@ export default function CorporateLeadForm({
             value={form.name}
             onChange={(event) => onFieldChange('name', event.target.value)}
             required
+            aria-required="true"
+            autoComplete="name"
+            placeholder="Your full name"
           />
         </div>
 
@@ -103,6 +106,9 @@ export default function CorporateLeadForm({
             value={form.email}
             onChange={(event) => onFieldChange('email', event.target.value)}
             required
+            aria-required="true"
+            autoComplete="email"
+            placeholder="you@company.com"
           />
         </div>
       </div>
@@ -115,6 +121,8 @@ export default function CorporateLeadForm({
             type="tel"
             value={form.phone}
             onChange={(event) => onFieldChange('phone', event.target.value)}
+            autoComplete="tel"
+            placeholder="+91 XXXXX XXXXX"
           />
         </div>
 
@@ -125,6 +133,8 @@ export default function CorporateLeadForm({
             type="text"
             value={form.company}
             onChange={(event) => onFieldChange('company', event.target.value)}
+            autoComplete="organization"
+            placeholder="Company name"
           />
         </div>
       </div>
@@ -153,13 +163,14 @@ export default function CorporateLeadForm({
           onChange={(event) => onFieldChange('message', event.target.value)}
           placeholder="Share your requirement and expected timelines"
           required
+          aria-required="true"
         />
       </div>
 
       <div className={styles.formActions}>
         <motion.button
           type="submit"
-          className={styles.primaryAction}
+          className={styles.primaryAction} aria-label={submitted ? 'Send another enquiry' : buttonLabel}
           whileHover={reduceMotion ? undefined : hoverLift}
           whileTap={reduceMotion ? undefined : buttonPress}
           transition={{ duration: 0.2, ease: MOTION_EASE }}
@@ -171,7 +182,7 @@ export default function CorporateLeadForm({
           href={quickWhatsAppUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.secondaryAction}
+          className={styles.secondaryAction} aria-label="Connect via WhatsApp"
           whileHover={reduceMotion ? undefined : { y: -2, transition: { duration: 0.2, ease: MOTION_EASE } }}
           whileTap={reduceMotion ? undefined : buttonPress}
         >
@@ -179,7 +190,7 @@ export default function CorporateLeadForm({
         </motion.a>
       </div>
 
-      <p className={styles.helperText}>This form opens your email client with a ready-to-send enquiry summary.</p>
+      <p className={styles.helperText} aria-live="polite">This form opens your email client with a ready-to-send enquiry summary.</p>
     </form>
   );
 }

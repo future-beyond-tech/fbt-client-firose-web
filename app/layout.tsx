@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import CorporateHeader from '@/app/components/CorporateHeader';
 import FloatingBackToTop from '@/app/components/FloatingBackToTop';
+import SkipLink from '@/app/components/SkipLink';
 import WelcomeOverlay from '@/app/components/WelcomeOverlay';
 import { ToastProvider } from '@/app/components/Toast';
 import MotionProvider from '@/app/components/motion/MotionProvider';
@@ -115,6 +116,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <MotionProvider>
           <ToastProvider>
             <div className="fe-shell">
+              <SkipLink />
               <CorporateHeader />
 
               <script
@@ -181,6 +183,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                         <Link href="/manufacturing-quality" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Manufacturing &amp; Quality</Link>
                         <Link href="/business-with-us" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Business With Us</Link>
                         <Link href="/contact" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Contact</Link>
+                        <Link href="/privacy" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Privacy Policy</Link>
+                        <Link href="/terms" className="inline-flex items-center rounded-md border border-[#e0c89325] bg-[#18140fbf] px-3 py-2 text-xs uppercase tracking-[0.1em] text-[#d8ccb4] transition hover:border-[#e0c89362] hover:bg-[#221b14]">Terms of Service</Link>
                       </nav>
                     </div>
                   </div>

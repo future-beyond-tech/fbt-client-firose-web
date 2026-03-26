@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import {
   brandCatalog,
   buildBrandMailToUrl,
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
+      <BreadcrumbSchema items={[{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact' }]} />
       <MotionWrapper delay={0.04}>
         <section className={styles.section}>
         <header className={styles.sectionHeading}>
