@@ -3,7 +3,9 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import CorporateHeader from '@/app/components/CorporateHeader';
 import FloatingBackToTop from '@/app/components/FloatingBackToTop';
+import FloatingWhatsApp from '@/app/components/FloatingWhatsApp';
 import SkipLink from '@/app/components/SkipLink';
+import TrustBar from '@/app/components/TrustBar';
 import WelcomeOverlay from '@/app/components/WelcomeOverlay';
 import { ToastProvider } from '@/app/components/Toast';
 import MotionProvider from '@/app/components/motion/MotionProvider';
@@ -117,6 +119,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           <ToastProvider>
             <div className="fe-shell">
               <SkipLink />
+              <TrustBar />
               <CorporateHeader />
 
               <script
@@ -208,6 +211,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
               </footer>
 
               <FloatingBackToTop />
+              <FloatingWhatsApp />
               <WelcomeOverlay />
             </div>
           </ToastProvider>

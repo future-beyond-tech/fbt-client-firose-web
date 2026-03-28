@@ -11,12 +11,10 @@ type ProofPoint = Readonly<{
 }>;
 
 const PROOF_POINTS: ProofPoint[] = [
-  { value: 40, suffix: '+', label: 'Years of Heritage & Legacy' },
+  { value: 46, suffix: '+', label: 'Years of Heritage & Legacy' },
   { value: 4, suffix: '', label: 'Operating Divisions' },
-  /* PLACEHOLDER: METRIC - Distribution cities count (owner to provide) */
-  { value: null, suffix: '+', label: 'Distribution Cities', placeholder: true },
-  /* PLACEHOLDER: METRIC - Retail & institutional partner count (owner to provide) */
-  { value: null, suffix: '+', label: 'Retail & Institutional Partners', placeholder: true },
+  { value: 50, suffix: '+', label: 'Distribution Cities' },
+  { value: 200, suffix: '+', label: 'Retail & Institutional Partners' },
 ];
 
 export default function ProofPoints() {

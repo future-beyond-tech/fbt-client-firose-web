@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -645,3 +646,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ─── Floating WhatsApp pulse animation ──────────────────────────────────── */
+@keyframes fe-whatsapp-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* ─── Trust bar marquee scroll ───────────────────────────────────────────── */
+@keyframes fe-trust-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
