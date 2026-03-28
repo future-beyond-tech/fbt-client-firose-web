@@ -3,7 +3,7 @@ import Link from 'next/link';
 import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import CorporateLeadForm from '@/app/components/CorporateLeadForm';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
-import styles from '../corporate.module.css';
+import styles from '../../corporate.module.css';
 
 export const metadata: Metadata = {
   title: 'Business With Us',

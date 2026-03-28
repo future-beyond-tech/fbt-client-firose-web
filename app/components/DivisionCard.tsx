@@ -1,14 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { CSSProperties } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   getDivisionPageHref,
   getDivisionWebsiteHref,
   type DivisionDefinition,
 } from '@/app/lib/divisions';
+import { divisionMessageKeys } from '@/app/lib/divisionMessages';
+import { Link } from '@/i18n/navigation';
 import { MOTION_EASE, buttonPress, fadeInUp, hoverLift } from '@/lib/motion';
 
 type DivisionCardProps = {
@@ -37,7 +39,12 @@ export default function DivisionCard({ division, animationDelayMs = 0 }: Readonl
   const isTech = division.theme === 'tech';
   const divisionPageHref = getDivisionPageHref(division);
   const divisionWebsiteHref = getDivisionWebsiteHref(division);
-  const ctaLabel = division.ctaLabel ?? 'Visit Website';
+  const tCard = useTranslations('divisionCard');
+  const tDivision = useTranslations('divisions');
+  const keys = divisionMessageKeys[division.id];
+  const divisionName = tDivision(keys.name);
+  const divisionCategory = tDivision(keys.category);
+  const divisionDescription = tDivision(keys.description);
   const reduceMotion = useReducedMotion();
   const cardClassName =
     'fe-stagger-card group overflow-hidden rounded-3xl border border-[#e0c8932a] bg-[linear-gradient(165deg,rgba(20,17,13,0.9),rgba(10,9,7,0.95))] text-[#f5ecdb] shadow-[0_14px_34px_rgba(0,0,0,0.42)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_48px_rgba(0,0,0,0.52)]';
@@ -64,7 +71,7 @@ export default function DivisionCard({ division, animationDelayMs = 0 }: Readonl
       }}
       style={{ animationDelay: `${animationDelayMs}ms` } as CSSProperties}
     >
-      <Link href={divisionPageHref} aria-label={`Open ${division.name} division page`}>
+      <Link href={divisionPageHref} aria-label={tCard('openDivision', { name: divisionName })}>
         <div className="fe-interactive-media relative h-52 w-full">
           <Image
             src={division.image}
@@ -74,24 +81,24 @@ export default function DivisionCard({ division, animationDelayMs = 0 }: Readonl
             sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 25vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#080705f2] via-[#0c0a08b8] to-transparent" />
-          <p className={categoryClassName}>{division.category}</p>
+          <p className={categoryClassName}>{divisionCategory}</p>
         </div>
       </Link>
 
       <div className="grid gap-2 p-4">
-        <h3 className="text-xl font-normal text-[#f8f1e3]">{division.name}</h3>
-        <p className={descriptionClassName}>{division.description}</p>
+        <h3 className="text-xl font-normal text-[#f8f1e3]">{divisionName}</h3>
+        <p className={descriptionClassName}>{divisionDescription}</p>
 
         <motion.a
           href={divisionWebsiteHref}
           target="_self"
           rel="noopener noreferrer"
           className={actionClassName}
-          aria-label={`Visit ${division.name} website`}
+          aria-label={tCard('visitExternal', { name: divisionName })}
           whileHover={reduceMotion ? undefined : { y: -1, transition: { duration: 0.18, ease: MOTION_EASE } }}
           whileTap={reduceMotion ? undefined : buttonPress}
         >
-          {ctaLabel}
+          {division.ctaLabel ?? tCard('visitWebsite')}
           <ExternalLinkIcon className="h-4 w-4" />
         </motion.a>
       </div>

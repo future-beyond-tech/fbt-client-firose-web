@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { MOTION_EASE, buttonPress, hoverLift } from '@/lib/motion';
 import { useToast } from '@/app/components/Toast';
 import styles from '@/app/corporate.module.css';
@@ -42,6 +43,8 @@ export default function CorporateLeadForm({
 }: Readonly<CorporateLeadFormProps>) {
   const reduceMotion = useReducedMotion();
   const { showToast } = useToast();
+  const tCommon = useTranslations('common');
+  const tBusiness = useTranslations('businessWithUs');
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<FormState>({
     name: '',
@@ -65,27 +68,27 @@ export default function CorporateLeadForm({
     event.preventDefault();
 
     const lines = [
-      `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      form.phone ? `Phone: ${form.phone}` : '',
-      form.company ? `Company: ${form.company}` : '',
-      showInquiryType ? `Inquiry Type: ${form.inquiryType}` : '',
+      `${tCommon('name')}: ${form.name}`,
+      `${tCommon('email')}: ${form.email}`,
+      form.phone ? `${tCommon('phone')}: ${form.phone}` : '',
+      form.company ? `${tCommon('company')}: ${form.company}` : '',
+      showInquiryType ? `${tBusiness('inquiryType')}: ${form.inquiryType}` : '',
       '',
-      'Message:',
+      `${tCommon('message')}:`,
       form.message,
     ].filter(Boolean);
 
     const mailtoUrl = buildMailToUrl(`${contextLabel} Enquiry`, lines.join('\n'));
     window.location.href = mailtoUrl;
     setSubmitted(true);
-    showToast('Message prepared — your email client will open shortly');
+    showToast(tCommon('emailClientToast'));
   }
 
   return (
     <form className={styles.formPanel} onSubmit={handleSubmit}>
       <div className={styles.fieldGrid}>
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-name`}>Name</label>
+          <label htmlFor={`${contextLabel}-name`}>{tCommon('name')}</label>
           <input
             id={`${contextLabel}-name`}
             type="text"
@@ -94,12 +97,12 @@ export default function CorporateLeadForm({
             required
             aria-required="true"
             autoComplete="name"
-            placeholder="Your full name"
+            placeholder={tCommon('yourName')}
           />
         </div>
 
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-email`}>Email</label>
+          <label htmlFor={`${contextLabel}-email`}>{tCommon('email')}</label>
           <input
             id={`${contextLabel}-email`}
             type="email"
@@ -108,60 +111,60 @@ export default function CorporateLeadForm({
             required
             aria-required="true"
             autoComplete="email"
-            placeholder="you@company.com"
+            placeholder={tCommon('emailPlaceholder')}
           />
         </div>
       </div>
 
       <div className={styles.fieldGrid}>
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-phone`}>Phone</label>
+          <label htmlFor={`${contextLabel}-phone`}>{tCommon('phone')}</label>
           <input
             id={`${contextLabel}-phone`}
             type="tel"
             value={form.phone}
             onChange={(event) => onFieldChange('phone', event.target.value)}
             autoComplete="tel"
-            placeholder="+91 XXXXX XXXXX"
+            placeholder={tCommon('phonePlaceholder')}
           />
         </div>
 
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-company`}>Company</label>
+          <label htmlFor={`${contextLabel}-company`}>{tCommon('company')}</label>
           <input
             id={`${contextLabel}-company`}
             type="text"
             value={form.company}
             onChange={(event) => onFieldChange('company', event.target.value)}
             autoComplete="organization"
-            placeholder="Company name"
+            placeholder={tCommon('companyName')}
           />
         </div>
       </div>
 
       {showInquiryType ? (
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-type`}>Inquiry Type</label>
+          <label htmlFor={`${contextLabel}-type`}>{tBusiness('inquiryType')}</label>
           <select
             id={`${contextLabel}-type`}
             value={form.inquiryType}
             onChange={(event) => onFieldChange('inquiryType', event.target.value)}
           >
-            <option value="Distributor">Become a Distributor</option>
-            <option value="Bulk Order">Bulk Order</option>
-            <option value="Private Label">Private Labeling</option>
-            <option value="General Inquiry">General Business Inquiry</option>
+            <option value="Distributor">{tBusiness('becomeDistributor')}</option>
+            <option value="Bulk Order">{tBusiness('bulkOrders')}</option>
+            <option value="Private Label">{tBusiness('privateLabeling')}</option>
+            <option value="General Inquiry">{tBusiness('generalInquiry')}</option>
           </select>
         </div>
       ) : null}
 
       <div className={styles.fieldGroup}>
-        <label htmlFor={`${contextLabel}-message`}>Message</label>
+        <label htmlFor={`${contextLabel}-message`}>{tCommon('message')}</label>
         <textarea
           id={`${contextLabel}-message`}
           value={form.message}
           onChange={(event) => onFieldChange('message', event.target.value)}
-          placeholder="Share your requirement and expected timelines"
+          placeholder={showInquiryType ? tBusiness('sharePlaceholder') : tCommon('messagePlaceholder')}
           required
           aria-required="true"
         />
@@ -170,27 +173,31 @@ export default function CorporateLeadForm({
       <div className={styles.formActions}>
         <motion.button
           type="submit"
-          className={styles.primaryAction} aria-label={submitted ? 'Send another enquiry' : buttonLabel}
+          className={styles.primaryAction}
+          aria-label={submitted ? (showInquiryType ? tBusiness('sendAnother') : tCommon('sendAnotherEnquiry')) : buttonLabel}
           whileHover={reduceMotion ? undefined : hoverLift}
           whileTap={reduceMotion ? undefined : buttonPress}
           transition={{ duration: 0.2, ease: MOTION_EASE }}
         >
-          {submitted ? 'Send Another Enquiry' : buttonLabel}
+          {submitted ? (showInquiryType ? tBusiness('sendAnother') : tCommon('sendAnotherEnquiry')) : buttonLabel}
         </motion.button>
 
         <motion.a
           href={quickWhatsAppUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.secondaryAction} aria-label="Connect via WhatsApp"
+          className={styles.secondaryAction}
+          aria-label={tCommon('connectViaWhatsApp')}
           whileHover={reduceMotion ? undefined : { y: -2, transition: { duration: 0.2, ease: MOTION_EASE } }}
           whileTap={reduceMotion ? undefined : buttonPress}
         >
-          WhatsApp
+          {tCommon('whatsApp')}
         </motion.a>
       </div>
 
-      <p className={styles.helperText} aria-live="polite">This form opens your email client with a ready-to-send enquiry summary.</p>
+      <p className={styles.helperText} aria-live="polite">
+        {showInquiryType ? tBusiness('formNote') : tCommon('formOpensEmailClient')}
+      </p>
     </form>
   );
 }

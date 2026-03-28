@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { Link } from '@/i18n/navigation';
 import { MOTION_EASE } from '@/lib/motion';
 
 const SESSION_KEY = 'fe-hasSeenGreeting';
@@ -23,47 +23,47 @@ function getTimeGreetings(): GreetingEntry[] {
   if (hour >= 5 && hour < 12) {
     return [
       { line1: 'Good Morning', line2: 'A fresh day begins with trust.', lang: 'English' },
-      { line1: '\u0B89\u0B99\u0BCD\u0B95\u0BB3\u0BC1\u0B95\u0BCD\u0B95\u0BC1 \u0B89\u0BB0\u0BBF\u0BAF \u0BA8\u0BB2\u0BCD \u0B95\u0BBE\u0BB2\u0BC8', line2: '\u0BA8\u0BAE\u0BCD\u0BAA\u0BBF\u0B95\u0BCD\u0B95\u0BC8\u0BAF\u0BC1\u0B9F\u0BA9\u0BCD \u0BAA\u0BC1\u0BA4\u0BBF\u0BAF \u0BA8\u0BBE\u0BB3\u0BCD.', lang: 'Tamil' },
-      { line1: '\u0C36\u0C41\u0C2D\u0C4B\u0C26\u0C2F\u0C02', line2: '\u0C28\u0C2E\u0C4D\u0C2E\u0C15\u0C02\u0C24\u0C4B \u0C15\u0C4A\u0C24\u0C4D\u0C24 \u0C30\u0C4B\u0C1C\u0C41 \u0C2E\u0C4A\u0C26\u0C32\u0C35\u0C41\u0C24\u0C41\u0C02\u0C26\u0C3F.', lang: '\u0C24\u0C46\u0C32\u0C41\u0C17\u0C41' },
-      { line1: '\u0CB6\u0CC1\u0CAD\u0CCB\u0CA6\u0CAF', line2: '\u0CA8\u0C82\u0CAC\u0CBF\u0C95\u0CC6\u0CAF\u0CC6\u0C82\u0CA6\u0CB0\u0CC6 \u0CB9\u0CCA\u0CB8 \u0CA6\u0CBF\u0CA8 \u0CAA\u0CCD\u0CB0\u0CBE\u0CB0\u0C82\u0CAD\u0CB5\u0CBE\u0C97\u0CC1\u0CA4\u0CCD\u0CA4\u0CA6\u0CC6.', lang: '\u0C95\u0CA8\u0CCD\u0CA8\u0CA1' },
-      { line1: '\u0938\u0941\u092A\u094D\u0930\u092D\u093E\u0924', line2: '\u0935\u093F\u0936\u094D\u0935\u093E\u0938 \u0915\u0947 \u0938\u093E\u0925 \u090F\u0915 \u0928\u092F\u093E \u0926\u093F\u0928 \u0936\u0941\u0930\u0942 \u0939\u094B\u0924\u093E \u0939\u0948\u0964', lang: 'Hindi' },
-      { line1: '\u0635\u0628\u0627\u062D \u0627\u0644\u062E\u064A\u0631', line2: '\u064A\u0648\u0645 \u062C\u062F\u064A\u062F \u064A\u0628\u062F\u0623 \u0628\u0627\u0644\u062B\u0642\u0629.', lang: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
-      { line1: 'Bonjour', line2: 'Une nouvelle journ\u00E9e commence avec confiance.', lang: 'Fran\u00E7ais' },
+      { line1: 'உங்களுக்கு உரிய நல் காலை', line2: 'நம்பிக்கையுடன் புதிய நாள்.', lang: 'Tamil' },
+      { line1: 'శుభోదయం', line2: 'నమ్మకంతో కొత్త రోజు మొదలవుతుంది.', lang: 'తెలుగు' },
+      { line1: 'ಶುಭೋದಯ', line2: 'ನಂಬಿಕೆಯೆಂದರೆ ಹೊಸ ದಿನ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ.', lang: 'ಕನ್ನಡ' },
+      { line1: 'सुप्रभात', line2: 'विश्वास के साथ एक नया दिन शुरू होता है।', lang: 'Hindi' },
+      { line1: 'صباح الخير', line2: 'يوم جديد يبدأ بالثقة.', lang: 'العربية' },
+      { line1: 'Bonjour', line2: 'Une nouvelle journée commence avec confiance.', lang: 'Français' },
     ];
   }
 
   if (hour >= 12 && hour < 17) {
     return [
       { line1: 'Good Afternoon', line2: 'Thank you for choosing to be here.', lang: 'English' },
-      { line1: '\u0BAE\u0BA4\u0BBF\u0BAF \u0BB5\u0BA3\u0B95\u0BCD\u0B95\u0BAE\u0BCD', line2: '\u0BA8\u0BC0\u0B99\u0BCD\u0B95\u0BB3\u0BCD \u0B87\u0B99\u0BCD\u0B95\u0BC7 \u0B87\u0BB0\u0BC1\u0BAA\u0BCD\u0BAA\u0BA4\u0BBF\u0BB2\u0BCD \u0BA8\u0BA9\u0BCD\u0BB1\u0BBF.', lang: 'Tamil' },
-      { line1: '\u0C36\u0C41\u0C2D \u0C2E\u0C27\u0C4D\u0C2F\u0C3E\u0C39\u0C4D\u0C28\u0C02', line2: '\u0C2E\u0C40\u0C30\u0C41 \u0C07\u0C15\u0C4D\u0C15\u0C21 \u0C09\u0C28\u0C4D\u0C28\u0C02\u0C26\u0C41\u0C15\u0C41 \u0C27\u0C28\u0C4D\u0C2F\u0C35\u0C3E\u0C26\u0C3E\u0C32\u0C41.', lang: '\u0C24\u0C46\u0C32\u0C41\u0C17\u0C41' },
-      { line1: '\u0CB6\u0CC1\u0CAD \u0CAE\u0CA7\u0CCD\u0CAF\u0CBE\u0CB9\u0CCD\u0CA8', line2: '\u0CA8\u0CC0\u0CB5\u0CC1 \u0C87\u0CB2\u0CCD\u0CB2\u0CBF \u0C87\u0CB0\u0CC1\u0CB5\u0CC1\u0CA6\u0C95\u0CCD\u0C95\u0CC6 \u0CA7\u0CA8\u0CCD\u0CAF\u0CB5\u0CBE\u0CA6\u0C97\u0CB3\u0CC1.', lang: '\u0C95\u0CA8\u0CCD\u0CA8\u0CA1' },
-      { line1: '\u0928\u092E\u0938\u094D\u0915\u093E\u0930', line2: '\u092F\u0939\u093E\u0901 \u0906\u0928\u0947 \u0915\u0947 \u0932\u093F\u090F \u0927\u0928\u094D\u092F\u0935\u093E\u0926\u0964', lang: 'Hindi' },
-      { line1: '\u0645\u0633\u0627\u0621 \u0627\u0644\u062E\u064A\u0631', line2: '\u0634\u0643\u0631\u0627\u064B \u0644\u0627\u062E\u062A\u064A\u0627\u0631\u0643\u0645 \u0627\u0644\u062A\u0648\u0627\u062C\u062F \u0647\u0646\u0627.', lang: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
-      { line1: 'Bon Apr\u00E8s-midi', line2: 'Merci d\u2019\u00EAtre ici avec nous.', lang: 'Fran\u00E7ais' },
+      { line1: 'மதிய வணக்கம்', line2: 'நீங்கள் இங்கே இருப்பதில் நன்றி.', lang: 'Tamil' },
+      { line1: 'శుభ మధ్యాహ్నం', line2: 'మీరు ఇక్కడ ఉన్నందుకు ధన్యవాదాలు.', lang: 'తెలుగు' },
+      { line1: 'ಶುಭ ಮಧ್ಯಾಹ್ನ', line2: 'ನೀವು ಇಲ್ಲಿ ಇರುವುದಕ್ಕೆ ಧನ್ಯವಾದಗಳು.', lang: 'ಕನ್ನಡ' },
+      { line1: 'नमस्कार', line2: 'यहाँ आने के लिए धन्यवाद।', lang: 'Hindi' },
+      { line1: 'مساء الخير', line2: 'شكراً لاختياركم التواجد هنا.', lang: 'العربية' },
+      { line1: 'Bon Après-midi', line2: 'Merci d\u2019être ici avec nous.', lang: 'Français' },
     ];
   }
 
   if (hour >= 17 && hour < 21) {
     return [
       { line1: 'Good Evening', line2: 'We are glad you found us.', lang: 'English' },
-      { line1: '\u0BAE\u0BA3\u0BBF \u0BB5\u0BA3\u0B95\u0BCD\u0B95\u0BAE\u0BCD', line2: '\u0BA8\u0BC0\u0B99\u0BCD\u0B95\u0BB3\u0BCD \u0B8E\u0B99\u0BCD\u0B95\u0BB3\u0BC8 \u0B95\u0BA3\u0BCD\u0B9F\u0BC1\u0BAA\u0BBF\u0B9F\u0BBF\u0BA4\u0BCD\u0BA4\u0BC0\u0BB0\u0BCD\u0B95\u0BB3\u0BCD.', lang: 'Tamil' },
-      { line1: '\u0C36\u0C41\u0C2D \u0C38\u0C3E\u0C2F\u0C02\u0C24\u0C4D\u0C30\u0C02', line2: '\u0C2E\u0C40\u0C30\u0C41 \u0C2E\u0C3E\u0C15\u0C41 \u0C26\u0C17\u0C4D\u0C17\u0C30\u0C15\u0C41 \u0C35\u0C1A\u0C4D\u0C1A\u0C3F\u0C28\u0C02\u0C26\u0C41\u0C15\u0C41 \u0C38\u0C02\u0C24\u0C4B\u0C37\u0C02.', lang: '\u0C24\u0C46\u0C32\u0C41\u0C17\u0C41' },
-      { line1: '\u0CB6\u0CC1\u0CAD \u0CB8\u0C82\u0CA7\u0CCD\u0CAF\u0CBE', line2: '\u0CA8\u0CC0\u0CB5\u0CC1 \u0CA8\u0CAE\u0CCD\u0CAE\u0CA8\u0CCD\u0CA8\u0CC1 \u0C95\u0C82\u0CA1\u0CC1\u0CB9\u0CBF\u0CA1\u0CBF\u0CA6\u0CA6\u0CCD\u0CA6\u0C95\u0CCD\u0C95\u0CC6 \u0CB8\u0C82\u0CA4\u0CCB\u0CB7.', lang: '\u0C95\u0CA8\u0CCD\u0CA8\u0CA1' },
-      { line1: '\u0936\u0941\u092D \u0938\u0902\u0927\u094D\u092F\u093E', line2: '\u0939\u092E\u0947\u0902 \u0916\u0941\u0936\u0940 \u0939\u0948 \u0915\u093F \u0906\u092A \u092F\u0939\u093E\u0901 \u0906\u090F\u0964', lang: 'Hindi' },
-      { line1: '\u0645\u0633\u0627\u0621 \u0627\u0644\u0646\u0648\u0631', line2: '\u0633\u0639\u062F\u0627\u0621 \u0628\u0632\u064A\u0627\u0631\u062A\u0643\u0645.', lang: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
-      { line1: 'Bonsoir', line2: 'Nous sommes heureux de vous accueillir.', lang: 'Fran\u00E7ais' },
+      { line1: 'மணி வணக்கம்', line2: 'நீங்கள் எங்களை கண்டுபிடித்தீர்கள்.', lang: 'Tamil' },
+      { line1: 'శుభ సాయంత్రం', line2: 'మీరు మాకు దగ్గరకు వచ్చినందుకు సంతోషం.', lang: 'తెలుగు' },
+      { line1: 'ಶುಭ ಸಂಧ್ಯಾ', line2: 'ನೀವು ನಮ್ಮನ್ನು ಕಂಡುಹಿಡಿದದ್ದಕ್ಕೆ ಸಂತೋಷ.', lang: 'ಕನ್ನಡ' },
+      { line1: 'शुभ संध्या', line2: 'हमें खुशी है कि आप यहाँ आए।', lang: 'Hindi' },
+      { line1: 'مساء النور', line2: 'سعداء بزيارتكم.', lang: 'العربية' },
+      { line1: 'Bonsoir', line2: 'Nous sommes heureux de vous accueillir.', lang: 'Français' },
     ];
   }
 
   return [
     { line1: 'Welcome', line2: 'You are always welcome here.', lang: 'English' },
-    { line1: '\u0BB5\u0BB0\u0BB5\u0BC7\u0BB1\u0BCD\u0BAA\u0BC1', line2: '\u0BA8\u0BC0\u0B99\u0BCD\u0B95\u0BB3\u0BCD \u0B8E\u0BAA\u0BCD\u0BAA\u0BCB\u0BA4\u0BC1\u0BAE\u0BCD \u0BB5\u0BB0\u0BB5\u0BC7\u0BB1\u0BCD\u0B95\u0BAA\u0BCD\u0BAA\u0B9F\u0BC1\u0B95\u0BBF\u0BB1\u0BC0\u0BB0\u0BCD\u0B95\u0BB3\u0BCD.', lang: 'Tamil' },
-    { line1: '\u0C38\u0C4D\u0C35\u0C3E\u0C17\u0C24\u0C02', line2: '\u0C2E\u0C40\u0C30\u0C41 \u0C0E\u0C2A\u0C4D\u0C2A\u0C41\u0C21\u0C42 \u0C38\u0C4D\u0C35\u0C3E\u0C17\u0C24\u0C02.', lang: '\u0C24\u0C46\u0C32\u0C41\u0C17\u0C41' },
-    { line1: '\u0CB8\u0CCD\u0CB5\u0CBE\u0C97\u0CA4', line2: '\u0CA8\u0CC0\u0CB5\u0CC1 \u0CAF\u0CBE\u0CB5\u0CBE\u0C97\u0CB2\u0CC2 \u0CB8\u0CCD\u0CB5\u0CBE\u0C97\u0CA4.', lang: '\u0C95\u0CA8\u0CCD\u0CA8\u0CA1' },
-    { line1: '\u0938\u094D\u0935\u093E\u0917\u0924', line2: '\u0906\u092A\u0915\u093E \u092F\u0939\u093E\u0901 \u0938\u0926\u093E \u0938\u094D\u0935\u093E\u0917\u0924 \u0939\u0948\u0964', lang: 'Hindi' },
-    { line1: '\u0623\u0647\u0644\u0627\u064B \u0648\u0633\u0647\u0644\u0627\u064B', line2: '\u0623\u0646\u062A\u0645 \u0645\u0631\u062D\u0628 \u0628\u0643\u0645 \u062F\u0627\u0626\u0645\u0627\u064B.', lang: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
-    { line1: 'Bienvenue', line2: 'Vous \u00EAtes toujours les bienvenus.', lang: 'Fran\u00E7ais' },
+    { line1: 'வரவேற்பு', line2: 'நீங்கள் எப்போதும் வரவேற்கப்படுகிறீர்கள்.', lang: 'Tamil' },
+    { line1: 'స్వాగతం', line2: 'మీరు ఎప్పుడూ స్వాగతం.', lang: 'తెలుగు' },
+    { line1: 'ಸ್ವಾಗತ', line2: 'ನೀವು ಯಾವಾಗಲೂ ಸ್ವಾಗತ.', lang: 'ಕನ್ನಡ' },
+    { line1: 'स्वागत', line2: 'आपका यहाँ सदा स्वागत है।', lang: 'Hindi' },
+    { line1: 'أهلاً وسهلاً', line2: 'أنتم مرحب بكم دائماً.', lang: 'العربية' },
+    { line1: 'Bienvenue', line2: 'Vous êtes toujours les bienvenus.', lang: 'Français' },
   ];
 }
 

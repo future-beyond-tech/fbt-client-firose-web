@@ -1,25 +1,27 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '@/i18n/navigation';
 import { divisionCatalog } from '@/app/lib/divisions';
 import { MOTION_EASE, buttonPress } from '@/lib/motion';
+import LanguageSwitcher from '@/app/components/LanguageSwitcher';
 
 type NavItem = {
   href: string;
-  label: string;
+  labelKey: string;
   cta?: boolean;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/manufacturing-quality', label: 'Manufacturing & Quality' },
-  { href: '/business-with-us', label: 'Business With Us' },
-  { href: '/brochure', label: 'Brochure' },
-  { href: '/contact', label: 'Contact', cta: true },
+  { href: '/', labelKey: 'home' },
+  { href: '/about', labelKey: 'about' },
+  { href: '/leadership', labelKey: 'leadership' },
+  { href: '/manufacturing-quality', labelKey: 'manufacturingQuality' },
+  { href: '/business-with-us', labelKey: 'businessWithUs' },
+  { href: '/brochure', labelKey: 'brochure' },
+  { href: '/contact', labelKey: 'contact', cta: true },
 ];
 const DIVISION_ROUTE_OVERRIDES: Partial<Record<string, string>> = {
   'ar-perfumes': '/brands/ar-perfumes',
@@ -115,6 +117,9 @@ function NavLabel({ label, active }: Readonly<{ label: string; active: boolean }
 export default function CorporateHeader() {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
+  const t = useTranslations('nav');
+  const tCommon = useTranslations('common');
+  const tDivisionCard = useTranslations('divisionCard');
   const [menuOpen, setMenuOpen] = useState(false);
   const [divisionsOpen, setDivisionsOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
@@ -206,14 +211,14 @@ export default function CorporateHeader() {
           className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#d8bc8770] bg-[#2a22166e] px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#f4e6c8] md:hidden"
           aria-expanded={menuOpen}
           aria-controls="corporate-mobile-nav"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
           onClick={() => setMenuOpen((current) => !current)}
           whileTap={reduceMotion ? undefined : buttonPress}
         >
-          {menuOpen ? 'Close' : 'Menu'}
+          {menuOpen ? tCommon('close') : tCommon('menu')}
         </motion.button>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+        <nav className="hidden items-center gap-1 md:flex" aria-label={t('primaryNavigation')}>
           {NAV_ITEMS.slice(0, 2).map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -223,7 +228,7 @@ export default function CorporateHeader() {
                 className={navClassName(item, active)}
                 aria-current={active ? 'page' : undefined}
               >
-                <NavLabel label={item.label} active={active} />
+                <NavLabel label={t(item.labelKey)} active={active} />
               </Link>
             );
           })}
@@ -244,7 +249,7 @@ export default function CorporateHeader() {
               }}
               whileTap={reduceMotion ? undefined : buttonPress}
             >
-              <NavLabel label="Our Divisions" active={divisionsActive || divisionsOpen} />
+              <NavLabel label={t('ourDivisions')} active={divisionsActive || divisionsOpen} />
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-4 w-4">
                 <path d="M5.2 7.7a.75.75 0 011.06 0L10 11.44l3.74-3.74a.75.75 0 111.06 1.06l-4.27 4.27a.75.75 0 01-1.06 0L5.2 8.76a.75.75 0 010-1.06z" />
               </svg>
@@ -256,7 +261,7 @@ export default function CorporateHeader() {
                   id="corporate-divisions-menu"
                   className="absolute left-0 top-full z-[70] mt-2 w-[340px] rounded-xl border border-[#e0c89333] bg-[#0f0d0adf] p-2 shadow-[0_24px_44px_rgba(0,0,0,0.52)] backdrop-blur"
                   role="menu"
-                  aria-label="Our divisions"
+                  aria-label={t('ourDivisionsMenu')}
                   initial={{ opacity: 0, y: -8, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -277,7 +282,7 @@ export default function CorporateHeader() {
                             rel="noopener noreferrer"
                             role="menuitem"
                             className={divisionLinkClass(false)}
-                            aria-label={`Visit ${division.name} website`}
+                            aria-label={tDivisionCard('visitExternal', { name: division.name })}
                           >
                             <span>{division.name}</span>
                             <ExternalLinkIcon className="h-4 w-4 text-[#b8ad95]" />
@@ -312,10 +317,12 @@ export default function CorporateHeader() {
                 className={navClassName(item, active)}
                 aria-current={active ? 'page' : undefined}
               >
-                <NavLabel label={item.label} active={active} />
+                <NavLabel label={t(item.labelKey)} active={active} />
               </Link>
             );
           })}
+
+          <LanguageSwitcher />
         </nav>
       </div>
 
@@ -324,7 +331,7 @@ export default function CorporateHeader() {
           <motion.nav
             id="corporate-mobile-nav"
             className="border-t border-[#e0c89322] bg-[#0c0a08f5] md:hidden"
-            aria-label="Mobile primary navigation"
+            aria-label={t('mobilePrimaryNavigation')}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -341,13 +348,13 @@ export default function CorporateHeader() {
                     aria-current={active ? 'page' : undefined}
                     onClick={() => setMenuOpen(false)}
                   >
-                    {item.label}
+                    {t(item.labelKey)}
                   </Link>
                 );
               })}
 
               <div className="rounded-xl border border-[#e0c8932f] bg-[#12100dcf] p-2">
-                <p className="px-2 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">Our Divisions</p>
+                <p className="px-2 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">{t('ourDivisions')}</p>
                 <div className="grid gap-1">
                   {divisionCatalog.map((division) => {
                     const divisionHref = resolveDivisionHref(division.id, division.href);
@@ -362,7 +369,7 @@ export default function CorporateHeader() {
                           target="_self"
                           rel="noopener noreferrer"
                           className={`${divisionLinkClass(false)} w-full`}
-                          aria-label={`Visit ${division.name} website`}
+                          aria-label={tDivisionCard('visitExternal', { name: division.name })}
                           onClick={() => setMenuOpen(false)}
                         >
                           <span>{division.name}</span>

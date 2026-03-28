@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { MOTION_EASE, buttonPress, fadeIn, staggerContainer } from '@/lib/motion';
 import { corporateVisuals } from '@/app/lib/brandVisuals';
 
@@ -41,6 +42,7 @@ export default function HeroSection({
 }: Readonly<HeroSectionProps>) {
   const words = title.split(' ');
   const reduceMotion = useReducedMotion();
+  const t = useTranslations('heroSection');
   const wordVariants = buildWordVariants(0.04);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -138,13 +140,12 @@ export default function HeroSection({
           </motion.div>
 
           <motion.div variants={fadeIn} className="mt-8 flex flex-wrap gap-4 text-[11px] uppercase tracking-[0.2em] text-[#9e927b] sm:text-xs">
-            <p>Established Legacy</p>
-            <p>Luxury Standards</p>
-            <p>Global Scale</p>
+            <p>{t('establishedLegacy')}</p>
+            <p>{t('luxuryStandards')}</p>
+            <p>{t('globalScale')}</p>
           </motion.div>
         </motion.div>
       </div>
     </section>
   );
 }
-

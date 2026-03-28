@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { MOTION_EASE, buttonPress } from '@/lib/motion';
 import { ArrowUp } from 'lucide-react';
 
@@ -10,6 +11,7 @@ const SCROLL_THRESHOLD = 400;
 export default function FloatingBackToTop() {
   const [visible, setVisible] = useState(false);
   const reduceMotion = useReducedMotion();
+  const t = useTranslations('common');
 
   useEffect(() => {
     let ticking = false;
@@ -37,7 +39,7 @@ export default function FloatingBackToTop() {
         <motion.button
           onClick={scrollToTop}
           className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-[#e0c89352] bg-[linear-gradient(140deg,#f1ddb4_0%,#d8b372_49%,#b98e4a_100%)] shadow-[0_10px_30px_rgba(0,0,0,0.46),0_0_0_1px_rgba(224,200,147,0.48)_inset] transition-colors"
-          aria-label="Scroll to top"
+          aria-label={t('scrollToTop')}
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}

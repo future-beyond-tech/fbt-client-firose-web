@@ -1,37 +1,40 @@
-const firosePillars = [
-  {
-    letter: 'F',
-    name: 'Foundation',
-    description: 'We build on strong principles, disciplined execution, and enduring structure.',
-  },
-  {
-    letter: 'I',
-    name: 'Innovation',
-    description: 'We continuously evolve, embracing technology and forward-thinking solutions.',
-  },
-  {
-    letter: 'R',
-    name: 'Responsibility',
-    description: 'We operate with integrity, accountability, and commitment to excellence.',
-  },
-  {
-    letter: 'O',
-    name: 'Opportunity',
-    description: 'We create platforms for growth for our brands, partners, and communities.',
-  },
-  {
-    letter: 'S',
-    name: 'Sustainability',
-    description: 'We focus on long-term impact, ensuring resilience and responsible expansion.',
-  },
-  {
-    letter: 'E',
-    name: 'Excellence',
-    description: 'We pursue the highest standards in quality, performance, and leadership across every division.',
-  },
-] as const;
+import { getTranslations } from 'next-intl/server';
 
-export default function MeaningBehindFirose() {
+export default async function MeaningBehindFirose() {
+  const t = await getTranslations('firoseMeaning');
+  const firosePillars = [
+    {
+      letter: 'F',
+      name: t('foundation'),
+      description: t('foundationDesc'),
+    },
+    {
+      letter: 'I',
+      name: t('innovation'),
+      description: t('innovationDesc'),
+    },
+    {
+      letter: 'R',
+      name: t('responsibility'),
+      description: t('responsibilityDesc'),
+    },
+    {
+      letter: 'O',
+      name: t('opportunity'),
+      description: t('opportunityDesc'),
+    },
+    {
+      letter: 'S',
+      name: t('sustainability'),
+      description: t('sustainabilityDesc'),
+    },
+    {
+      letter: 'E',
+      name: t('excellence'),
+      description: t('excellenceDesc'),
+    },
+  ] as const;
+
   return (
     <section
       aria-labelledby="meaning-behind-firose-title"
@@ -43,13 +46,12 @@ export default function MeaningBehindFirose() {
       />
 
       <header className="relative mx-auto max-w-3xl text-center">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Enterprise Identity</p>
+        <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">{t('eyebrow')}</p>
         <h2 id="meaning-behind-firose-title" className="mt-2 text-3xl font-normal text-[#f8f1e3] sm:text-4xl">
-          The Meaning Behind FIROSE
+          {t('title')}
         </h2>
         <p className="mt-3 text-sm text-[#b7ac97] sm:text-base">
-          FIROSE represents six pillars that drive every strategic decision, leadership action, and growth path across
-          the group.
+          {t('subtitle')}
         </p>
       </header>
 

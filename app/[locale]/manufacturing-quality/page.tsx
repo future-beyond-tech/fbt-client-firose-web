@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
-import styles from '../corporate.module.css';
+import styles from '../../corporate.module.css';
 
 export const metadata: Metadata = {
   title: 'Manufacturing & Quality',

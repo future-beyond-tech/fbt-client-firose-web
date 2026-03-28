@@ -2,6 +2,7 @@
 
 import { useState, type MouseEvent } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { MOTION_EASE, buttonPress, fadeInUp, hoverLift } from '@/lib/motion';
 
 type BrandLink = {
@@ -10,23 +11,23 @@ type BrandLink = {
   subtitle: string;
 };
 
-const BRAND_LINKS: BrandLink[] = [
-  {
-    name: 'Neat & Fresh',
-    href: 'https://neatfresh.online',
-    subtitle: 'Housekeeping & Hygiene',
-  },
-  {
-    name: 'Future Beyond Tech',
-    href: 'https://futurebeyondtech.com',
-    subtitle: 'Engineering & Technology',
-  },
-];
-
 export default function BrandNavigation() {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [activeBrand, setActiveBrand] = useState('');
   const reduceMotion = useReducedMotion();
+  const t = useTranslations('brandNav');
+  const brandLinks: BrandLink[] = [
+    {
+      name: 'Neat & Fresh',
+      href: 'https://neatfresh.online',
+      subtitle: t('neatFreshSubtitle'),
+    },
+    {
+      name: 'Future Beyond Tech',
+      href: 'https://futurebeyondtech.com',
+      subtitle: t('fbtSubtitle'),
+    },
+  ];
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>, brand: BrandLink) {
     event.preventDefault();
@@ -63,7 +64,7 @@ export default function BrandNavigation() {
               transition={{ duration: 0.3, ease: MOTION_EASE }}
             >
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#5c4b31] border-t-[#f1ddb4]" aria-hidden="true" />
-              <p className="text-sm font-medium text-[#f3e8d1]">Opening {activeBrand}...</p>
+              <p className="text-sm font-medium text-[#f3e8d1]">{t('opening', { brand: activeBrand })}</p>
             </motion.div>
           </motion.div>
         ) : null}
@@ -71,19 +72,19 @@ export default function BrandNavigation() {
 
       <motion.nav
         className="rounded-2xl border border-[#e0c8932f] bg-[linear-gradient(160deg,rgba(20,17,13,0.9),rgba(10,8,7,0.95))] p-6 shadow-[0_22px_42px_rgba(0,0,0,0.45)]"
-        aria-label="Brand navigation"
+        aria-label={t('title')}
         variants={fadeInUp}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
         <div className="mb-4">
-          <h2 className="text-2xl font-normal text-[#f8f1e3]">Brand Navigation</h2>
-          <p className="mt-1 text-sm text-[#b8ad95]">Access dedicated websites for each operating brand.</p>
+          <h2 className="text-2xl font-normal text-[#f8f1e3]">{t('title')}</h2>
+          <p className="mt-1 text-sm text-[#b8ad95]">{t('description')}</p>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          {BRAND_LINKS.map((brand) => (
+          {brandLinks.map((brand) => (
             <motion.a
               key={brand.name}
               href={brand.href}
@@ -99,7 +100,7 @@ export default function BrandNavigation() {
               <p className="text-base font-medium text-[#f3e8d1]">{brand.name}</p>
               <p className="mt-0.5 text-sm text-[#b8ad95]">{brand.subtitle}</p>
               <span className="mt-3 inline-flex items-center text-xs font-medium uppercase tracking-[0.12em] text-[#d7bb85]">
-                Visit site
+                {t('visitSite')}
               </span>
             </motion.a>
           ))}
@@ -107,7 +108,7 @@ export default function BrandNavigation() {
 
         <p className="mt-4 text-xs text-[#9e927b]">
           {/* Same-tab is the corporate default to keep one clear journey and avoid extra-tab clutter during business flow. */}
-          Navigation opens in the same tab for a continuous, professional browsing experience.
+          {t('navNote')}
         </p>
       </motion.nav>
     </>
