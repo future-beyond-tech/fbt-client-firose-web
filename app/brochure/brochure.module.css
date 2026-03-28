@@ -1,0 +1,882 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FIROSE Digital Brochure — CSS Module
+   Design tokens aligned with site design system
+   Touch targets ≥ 44×44 px | WCAG 2.2 AA contrast | Doherty < 400ms
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ─── PAGE SHELL ──────────────────────────────────────────────────────────── */
+
+.page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  width: min(1240px, calc(100% - 1.25rem));
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .container {
+    width: min(1240px, calc(100% - 2rem));
+  }
+}
+
+/* ─── HERO ────────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(5rem, 10vw, 8rem) 0 clamp(3rem, 6vw, 5rem);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 30%, rgba(200, 168, 107, 0.10) 0%, transparent 70%),
+    linear-gradient(180deg, #0c0a08 0%, #110e0b 100%);
+}
+
+.heroInner {
+  display: grid;
+  gap: 1.2rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(224, 200, 147, 0.46);
+  border-radius: 9999px;
+  padding: 0.32rem 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: #dec393;
+  background: rgba(64, 52, 31, 0.36);
+}
+
+.heroTitle {
+  max-width: 18ch;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.12;
+  color: #f8f1e3;
+  letter-spacing: -0.01em;
+}
+
+.heroLead {
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.8vw, 1.18rem);
+  line-height: 1.65;
+  color: #b7ac97;
+}
+
+.heroStats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.heroStat {
+  text-align: center;
+}
+
+.heroStatValue {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #d7bb85;
+}
+
+.heroStatLabel {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #968a74;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* ─── BUTTONS (tap targets ≥ 44×44) ──────────────────────────────────────── */
+
+.btnPrimary,
+.btnSecondary,
+.btnOutline,
+.btnBrand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 9999px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.btnPrimary {
+  color: #20170d;
+  background: linear-gradient(140deg, #f1ddb4 0%, #d8b372 49%, #b98e4a 100%);
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.44),
+    inset 0 0 0 1px rgba(224, 200, 147, 0.44);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+
+.btnSecondary {
+  color: #f3e8d1;
+  border-color: rgba(224, 200, 147, 0.52);
+  background: rgba(41, 33, 21, 0.38);
+}
+
+.btnSecondary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(224, 200, 147, 0.82);
+  background: rgba(64, 52, 31, 0.54);
+}
+
+.btnOutline {
+  color: #d8ccb4;
+  border-color: rgba(224, 200, 147, 0.32);
+  background: transparent;
+}
+
+.btnOutline:hover {
+  border-color: rgba(224, 200, 147, 0.64);
+  background: rgba(41, 33, 21, 0.24);
+}
+
+.btnWhatsapp {
+  composes: btnPrimary;
+  color: #fff;
+  background: #25D366;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.25);
+}
+
+.btnWhatsapp:hover {
+  background: #20bd5a;
+}
+
+/* ─── BRAND SHOWCASE SECTION ──────────────────────────────────────────────── */
+
+.brandSection {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.brandHero {
+  border: 1px solid rgba(224, 200, 147, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(95% 110% at 0% 0%, rgba(201, 169, 108, 0.10) 0%, transparent 64%),
+    linear-gradient(170deg, rgba(19, 16, 12, 0.88), rgba(9, 8, 7, 0.94));
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: grid;
+  gap: 2rem;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.34);
+}
+
+@media (min-width: 768px) {
+  .brandHero {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+}
+
+.brandHeroText {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.brandLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  border-radius: 9999px;
+  padding: 0.28rem 0.78rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.brandName {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  line-height: 1.15;
+  color: #f8f1e3;
+}
+
+.brandTagline {
+  font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+  color: #b7ac97;
+  font-style: italic;
+}
+
+.brandDescription {
+  max-width: 52ch;
+  color: #9e927b;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.brandActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.4rem;
+}
+
+/* category visual grid */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.categoryCard {
+  border: 1px solid rgba(224, 200, 147, 0.18);
+  border-radius: 14px;
+  background: rgba(19, 16, 12, 0.64);
+  padding: 1rem;
+  display: grid;
+  gap: 0.3rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.categoryCard:hover {
+  border-color: rgba(224, 200, 147, 0.38);
+  background: rgba(28, 23, 16, 0.72);
+}
+
+.categoryEmoji {
+  font-size: 1.6rem;
+}
+
+.categoryTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #f2e7cf;
+}
+
+.categoryExamples {
+  font-size: 0.72rem;
+  color: #968a74;
+}
+
+/* ─── PRODUCT GRID CONTROLS ───────────────────────────────────────────────── */
+
+.gridControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.searchInput {
+  flex: 1 1 220px;
+  min-height: 44px;
+  border: 1px solid rgba(224, 200, 147, 0.34);
+  border-radius: 12px;
+  background: rgba(14, 12, 9, 0.86);
+  padding: 0.65rem 0.78rem;
+  color: #f2e7cf;
+  font-size: 0.88rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.searchInput::placeholder {
+  color: rgba(183, 172, 151, 0.58);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: rgba(224, 200, 147, 0.8);
+  box-shadow: 0 0 0 2px rgba(224, 200, 147, 0.18);
+}
+
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 44px;
+  border: 1px solid rgba(224, 200, 147, 0.28);
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d8ccb4;
+  background: rgba(19, 16, 12, 0.64);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.chip:hover {
+  border-color: rgba(224, 200, 147, 0.52);
+  background: rgba(41, 33, 21, 0.5);
+}
+
+.chipActive {
+  composes: chip;
+  border-color: rgba(224, 200, 147, 0.72);
+  background: rgba(64, 52, 31, 0.58);
+  transform: scale(1.04);
+}
+
+.productCount {
+  font-size: 0.78rem;
+  color: #968a74;
+  letter-spacing: 0.06em;
+}
+
+/* ─── PRODUCT GRID ────────────────────────────────────────────────────────── */
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+/* ─── PRODUCT CARD (3D FLIP) ──────────────────────────────────────────────── */
+
+.cardWrap {
+  perspective: 1200px;
+  height: 370px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.cardWrap:hover .card,
+.cardWrap:focus-within .card {
+  transform: rotateY(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border: 1px solid rgba(224, 200, 147, 0.20);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+}
+
+.cardFront {
+  background: rgba(19, 16, 12, 0.76);
+  grid-template-rows: 180px 1fr;
+}
+
+.cardBack {
+  background: rgba(19, 16, 12, 0.92);
+  transform: rotateY(180deg);
+  padding: 1.2rem;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.65rem;
+}
+
+/* card front – image area */
+.cardImage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cardEmoji {
+  font-size: 3.4rem;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.24));
+}
+
+.cardBrandStrip {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  border-radius: 4px;
+  padding: 0.18rem 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.cardNewBadge {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  border-radius: 4px;
+  padding: 0.18rem 0.45rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: #d44;
+}
+
+/* card front – body */
+.cardBody {
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.3rem;
+  align-content: start;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f2e7cf;
+  line-height: 1.3;
+}
+
+.cardVariant {
+  font-size: 0.78rem;
+  color: #968a74;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.3rem;
+}
+
+.cardSize {
+  border: 1px solid rgba(224, 200, 147, 0.28);
+  border-radius: 6px;
+  padding: 0.18rem 0.5rem;
+  font-size: 0.72rem;
+  color: #d8ccb4;
+}
+
+.cardPrice {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #d7bb85;
+}
+
+.cardPriceTbd {
+  composes: cardPrice;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #968a74;
+}
+
+/* card back */
+.cardBackTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f2e7cf;
+}
+
+.cardBackSub {
+  font-size: 0.78rem;
+  color: #968a74;
+}
+
+.cardFeatures {
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0;
+}
+
+.cardFeatures li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: 0.82rem;
+  color: #b7ac97;
+  line-height: 1.45;
+}
+
+.cardFeatures li::before {
+  content: '\25C6';
+  position: absolute;
+  left: 0;
+  font-size: 0.5rem;
+  top: 0.32rem;
+  color: rgba(224, 200, 147, 0.58);
+}
+
+.cardBackActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cardBackActions .btnWhatsapp,
+.cardBackActions .btnSecondary {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.72rem;
+  padding: 0.5rem 0.6rem;
+}
+
+/* brand-specific card image gradients */
+.cardImageFemison {
+  background: linear-gradient(135deg, rgba(139, 34, 82, 0.35) 0%, rgba(19, 16, 12, 0.6) 100%);
+}
+
+.cardImageNeatFresh {
+  background: linear-gradient(135deg, rgba(26, 92, 58, 0.35) 0%, rgba(19, 16, 12, 0.6) 100%);
+}
+
+/* ─── PRODUCT TABLE (list view) ───────────────────────────────────────────── */
+
+.productTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.productTable th {
+  position: sticky;
+  top: 0;
+  background: rgba(14, 12, 9, 0.95);
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #d7bb85;
+  border-bottom: 1px solid rgba(224, 200, 147, 0.24);
+}
+
+.productTable td {
+  padding: 0.55rem 0.8rem;
+  color: #b7ac97;
+  border-bottom: 1px solid rgba(224, 200, 147, 0.08);
+  vertical-align: middle;
+}
+
+.productTable tr:hover td {
+  background: rgba(41, 33, 21, 0.24);
+}
+
+.productTable td:first-child {
+  color: #f2e7cf;
+  font-weight: 500;
+}
+
+/* ─── CONTACT SECTION ─────────────────────────────────────────────────────── */
+
+.contactSection {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.sectionHeading {
+  display: grid;
+  gap: 0.48rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionEyebrow {
+  composes: heroBadge;
+}
+
+.sectionTitle {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  color: #f8f1e3;
+}
+
+.sectionLead {
+  max-width: 56ch;
+  font-size: 0.95rem;
+  color: #b7ac97;
+}
+
+.contactGrid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.contactCard {
+  border: 1px solid rgba(224, 200, 147, 0.24);
+  border-radius: 18px;
+  background: rgba(19, 16, 12, 0.76);
+  padding: clamp(0.9rem, 2.2vw, 1.4rem);
+  display: grid;
+  gap: 0.65rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+}
+
+.contactCardTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f2e7cf;
+}
+
+.contactInfo {
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+  padding: 0;
+}
+
+.contactInfo li {
+  font-size: 0.85rem;
+  color: #b7ac97;
+}
+
+.contactInfo li strong {
+  color: #d8ccb4;
+}
+
+.contactActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* ─── DOWNLOAD SECTION ────────────────────────────────────────────────────── */
+
+.downloadSection {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.downloadGrid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.downloadCard {
+  border: 1px solid rgba(224, 200, 147, 0.24);
+  border-radius: 18px;
+  background: rgba(19, 16, 12, 0.76);
+  padding: 1.4rem;
+  display: grid;
+  gap: 0.65rem;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.downloadCard:hover {
+  border-color: rgba(224, 200, 147, 0.44);
+  transform: translateY(-2px);
+}
+
+.downloadEmoji {
+  font-size: 2.4rem;
+}
+
+.downloadTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f2e7cf;
+}
+
+.downloadDesc {
+  font-size: 0.82rem;
+  color: #968a74;
+}
+
+/* ─── ENQUIRY FORM (in contact section) ───────────────────────────────────── */
+
+.formPanel {
+  border: 1px solid rgba(224, 200, 147, 0.24);
+  border-radius: 18px;
+  background: rgba(19, 16, 12, 0.76);
+  padding: clamp(0.9rem, 2.2vw, 1.4rem);
+  display: grid;
+  gap: 0.8rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+}
+
+.fieldGrid {
+  display: grid;
+  gap: 0.72rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 0.36rem;
+}
+
+.fieldGroup label {
+  font-size: 0.78rem;
+  color: #f2e7cf;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.fieldGroup input,
+.fieldGroup textarea,
+.fieldGroup select {
+  border: 1px solid rgba(224, 200, 147, 0.34);
+  border-radius: 12px;
+  background: rgba(14, 12, 9, 0.86);
+  min-height: 44px;
+  padding: 0.65rem 0.78rem;
+  color: #f2e7cf;
+  font-size: 0.88rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.fieldGroup input::placeholder,
+.fieldGroup textarea::placeholder {
+  color: rgba(183, 172, 151, 0.58);
+}
+
+.fieldGroup input:focus,
+.fieldGroup textarea:focus,
+.fieldGroup select:focus {
+  outline: none;
+  border-color: rgba(224, 200, 147, 0.8);
+  box-shadow: 0 0 0 2px rgba(224, 200, 147, 0.18);
+}
+
+.fieldGroup textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ─── VIEW TOGGLE ─────────────────────────────────────────────────────────── */
+
+.viewToggle {
+  display: flex;
+  border: 1px solid rgba(224, 200, 147, 0.28);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.viewToggleBtn {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(19, 16, 12, 0.64);
+  border: none;
+  color: #968a74;
+  cursor: pointer;
+  padding: 0.4rem 0.65rem;
+  font-size: 1rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.viewToggleBtn:hover {
+  background: rgba(41, 33, 21, 0.5);
+}
+
+.viewToggleBtnActive {
+  composes: viewToggleBtn;
+  background: rgba(64, 52, 31, 0.58);
+  color: #d7bb85;
+}
+
+/* ─── SCROLL REVEAL (intersection observer) ───────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.revealVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── PRINT ───────────────────────────────────────────────────────────────── */
+
+@media print {
+  .hero,
+  .gridControls,
+  .heroActions,
+  .contactActions,
+  .btnWhatsapp,
+  .btnPrimary,
+  .btnSecondary,
+  .downloadSection,
+  .viewToggle {
+    display: none !important;
+  }
+
+  .cardWrap {
+    height: auto;
+    perspective: none;
+    page-break-inside: avoid;
+  }
+
+  .card {
+    transform: none !important;
+    transform-style: flat;
+  }
+
+  .cardBack {
+    display: none;
+  }
+
+  .cardFront {
+    position: static;
+    border-color: #ccc;
+  }
+}
+
+/* ─── REDUCED MOTION ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .btnPrimary:hover,
+  .btnSecondary:hover,
+  .downloadCard:hover {
+    transform: none;
+  }
+}

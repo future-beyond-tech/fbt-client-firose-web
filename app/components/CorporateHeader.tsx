@@ -18,6 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/about', label: 'About' },
   { href: '/manufacturing-quality', label: 'Manufacturing & Quality' },
   { href: '/business-with-us', label: 'Business With Us' },
+  { href: '/brochure', label: 'Brochure' },
   { href: '/contact', label: 'Contact', cta: true },
 ];
 const DIVISION_ROUTE_OVERRIDES: Partial<Record<string, string>> = {
