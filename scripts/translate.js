@@ -21,12 +21,22 @@
 
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
 const https = require('https');
+const crypto = require('crypto');
 
 const MESSAGES_DIR = path.join(__dirname, '..', 'messages');
 const SOURCE_LOCALE = 'en';
 const TARGET_LOCALES = ['ta', 'hi', 'te', 'kn'];
 const LOCALE_NAMES = { ta: 'Tamil', hi: 'Hindi', te: 'Telugu', kn: 'Kannada' };
+const GOOGLE_TRANSLATE_API_BASE_URL =
+  process.env.GOOGLE_TRANSLATE_API_BASE_URL || 'https://translation.googleapis.com';
+const GOOGLE_OAUTH_TOKEN_URL =
+  process.env.GOOGLE_OAUTH_TOKEN_URL || 'https://oauth2.googleapis.com/token';
+const GOOGLE_TRANSLATE_API_KEY = process.env.GOOGLE_TRANSLATE_API_KEY;
+const GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const GOOGLE_TRANSLATE_SCOPE = 'https://www.googleapis.com/auth/cloud-translation';
+const REQUEST_TIMEOUT_MS = 30000;
 
 // Brand names and terms that should NEVER be translated
 const PRESERVE_TERMS = [
@@ -67,6 +77,261 @@ const PRESERVE_PATTERNS = [
 ];
 
 const isDryRun = process.argv.includes('--dry-run');
+let cachedAccessToken = null;
+
+/* ─── Auth / Request Helpers ──────────────────────────────────────────── */
+
+function getTransport(url) {
+  return url.protocol === 'http:' ? http : https;
+}
+
+function previewBody(body) {
+  return body.replace(/\s+/g, ' ').trim().slice(0, 200);
+}
+
+function base64UrlEncode(value) {
+  const buffer = Buffer.isBuffer(value) ? value : Buffer.from(value);
+  return buffer
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '');
+}
+
+function loadServiceAccountCredentials() {
+  if (!GOOGLE_APPLICATION_CREDENTIALS) {
+    throw new Error(
+      'Missing Google Translate credentials. Set GOOGLE_TRANSLATE_API_KEY or GOOGLE_APPLICATION_CREDENTIALS.'
+    );
+  }
+
+  const credentialsPath = path.resolve(GOOGLE_APPLICATION_CREDENTIALS);
+
+  if (!fs.existsSync(credentialsPath)) {
+    throw new Error(
+      `GOOGLE_APPLICATION_CREDENTIALS points to a missing file: ${credentialsPath}`
+    );
+  }
+
+  const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf-8'));
+
+  if (credentials.type !== 'service_account') {
+    throw new Error(
+      'GOOGLE_APPLICATION_CREDENTIALS must point to a Google service account JSON key.'
+    );
+  }
+
+  if (!credentials.client_email || !credentials.private_key) {
+    throw new Error(
+      'The Google service account JSON key is missing client_email or private_key.'
+    );
+  }
+
+  return credentials;
+}
+
+function getAuthSummary() {
+  if (GOOGLE_TRANSLATE_API_KEY) return 'Google Cloud API key';
+  if (GOOGLE_APPLICATION_CREDENTIALS) return 'Google service account';
+  return 'Not configured';
+}
+
+function createServiceAccountJwt(credentials) {
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: 'RS256', typ: 'JWT' };
+  const payload = {
+    iss: credentials.client_email,
+    scope: GOOGLE_TRANSLATE_SCOPE,
+    aud: GOOGLE_OAUTH_TOKEN_URL,
+    exp: now + 3600,
+    iat: now,
+  };
+
+  const encodedHeader = base64UrlEncode(JSON.stringify(header));
+  const encodedPayload = base64UrlEncode(JSON.stringify(payload));
+  const unsignedToken = `${encodedHeader}.${encodedPayload}`;
+  const signer = crypto.createSign('RSA-SHA256');
+  signer.update(unsignedToken);
+  signer.end();
+
+  const signature = signer.sign(credentials.private_key);
+  return `${unsignedToken}.${base64UrlEncode(signature)}`;
+}
+
+function formatHttpError(url, responseLabel, statusCode, headers, body) {
+  const location = headers.location;
+  const contentType = headers['content-type'] || 'unknown content type';
+  const preview = body ? ` Body preview: ${previewBody(body)}` : '';
+
+  if (statusCode >= 300 && statusCode < 400 && location) {
+    return (
+      `${responseLabel} request was redirected (HTTP ${statusCode}) to ${location}. ` +
+      'This usually means the endpoint rejected automated access or the request URL is incorrect.'
+    );
+  }
+
+  if (statusCode === 401 || statusCode === 403) {
+    return (
+      `${responseLabel} request failed with HTTP ${statusCode}. ` +
+      'Check GOOGLE_TRANSLATE_API_KEY or GOOGLE_APPLICATION_CREDENTIALS and ensure the Cloud Translation API is enabled.' +
+      preview
+    );
+  }
+
+  return `${responseLabel} request to ${url.origin}${url.pathname} failed with HTTP ${statusCode} (${contentType}).${preview}`;
+}
+
+function requestJson(url, { method = 'GET', headers = {}, body, responseLabel }) {
+  return new Promise((resolve, reject) => {
+    const transport = getTransport(url);
+    const req = transport.request(
+      url,
+      {
+        method,
+        headers,
+        timeout: REQUEST_TIMEOUT_MS,
+      },
+      (res) => {
+        let data = '';
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+        res.on('end', () => {
+          const statusCode = res.statusCode || 0;
+          const contentType = res.headers['content-type'] || '';
+          const looksLikeJson =
+            contentType.includes('application/json') ||
+            contentType.includes('application/problem+json') ||
+            data.trim().startsWith('{') ||
+            data.trim().startsWith('[');
+
+          if (statusCode < 200 || statusCode >= 300) {
+            reject(new Error(formatHttpError(url, responseLabel, statusCode, res.headers, data)));
+            return;
+          }
+
+          if (!looksLikeJson) {
+            reject(
+              new Error(
+                `${responseLabel} returned ${contentType || 'non-JSON content'} instead of JSON. ` +
+                  `Body preview: ${previewBody(data)}`
+              )
+            );
+            return;
+          }
+
+          try {
+            resolve(JSON.parse(data));
+          } catch (err) {
+            reject(
+              new Error(
+                `Failed to parse ${responseLabel} response as JSON: ${err.message}. ` +
+                  `Body preview: ${previewBody(data)}`
+              )
+            );
+          }
+        });
+      }
+    );
+
+    req.on('timeout', () => {
+      req.destroy(new Error(`${responseLabel} request timed out after ${REQUEST_TIMEOUT_MS}ms`));
+    });
+    req.on('error', reject);
+
+    if (body) {
+      req.write(body);
+    }
+
+    req.end();
+  });
+}
+
+async function getAccessToken() {
+  if (cachedAccessToken && cachedAccessToken.expiresAt > Date.now()) {
+    return cachedAccessToken.token;
+  }
+
+  const credentials = loadServiceAccountCredentials();
+  const assertion = createServiceAccountJwt(credentials);
+  const body = new URLSearchParams({
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    assertion,
+  }).toString();
+
+  const tokenResponse = await requestJson(new URL(GOOGLE_OAUTH_TOKEN_URL), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(body),
+    },
+    body,
+    responseLabel: 'Google OAuth token',
+  });
+
+  if (!tokenResponse.access_token) {
+    throw new Error('Google OAuth token response did not include access_token.');
+  }
+
+  const expiresInSeconds =
+    typeof tokenResponse.expires_in === 'number' ? tokenResponse.expires_in : 3600;
+
+  cachedAccessToken = {
+    token: tokenResponse.access_token,
+    expiresAt: Date.now() + Math.max(expiresInSeconds - 60, 60) * 1000,
+  };
+
+  return cachedAccessToken.token;
+}
+
+async function getGoogleAuthHeaders() {
+  if (GOOGLE_TRANSLATE_API_KEY) {
+    return {};
+  }
+
+  if (GOOGLE_APPLICATION_CREDENTIALS) {
+    return {
+      Authorization: `Bearer ${await getAccessToken()}`,
+    };
+  }
+
+  throw new Error(
+    'Missing Google Translate credentials. Set GOOGLE_TRANSLATE_API_KEY or GOOGLE_APPLICATION_CREDENTIALS.'
+  );
+}
+
+function getTranslateApiUrl() {
+  const url = new URL('/language/translate/v2', GOOGLE_TRANSLATE_API_BASE_URL);
+
+  if (GOOGLE_TRANSLATE_API_KEY) {
+    url.searchParams.set('key', GOOGLE_TRANSLATE_API_KEY);
+  }
+
+  return url;
+}
+
+function decodeHtmlEntities(text) {
+  const namedEntities = {
+    amp: '&',
+    lt: '<',
+    gt: '>',
+    quot: '"',
+    apos: "'",
+    nbsp: ' ',
+  };
+
+  return text.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity) => {
+    if (entity[0] === '#') {
+      const isHex = entity[1]?.toLowerCase() === 'x';
+      const rawCode = isHex ? entity.slice(2) : entity.slice(1);
+      const codePoint = Number.parseInt(rawCode, isHex ? 16 : 10);
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match;
+    }
+
+    return namedEntities[entity.toLowerCase()] || match;
+  });
+}
 
 /* ─── Flatten / Unflatten JSON ────────────────────────────────────────── */
 
@@ -147,80 +412,41 @@ function restoreBrandNames(text, replacements) {
   return restored;
 }
 
-/* ─── Google Translate via free API ───────────────────────────────────── */
+/* ─── Google Cloud Translation Basic v2 ───────────────────────────────── */
 
-function translateBatch(texts, targetLang) {
-  return new Promise((resolve, reject) => {
-    // Use the free Google Translate endpoint
-    const url = new URL('https://translate.googleapis.com/translate_a/single');
-    url.searchParams.set('client', 'gtx');
-    url.searchParams.set('sl', 'en');
-    url.searchParams.set('tl', targetLang);
-    url.searchParams.set('dt', 't');
-
-    // For multiple texts, send them joined with a separator
-    const separator = '\n⟪XQ9F2D1B7E⟫\n';
-    const combined = texts.join(separator);
-
-    const postData = `q=${encodeURIComponent(combined)}`;
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(postData),
-      },
-    };
-
-    const req = https.request(url, options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => (data += chunk));
-      res.on('end', () => {
-        try {
-          const parsed = JSON.parse(data);
-          let translatedCombined = '';
-
-          if (Array.isArray(parsed)) {
-            // Response format varies
-            if (typeof parsed[0] === 'string') {
-              translatedCombined = parsed[0];
-            } else if (Array.isArray(parsed[0])) {
-              translatedCombined = parsed[0].map((s) => (Array.isArray(s) ? s[0] : s)).join('');
-            }
-          } else if (typeof parsed === 'string') {
-            translatedCombined = parsed;
-          }
-
-          const normalizedResults =
-            texts.length === 1 ? [translatedCombined] : translatedCombined.split(separator);
-
-          if (normalizedResults.length !== texts.length) {
-            if (texts.length === 1) {
-              resolve(normalizedResults);
-              return;
-            }
-
-            Promise.all(
-              texts.map((text) =>
-                translateBatch([text], targetLang).then(([translated]) => translated)
-              )
-            )
-              .then(resolve)
-              .catch(reject);
-            return;
-          }
-
-          resolve(normalizedResults);
-        } catch (err) {
-          reject(new Error(`Failed to parse translation response: ${err.message}`));
-        }
-      });
-    });
-
-    req.on('error', reject);
-    req.write(postData);
-    req.end();
+async function translateBatch(texts, targetLang) {
+  const headers = await getGoogleAuthHeaders();
+  const body = JSON.stringify({
+    q: texts,
+    source: SOURCE_LOCALE,
+    target: targetLang,
+    format: 'text',
   });
+
+  const response = await requestJson(getTranslateApiUrl(), {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(body),
+    },
+    body,
+    responseLabel: 'Google Translate',
+  });
+
+  const translations = response?.data?.translations;
+
+  if (!Array.isArray(translations)) {
+    throw new Error('Google Translate response did not include data.translations.');
+  }
+
+  if (translations.length !== texts.length) {
+    throw new Error(
+      `Google Translate returned ${translations.length} results for ${texts.length} input strings.`
+    );
+  }
+
+  return translations.map((entry) => decodeHtmlEntities(entry?.translatedText || ''));
 }
 
 /* ─── Main Translation Flow ───────────────────────────────────────────── */
@@ -251,7 +477,7 @@ async function translateLocale(flatEn, targetLocale) {
   const protected_ = toTranslate.map(protectBrandNames);
   const textsToSend = protected_.map((p) => p.text);
 
-  // Smaller batches are slower but produce cleaner script output from the free endpoint.
+  // Smaller batches reduce the chance of oversized requests and make failures easier to isolate.
   const BATCH_SIZE = 10;
   const translatedTexts = [];
 
@@ -292,12 +518,23 @@ async function main() {
   const flatEn = flatten(enJson);
   const totalStrings = Object.keys(flatEn).length;
 
+  console.log(`  🔐 Auth: ${getAuthSummary()}`);
   console.log(`  📄 Source: messages/en.json (${totalStrings} strings)`);
   console.log(`  🎯 Targets: ${TARGET_LOCALES.map((l) => LOCALE_NAMES[l]).join(', ')}`);
   console.log('');
 
   if (isDryRun) {
     console.log('  ⚠️  DRY RUN — no files will be written\n');
+  }
+
+  if (!GOOGLE_TRANSLATE_API_KEY && !GOOGLE_APPLICATION_CREDENTIALS) {
+    throw new Error(
+      'Missing Google Translate credentials. Set GOOGLE_TRANSLATE_API_KEY or GOOGLE_APPLICATION_CREDENTIALS.'
+    );
+  }
+
+  if (GOOGLE_APPLICATION_CREDENTIALS) {
+    loadServiceAccountCredentials();
   }
 
   for (const locale of TARGET_LOCALES) {
@@ -326,6 +563,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('Translation failed:', err);
+  console.error(`Translation failed: ${err.message}`);
   process.exit(1);
 });

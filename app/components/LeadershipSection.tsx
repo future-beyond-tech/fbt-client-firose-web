@@ -96,6 +96,26 @@ function AmbientParticles() {
   );
 }
 
+function shouldRevealTitleByCharacter(text: string) {
+  return /^[\p{Script=Latin}\p{Number}\p{Punctuation}\p{Separator}]+$/u.test(text);
+}
+
+function getTitleRevealUnits(text: string) {
+  if (shouldRevealTitleByCharacter(text)) {
+    return {
+      units: [...text],
+      gapClassName: 'gap-x-[0.25em]',
+      renderUnit: (unit: string) => (unit === ' ' ? '\u00A0' : unit),
+    };
+  }
+
+  return {
+    units: text.trim().split(/\s+/).filter(Boolean),
+    gapClassName: 'gap-x-[0.35em] gap-y-[0.12em]',
+    renderUnit: (unit: string) => unit,
+  };
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════ */
 /*  GOLD LINE DRAW                                                           */
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -366,6 +386,8 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
 
   const TITLE_WORD_1 = t('titleLine1');
   const TITLE_WORD_2 = t('titleLine2');
+  const line1Reveal = getTitleRevealUnits(TITLE_WORD_1);
+  const line2Reveal = getTitleRevealUnits(TITLE_WORD_2);
 
   return (
     <section
@@ -407,8 +429,8 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
           className="mt-6 overflow-hidden"
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <span className="flex flex-wrap justify-center gap-x-[0.25em]">
-            {TITLE_WORD_1.split('').map((char, i) => (
+          <span className={`flex flex-wrap justify-center ${line1Reveal.gapClassName}`}>
+            {line1Reveal.units.map((unit, i) => (
               <motion.span
                 key={`l1-${i}`}
                 className="inline-block text-5xl font-normal text-[#f4edde] sm:text-7xl lg:text-8xl"
@@ -420,13 +442,13 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
                   ease: MOTION_EASE,
                 }}
               >
-                {char === ' ' ? '\u00A0' : char}
+                {line1Reveal.renderUnit(unit)}
               </motion.span>
             ))}
           </span>
           {/* Line 2 — gold gradient text */}
-          <span className="mt-1 flex flex-wrap justify-center gap-x-[0.25em] sm:mt-2">
-            {TITLE_WORD_2.split('').map((char, i) => (
+          <span className={`mt-1 flex flex-wrap justify-center ${line2Reveal.gapClassName} sm:mt-2`}>
+            {line2Reveal.units.map((unit, i) => (
               <motion.span
                 key={`l2-${i}`}
                 className="inline-block text-5xl font-normal sm:text-7xl lg:text-8xl"
@@ -444,7 +466,7 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
                   ease: MOTION_EASE,
                 }}
               >
-                {char === ' ' ? '\u00A0' : char}
+                {line2Reveal.renderUnit(unit)}
               </motion.span>
             ))}
           </span>
