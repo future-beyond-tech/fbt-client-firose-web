@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import styles from '../brochure.module.css';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 
@@ -13,7 +13,10 @@ interface CatalogueProduct {
 }
 
 export default function BrochureDownload() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleDownload = useCallback(async (type: 'full' | 'femison' | 'neat-fresh') => {
+    setIsLoading(true);
     try {
       // Dynamically import products data
       const { femisonProducts, neatFreshProducts, allProducts } = await import(
@@ -61,6 +64,8 @@ export default function BrochureDownload() {
       console.error('Error downloading catalogue:', error);
       // Fallback to simple alert
       alert('Unable to generate catalogue. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -319,12 +324,14 @@ export default function BrochureDownload() {
               <button
                 className={styles.btnPrimary}
                 onClick={() => handleDownload('full')}
+                disabled={isLoading}
                 style={{
                   marginTop: '20px',
-                  cursor: 'pointer',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  opacity: isLoading ? 0.6 : 1,
                 }}
               >
-                Download PDF
+                {isLoading ? 'Preparing...' : 'Download PDF'}
               </button>
             </div>
           </MotionWrapper>
@@ -343,12 +350,14 @@ export default function BrochureDownload() {
               <button
                 className={styles.btnSecondary}
                 onClick={() => handleDownload('femison')}
+                disabled={isLoading}
                 style={{
                   marginTop: '20px',
-                  cursor: 'pointer',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  opacity: isLoading ? 0.6 : 1,
                 }}
               >
-                Download PDF
+                {isLoading ? 'Preparing...' : 'Download PDF'}
               </button>
             </div>
           </MotionWrapper>
@@ -369,12 +378,14 @@ export default function BrochureDownload() {
               <button
                 className={styles.btnSecondary}
                 onClick={() => handleDownload('neat-fresh')}
+                disabled={isLoading}
                 style={{
                   marginTop: '20px',
-                  cursor: 'pointer',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  opacity: isLoading ? 0.6 : 1,
                 }}
               >
-                Download PDF
+                {isLoading ? 'Preparing...' : 'Download PDF'}
               </button>
             </div>
           </MotionWrapper>

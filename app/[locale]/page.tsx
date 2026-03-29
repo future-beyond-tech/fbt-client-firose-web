@@ -156,7 +156,7 @@ export default async function Home() {
         </MotionWrapper>
 
         <MotionWrapper delay={0.2}>
-          <section className="fe-panel overflow-hidden p-5 sm:p-7" style={{ borderLeftWidth: 3, borderLeftColor: '#c8a86b' }}>
+          <section className="fe-panel overflow-hidden p-5 sm:p-7" style={{ borderLeftWidth: 3, borderLeftColor: 'var(--fe-primary)' }}>
             <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
               <div className="grid gap-3">
                 <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#b59f75]">
@@ -164,7 +164,7 @@ export default async function Home() {
                 </p>
                 <h2
                   className="text-2xl font-normal text-[#f8f1e3] italic sm:text-3xl"
-                  style={{ fontFamily: '"Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", serif' }}
+                  style={{ fontFamily: 'var(--font-display)' }}
                 >
                   {tHome('swachhBharatTitle')}
                 </h2>

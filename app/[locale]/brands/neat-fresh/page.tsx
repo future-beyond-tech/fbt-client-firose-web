@@ -110,21 +110,21 @@ export default function NeatFresh() {
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {/* PLACEHOLDER: METRIC - Neat & Fresh product SKUs (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Product SKUs</p>
             </article>
             {/* PLACEHOLDER: METRIC - Neat & Fresh institutional clients (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Institutional Clients</p>
             </article>
             {/* PLACEHOLDER: METRIC - Neat & Fresh cities covered (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Cities Covered</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>Quality Assured</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Quality Assured</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Standards</p>
             </article>
           </div>

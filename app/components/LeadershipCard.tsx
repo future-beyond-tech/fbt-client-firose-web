@@ -30,14 +30,14 @@ export default function LeadershipCard({ name, title, bio, imageUrl }: Leadershi
             className="flex h-20 w-20 items-center justify-center rounded-full border border-[#e0c89344] bg-[#1d1813]"
             aria-hidden="true"
           >
-            <span className="text-lg font-medium text-[#c8a86b]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+            <span className="text-lg font-medium" style={{ fontFamily: 'var(--font-display)', color: 'var(--fe-primary)' }}>
               {getInitials(name)}
             </span>
           </div>
         )}
       </div>
       <div className="grid content-start gap-1.5">
-        <h3 className="text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+        <h3 className="text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: 'var(--font-display)' }}>
           {name}
         </h3>
         <p className="text-[11px] uppercase tracking-[0.12em] text-[#c9ad76]">{title}</p>

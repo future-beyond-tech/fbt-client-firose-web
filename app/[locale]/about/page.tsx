@@ -222,21 +222,21 @@ export default async function AboutPage() {
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
               <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">1980</p>
-              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: 'var(--font-display)' }}>
                 {tAbout('foundationTitle')}
               </h3>
               <p className="mt-1.5 text-sm text-[#b7ac97]">{tAbout('foundationDesc')}</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
               <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2024</p>
-              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: 'var(--font-display)' }}>
                 {tAbout('fbtLaunchTitle')}
               </h3>
               <p className="mt-1.5 text-sm text-[#b7ac97]">{tAbout('fbtLaunchesDesc')}</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
               <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2025–2026</p>
-              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+              <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: 'var(--font-display)' }}>
                 {tAbout('integrationTitle')}
               </h3>
               <p className="mt-1.5 text-sm text-[#b7ac97]">{tAbout('integrationDesc')}</p>

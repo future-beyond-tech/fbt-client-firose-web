@@ -196,7 +196,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                         <p className="max-w-[44ch] text-sm leading-relaxed text-[#a99d87]">
                           {tFooter('description')}
                         </p>
-                        <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7d745f]">
+                        <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#9e927b]">
                           {tCommon('trustedAcrossIndia')}
                         </p>
                       </div>

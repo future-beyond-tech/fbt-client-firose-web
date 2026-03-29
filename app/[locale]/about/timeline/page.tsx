@@ -84,7 +84,7 @@ export default function TimelinePage() {
                     {/* Content card */}
                     <div className={`rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a] lg:w-[calc(50%-2rem)] ${isEven ? 'lg:mr-auto' : 'lg:ml-auto'}`}>
                       <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76] lg:hidden">{milestone.year}</p>
-                      <h3 className="mt-1 text-xl font-normal text-[#f2e7cf] lg:mt-0" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+                      <h3 className="mt-1 text-xl font-normal text-[#f2e7cf] lg:mt-0" style={{ fontFamily: 'var(--font-display)' }}>
                         {milestone.title}
                       </h3>
                       <p className="mt-1.5 text-sm leading-relaxed text-[#b7ac97]">{milestone.description}</p>

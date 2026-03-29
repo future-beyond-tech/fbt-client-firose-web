@@ -136,8 +136,8 @@ function GoldLineDraw({ width = 120, className = '' }: { width?: number; classNa
       <defs>
         <linearGradient id="goldLine" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="transparent" />
-          <stop offset="30%" stopColor="#c8a86b" />
-          <stop offset="70%" stopColor="#c8a86b" />
+          <stop offset="30%" stopColor="var(--fe-primary)" />
+          <stop offset="70%" stopColor="var(--fe-primary)" />
           <stop offset="100%" stopColor="transparent" />
         </linearGradient>
       </defs>
@@ -196,7 +196,7 @@ function Avatar({
       {/* Inner circle */}
       <div
         className="absolute flex items-center justify-center overflow-hidden rounded-full"
-        style={{ inset: 3, background: '#1d1813' }}
+        style={{ inset: 3, background: 'var(--fe-bg-elevated)' }}
       >
         {photo ? (
           <Image
@@ -209,8 +209,8 @@ function Avatar({
         ) : (
           <span
             style={{
-              fontFamily: 'var(--font-display, "Iowan Old Style", "Palatino Linotype", serif)',
-              color: '#c8a86b',
+              fontFamily: 'var(--font-display)',
+              color: 'var(--fe-primary)',
               fontSize: size * 0.32,
               fontWeight: 500,
               letterSpacing: '0.06em',
@@ -329,7 +329,7 @@ function LeaderCard({
 
       {/* Secondary title */}
       {title2 && (
-        <p className="mt-1 text-[12px] italic text-[#7d745f]">{title2}</p>
+        <p className="mt-1 text-[12px] italic text-[#9e927b]">{title2}</p>
       )}
 
       {/* Accent divider */}
@@ -342,8 +342,8 @@ function LeaderCard({
       {quote && (
         <div className="relative mt-6 w-full rounded-2xl border border-[#c8a86b20] bg-[#c8a86b08] px-6 py-5">
           <span
-            className="absolute -top-3 left-4 select-none text-4xl leading-none text-[#c8a86b] opacity-30"
-            style={{ fontFamily: 'var(--font-display)' }}
+            className="absolute -top-3 left-4 select-none text-4xl leading-none opacity-30"
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--fe-primary)' }}
             aria-hidden="true"
           >
             &ldquo;
@@ -354,7 +354,7 @@ function LeaderCard({
           >
             {quote}
           </blockquote>
-          <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#8a7e68]">
+          <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#968a74]">
             — {name}
           </p>
         </div>
@@ -505,14 +505,14 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a7e68]">Scroll</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#968a74]">Scroll</span>
           <svg width="16" height="24" viewBox="0 0 16 24" fill="none" aria-hidden="true">
-            <rect x="1" y="1" width="14" height="22" rx="7" stroke="#8a7e68" strokeWidth="1.5" />
+            <rect x="1" y="1" width="14" height="22" rx="7" stroke="#968a74" strokeWidth="1.5" />
             <motion.circle
               cx="8"
               cy="8"
               r="2.5"
-              fill="#c8a86b"
+              fill="var(--fe-primary)"
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
@@ -539,7 +539,7 @@ function FounderSpotlight({ t }: { t: ReturnType<typeof useTranslations> }) {
         <div
           className="absolute bottom-0 left-0 top-0 w-[3px]"
           style={{
-            background: 'linear-gradient(180deg, transparent, #c8a86b, transparent)',
+            background: 'linear-gradient(180deg, transparent, var(--fe-primary), transparent)',
           }}
         />
 
@@ -569,12 +569,12 @@ function FounderSpotlight({ t }: { t: ReturnType<typeof useTranslations> }) {
                   animation: reduceMotion ? 'none' : 'founderRing 4s ease-in-out infinite 0.5s',
                 }}
               />
-              <Avatar initials="SB" accent="#c8a86b" size={180} name="Sithic Basha" glow />
+              <Avatar initials="SB" accent="var(--fe-primary)" size={180} name="Sithic Basha" glow />
             </div>
             <motion.span
               className="inline-block rounded-full px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.16em]"
               style={{
-                background: 'linear-gradient(135deg, #c8a86b, #a78549)',
+                background: 'linear-gradient(135deg, var(--fe-primary), var(--fe-primary-strong))',
                 color: '#22190d',
               }}
               initial={{ opacity: 0, y: 10 }}
@@ -608,7 +608,8 @@ function FounderSpotlight({ t }: { t: ReturnType<typeof useTranslations> }) {
 
             {/* Animated gold underline */}
             <motion.div
-              className="mx-auto mt-4 h-[2px] rounded-full bg-[#c8a86b] md:mx-0"
+              className="mx-auto mt-4 h-[2px] rounded-full md:mx-0"
+              style={{ background: 'var(--fe-primary)' }}
               initial={{ width: 0 }}
               animate={isInView ? { width: 60 } : {}}
               transition={{ duration: 0.8, delay: 0.3, ease: MOTION_EASE }}
@@ -622,8 +623,8 @@ function FounderSpotlight({ t }: { t: ReturnType<typeof useTranslations> }) {
               transition={{ duration: 0.7, delay: 0.4, ease: MOTION_EASE }}
             >
               <span
-                className="absolute -left-1 -top-5 select-none text-7xl leading-none text-[#c8a86b] opacity-20"
-                style={{ fontFamily: 'var(--font-display)' }}
+                className="absolute -left-1 -top-5 select-none text-7xl leading-none opacity-20"
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--fe-primary)' }}
                 aria-hidden="true"
               >
                 &ldquo;
@@ -634,7 +635,7 @@ function FounderSpotlight({ t }: { t: ReturnType<typeof useTranslations> }) {
               >
                 {t('founderQuote')}
               </blockquote>
-              <p className="mt-5 pl-6 text-xs font-medium tracking-wide text-[#8a7e68]">
+              <p className="mt-5 pl-6 text-xs font-medium tracking-wide text-[#968a74]">
                 — {t('founderAttribution')}
               </p>
             </motion.div>

@@ -5,7 +5,7 @@ export default function NotFound() {
     <main id="main-content" className="fe-main fe-ambient-drift" style={{ minHeight: '60vh' }}>
       <section className="fe-panel-strong flex flex-col items-center justify-center p-8 text-center sm:p-12 lg:p-16">
         <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Page Not Found</p>
-        <h1 className="mt-4 text-5xl font-normal text-[#f8f1e3] sm:text-6xl lg:text-7xl" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>
+        <h1 className="mt-4 text-5xl font-normal text-[#f8f1e3] sm:text-6xl lg:text-7xl" style={{ fontFamily: 'var(--font-display)' }}>
           404
         </h1>
         <p className="mt-3 max-w-[48ch] text-sm leading-relaxed text-[#b7ac97] sm:text-base">

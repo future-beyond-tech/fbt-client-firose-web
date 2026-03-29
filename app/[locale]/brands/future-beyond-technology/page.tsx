@@ -106,20 +106,20 @@ export default function FutureBeyondTechnologyPage() {
           </header>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>4</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>4</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Core Capabilities</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>AI &amp; Security</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>AI &amp; Security</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Primary Focus</p>
             </article>
             {/* PLACEHOLDER: METRIC - FBT enterprise clients count (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#7d745f]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>X+</p>
+              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Enterprise Clients</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: '"Iowan Old Style", "Palatino Linotype", serif' }}>Production-Grade</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Production-Grade</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Delivery Standard</p>
             </article>
           </div>

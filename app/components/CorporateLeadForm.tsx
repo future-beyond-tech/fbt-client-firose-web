@@ -24,6 +24,7 @@ type FormState = {
 
 const CORPORATE_EMAIL = 'info.firoseenterprises@gmail.com';
 const CORPORATE_WHATSAPP = '919790600220';
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function buildMailToUrl(subject: string, body: string): string {
   const normalizedBody = body.replace(/\r?\n/g, '\r\n');
@@ -54,6 +55,7 @@ export default function CorporateLeadForm({
     inquiryType: 'Distributor',
     message: '',
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const quickWhatsAppUrl = useMemo(
     () => buildWhatsAppUrl(`Hello FiroseEnterprises, I have a ${contextLabel.toLowerCase()} enquiry.`),
@@ -62,10 +64,47 @@ export default function CorporateLeadForm({
 
   function onFieldChange(field: keyof FormState, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors((current) => {
+        const updated = { ...current };
+        delete updated[field];
+        return updated;
+      });
+    }
+  }
+
+  function validateForm(): boolean {
+    const newErrors: Record<string, string> = {};
+
+    if (!form.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!form.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!EMAIL_PATTERN.test(form.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!form.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    }
+
+    if (!form.message.trim()) {
+      newErrors.message = 'Message is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     const lines = [
       `${tCommon('name')}: ${form.name}`,
@@ -96,9 +135,20 @@ export default function CorporateLeadForm({
             onChange={(event) => onFieldChange('name', event.target.value)}
             required
             aria-required="true"
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? `${contextLabel}-name-error` : undefined}
             autoComplete="name"
             placeholder={tCommon('yourName')}
           />
+          {errors.name && (
+            <p
+              id={`${contextLabel}-name-error`}
+              className="text-[12px] text-[#e07a5f]"
+              role="alert"
+            >
+              {errors.name}
+            </p>
+          )}
         </div>
 
         <div className={styles.fieldGroup}>
@@ -110,9 +160,20 @@ export default function CorporateLeadForm({
             onChange={(event) => onFieldChange('email', event.target.value)}
             required
             aria-required="true"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? `${contextLabel}-email-error` : undefined}
             autoComplete="email"
             placeholder={tCommon('emailPlaceholder')}
           />
+          {errors.email && (
+            <p
+              id={`${contextLabel}-email-error`}
+              className="text-[12px] text-[#e07a5f]"
+              role="alert"
+            >
+              {errors.email}
+            </p>
+          )}
         </div>
       </div>
 
@@ -124,9 +185,20 @@ export default function CorporateLeadForm({
             type="tel"
             value={form.phone}
             onChange={(event) => onFieldChange('phone', event.target.value)}
+            aria-invalid={!!errors.phone}
+            aria-describedby={errors.phone ? `${contextLabel}-phone-error` : undefined}
             autoComplete="tel"
             placeholder={tCommon('phonePlaceholder')}
           />
+          {errors.phone && (
+            <p
+              id={`${contextLabel}-phone-error`}
+              className="text-[12px] text-[#e07a5f]"
+              role="alert"
+            >
+              {errors.phone}
+            </p>
+          )}
         </div>
 
         <div className={styles.fieldGroup}>
@@ -167,7 +239,18 @@ export default function CorporateLeadForm({
           placeholder={showInquiryType ? tBusiness('sharePlaceholder') : tCommon('messagePlaceholder')}
           required
           aria-required="true"
+          aria-invalid={!!errors.message}
+          aria-describedby={errors.message ? `${contextLabel}-message-error` : undefined}
         />
+        {errors.message && (
+          <p
+            id={`${contextLabel}-message-error`}
+            className="text-[12px] text-[#e07a5f]"
+            role="alert"
+          >
+            {errors.message}
+          </p>
+        )}
       </div>
 
       <div className={styles.formActions}>

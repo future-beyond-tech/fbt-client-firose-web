@@ -213,8 +213,8 @@ export default function WelcomeOverlay() {
                   key={i}
                   className="text-4xl font-medium tracking-[0.26em] sm:text-5xl lg:text-6xl"
                   style={{
-                    fontFamily: '"Cinzel", "Iowan Old Style", "Palatino Linotype", "Georgia", serif',
-                    color: '#c8a86b',
+                    fontFamily: 'var(--font-display)',
+                    color: 'var(--fe-primary)',
                     textShadow: '0 0 40px rgba(200,168,107,0.3)',
                   }}
                   variants={{
@@ -249,8 +249,8 @@ export default function WelcomeOverlay() {
 
             {/* Decorative gold line */}
             <motion.div
-              className="h-px bg-gradient-to-r from-transparent via-[#c8a86b] to-transparent"
-              style={{ width: 80 }}
+              className="h-px from-transparent to-transparent"
+              style={{ width: 80, background: 'linear-gradient(90deg, transparent, var(--fe-primary), transparent)' }}
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: dur ?? 0.5, delay: reduceMotion ? 0 : 1.0, ease: MOTION_EASE }}
@@ -270,8 +270,8 @@ export default function WelcomeOverlay() {
                   <p
                     className="text-2xl sm:text-3xl lg:text-4xl"
                     style={{
-                      fontFamily: '"Cinzel", "Iowan Old Style", "Palatino Linotype", "Georgia", serif',
-                      color: '#f4edde',
+                      fontFamily: 'var(--font-display)',
+                      color: 'var(--fe-ink)',
                       lineHeight: 1.25,
                     }}
                   >
@@ -287,7 +287,7 @@ export default function WelcomeOverlay() {
 
                   <span
                     className="text-[10px] uppercase tracking-[0.22em]"
-                    style={{ color: '#7d745f' }}
+                    style={{ color: '#9e927b' }}
                   >
                     {greeting.lang}
                   </span>
@@ -301,7 +301,7 @@ export default function WelcomeOverlay() {
                 <motion.p
                   className="mt-1 max-w-[44ch] text-sm leading-relaxed sm:text-base"
                   style={{
-                    fontFamily: '"Cinzel", "Iowan Old Style", "Palatino Linotype", "Georgia", serif',
+                    fontFamily: 'var(--font-display)',
                     color: '#d7c9a8',
                     fontStyle: 'italic',
                   }}
@@ -319,7 +319,7 @@ export default function WelcomeOverlay() {
               {(phase === 'message' || phase === 'cta') && (
                 <motion.p
                   className="text-[11px] uppercase tracking-[0.18em]"
-                  style={{ color: '#8a7e68' }}
+                  style={{ color: '#968a74' }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: dur ?? 0.5, delay: reduceMotion ? 0 : 0.5, ease: MOTION_EASE }}

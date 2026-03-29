@@ -31,6 +31,28 @@
   --color-glass: rgba(18, 15, 12, 0.84);
   --color-glass-border: rgba(200, 168, 107, 0.22);
 
+  /* Gold opacity scale — systematic tokens for #e0c893 at various alpha levels */
+  --fe-gold-5: rgba(224, 200, 147, 0.05);
+  --fe-gold-10: rgba(224, 200, 147, 0.10);
+  --fe-gold-15: rgba(224, 200, 147, 0.15);
+  --fe-gold-20: rgba(224, 200, 147, 0.20);
+  --fe-gold-25: rgba(224, 200, 147, 0.25);
+  --fe-gold-30: rgba(224, 200, 147, 0.30);
+  --fe-gold-40: rgba(224, 200, 147, 0.40);
+  --fe-gold-50: rgba(224, 200, 147, 0.50);
+  --fe-gold-60: rgba(224, 200, 147, 0.60);
+  --fe-gold-70: rgba(224, 200, 147, 0.70);
+  --fe-gold-80: rgba(224, 200, 147, 0.80);
+
+  /* WCAG-safe muted text (replaces #8a7e68 and #7d745f) */
+  --fe-ink-muted: #968a74;
+  --fe-ink-faint: #9e927b;
+
+  /* Dark surface variants */
+  --fe-bg-deep: #060504;
+  --fe-bg-card: rgba(17, 15, 12, 0.87);
+  --fe-bg-elevated: #1d1813;
+
   --font-display: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua", serif;
   --heading-h1: clamp(2.25rem, 4.8vw, 4rem);
   --heading-h2: clamp(1.7rem, 3.1vw, 2.9rem);

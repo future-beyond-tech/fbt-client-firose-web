@@ -44,7 +44,7 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex min-h-10 items-center gap-1.5 rounded-md border border-transparent px-2.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-[#ab9f88] transition hover:border-[#d8bc8760] hover:bg-[#2a22166e] hover:text-[#f4e6c8]"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-md border border-transparent px-2.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-[#ab9f88] transition hover:border-[#d8bc8760] hover:bg-[#2a22166e] hover:text-[#f4e6c8]"
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label={t('selectLanguage')}
@@ -96,7 +96,7 @@ export default function LanguageSwitcher() {
                   >
                     <span className="font-medium">{localeNames[loc]}</span>
                     {isActive && (
-                      <span className="text-[#c8a86b]" aria-hidden="true">
+                      <span style={{ color: 'var(--fe-primary)' }} aria-hidden="true">
                         ✓
                       </span>
                     )}

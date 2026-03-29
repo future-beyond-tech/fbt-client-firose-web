@@ -8,7 +8,7 @@ function TrustContent({ items }: Readonly<{ items: string[] }>) {
     <>
       {items.map((item, index) => (
         <span key={index} className="mx-6 inline-block whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em] sm:mx-8">
-          <span className="mr-3 text-[#c8a86b]" aria-hidden="true">{'\u2726'}</span>
+          <span className="mr-3" style={{ color: 'var(--fe-primary)' }} aria-hidden="true">{'\u2726'}</span>
           {item}
         </span>
       ))}
