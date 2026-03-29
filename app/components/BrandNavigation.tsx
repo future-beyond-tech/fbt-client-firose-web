@@ -71,7 +71,7 @@ export default function BrandNavigation() {
       </AnimatePresence>
 
       <motion.nav
-        className="rounded-2xl border border-[#e0c8932f] bg-[linear-gradient(160deg,rgba(20,17,13,0.9),rgba(10,8,7,0.95))] p-6 shadow-[0_22px_42px_rgba(0,0,0,0.45)]"
+        className="rounded-2xl border border-[#e0c8932f] bg-[linear-gradient(160deg,rgba(20,17,13,0.9),rgba(10,8,7,0.95))] p-4 sm:p-6 shadow-[0_22px_42px_rgba(0,0,0,0.45)]"
         aria-label={t('title')}
         variants={fadeInUp}
         initial="hidden"

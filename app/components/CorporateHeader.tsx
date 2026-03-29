@@ -259,7 +259,7 @@ export default function CorporateHeader() {
               {divisionsOpen ? (
                 <motion.div
                   id="corporate-divisions-menu"
-                  className="absolute left-0 top-full z-[70] mt-2 w-[340px] rounded-xl border border-[#e0c89333] bg-[#0f0d0adf] p-2 shadow-[0_24px_44px_rgba(0,0,0,0.52)] backdrop-blur"
+                  className="absolute left-0 top-full z-[70] mt-2 w-[min(340px,calc(100vw-2rem))] rounded-xl border border-[#e0c89333] bg-[#0f0d0adf] p-2 shadow-[0_24px_44px_rgba(0,0,0,0.52)] backdrop-blur"
                   role="menu"
                   aria-label={t('ourDivisionsMenu')}
                   initial={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -352,6 +352,11 @@ export default function CorporateHeader() {
                   </Link>
                 );
               })}
+
+              <div className="flex items-center justify-between rounded-xl border border-[#e0c8932f] bg-[#12100dcf] px-3 py-2.5">
+                <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#d7bb85]">{t('selectLanguage')}</span>
+                <LanguageSwitcher />
+              </div>
 
               <div className="rounded-xl border border-[#e0c8932f] bg-[#12100dcf] p-2">
                 <p className="px-2 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[#d7bb85]">{t('ourDivisions')}</p>

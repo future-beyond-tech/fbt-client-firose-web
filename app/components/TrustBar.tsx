@@ -7,9 +7,9 @@ function TrustContent({ items }: Readonly<{ items: string[] }>) {
   return (
     <>
       {items.map((item, index) => (
-        <span key={index} className="mx-6 inline-block whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em] sm:mx-8">
+        <span key={index} className="mx-4 sm:mx-6 inline-block whitespace-nowrap text-[12px] font-medium uppercase tracking-[0.14em] sm:mx-8">
           <span className="mr-3" style={{ color: 'var(--fe-primary)' }} aria-hidden="true">{'\u2726'}</span>
-          {item}
+          <span>{item}</span>
         </span>
       ))}
     </>
@@ -35,7 +35,7 @@ export default function TrustBar() {
       aria-label={t('quality')}
     >
       <div
-        className="flex whitespace-nowrap py-2 text-[#e8d5ac]"
+        className="relative flex whitespace-nowrap py-2 text-[#e8d5ac]"
         style={reduceMotion ? undefined : { animation: 'fe-trust-scroll 32s linear infinite' }}
       >
         {/* Duplicate content for seamless loop */}

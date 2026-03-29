@@ -21,7 +21,7 @@ export default function ProofPoints() {
   ];
 
   return (
-    <section className="grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label={t('operatingDivisions')}>
+    <section className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-4" aria-label={t('operatingDivisions')}>
       {proofPoints.map((point, index) => (
         <MotionWrapper key={point.label} delay={0.06 + index * 0.06}>
           <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">

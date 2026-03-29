@@ -433,7 +433,7 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
             {line1Reveal.units.map((unit, i) => (
               <motion.span
                 key={`l1-${i}`}
-                className="inline-block text-5xl font-normal text-[#f4edde] sm:text-7xl lg:text-8xl"
+                className="inline-block text-3xl font-normal text-[#f4edde] sm:text-5xl md:text-7xl lg:text-8xl"
                 initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{
@@ -451,7 +451,7 @@ function CinematicHero({ t }: { t: ReturnType<typeof useTranslations> }) {
             {line2Reveal.units.map((unit, i) => (
               <motion.span
                 key={`l2-${i}`}
-                className="inline-block text-5xl font-normal sm:text-7xl lg:text-8xl"
+                className="inline-block text-3xl font-normal sm:text-5xl md:text-7xl lg:text-8xl"
                 style={{
                   background: 'linear-gradient(135deg, #f1ddb4, #c8a86b, #a78549)',
                   WebkitBackgroundClip: 'text',
@@ -543,10 +543,10 @@ function FounderSpotlight({ t }: { t: ReturnType<typeof useTranslations> }) {
           }}
         />
 
-        <div className="flex flex-col items-center gap-10 p-7 sm:p-10 md:flex-row md:items-center md:gap-16 lg:p-14">
+        <div className="flex flex-col items-center gap-10 p-5 sm:p-7 sm:p-10 md:flex-row md:items-center md:gap-16 lg:p-14">
           {/* Left: Avatar — cinematic reveal */}
           <motion.div
-            className="flex flex-col items-center gap-5"
+            className="flex flex-col items-center gap-6 sm:gap-10"
             initial={{ opacity: 0, scale: 0.85 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.9, ease: MOTION_EASE }}
@@ -720,7 +720,7 @@ export default function LeadershipSection() {
         <FounderSpotlight t={t} />
 
         {/* Leader cards */}
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {LEADERS.map((leader, i) => (
             <LeaderCard key={leader.nameKey} leader={leader} t={t} index={i} />
           ))}

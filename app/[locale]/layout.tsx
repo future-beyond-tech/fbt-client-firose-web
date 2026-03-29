@@ -162,6 +162,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} data-scroll-behavior="smooth" id="top">
       <head>
+        <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
         <link rel="alternate" hrefLang="en" href="https://firoseenterprises.com" />
         <link rel="alternate" hrefLang="ta" href="https://firoseenterprises.com/ta" />
         <link rel="alternate" hrefLang="hi" href="https://firoseenterprises.com/hi" />
