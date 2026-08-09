@@ -3,9 +3,12 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { buildCorporateWhatsAppUrl } from '@/app/lib/company';
 import { MOTION_EASE } from '@/lib/motion';
 
-const WHATSAPP_URL = 'https://wa.me/919600433056?text=Hello%20Firose%20Enterprises%2C%20I%20would%20like%20to%20know%20more%20about%20your%20products.';
+const WHATSAPP_URL = buildCorporateWhatsAppUrl(
+  'Hello FIROSE Enterprises, I would like to know more about your products and divisions.'
+);
 const SCROLL_THRESHOLD = 200;
 
 export default function FloatingWhatsApp() {

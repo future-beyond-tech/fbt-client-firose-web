@@ -1,9 +1,9 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import styles from './neatFresh.module.css';
 
 type NeatFreshCtaBlocksProps = {
   whatsappUrl: string;
-  mailtoUrl: string;
+  mailtoUrl: string | null;
 };
 
 export default function NeatFreshCtaBlocks({ whatsappUrl, mailtoUrl }: Readonly<NeatFreshCtaBlocksProps>) {
@@ -26,9 +26,7 @@ export default function NeatFreshCtaBlocks({ whatsappUrl, mailtoUrl }: Readonly<
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.ctaLink}>
             WhatsApp Contact
           </a>
-          <a href={mailtoUrl} className={styles.ctaLink}>
-            Email Contact
-          </a>
+          {mailtoUrl ? <a href={mailtoUrl} className={styles.ctaLink}>Email Contact</a> : null}
         </div>
       </article>
     </section>

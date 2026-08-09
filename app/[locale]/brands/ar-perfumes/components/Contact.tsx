@@ -76,10 +76,12 @@ export default function Contact({
                 <span>City / Region</span>
                 <p>{CONTACT_INFO.cityRegion}</p>
               </li>
-              <li>
-                <span>Email</span>
-                <a href={`mailto:${CONTACT_INFO.email}`}>{CONTACT_INFO.email}</a>
-              </li>
+              {CONTACT_INFO.email ? (
+                <li>
+                  <span>Email</span>
+                  <a href={`mailto:${CONTACT_INFO.email}`}>{CONTACT_INFO.email}</a>
+                </li>
+              ) : null}
             </ul>
 
             <a className={`${styles.btn} ${styles.btnPrimary} ${styles.contactAction}`} href={quickChatUrl}>

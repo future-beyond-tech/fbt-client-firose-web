@@ -1,12 +1,19 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
+import { createPageMetadata } from '@/app/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Company Timeline',
-  description:
-    'Explore the journey of Firose Enterprises from its founding in 1980 to its current position as a diversified enterprise group.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Company Timeline',
+    description: 'Explore FIROSE Enterprises since its establishment in 2018 and the business heritage dating back to 1980.',
+    path: '/about/timeline',
+    locale,
+  });
+}
 
 type Milestone = Readonly<{
   year: string;
@@ -17,35 +24,18 @@ type Milestone = Readonly<{
 const MILESTONES: Milestone[] = [
   {
     year: '1980',
-    title: 'Foundation',
-    description: 'Firose Enterprises is founded in Chennai, India, establishing the first consumer product operations that would grow into a multi-division enterprise.',
-  },
-  /* PLACEHOLDER: COPY - 1980s–1990s milestone details (owner to provide specific events) */
-  {
-    year: '1990s',
-    title: 'Category Expansion',
-    description: 'The group expands into new consumer categories including personal care, baby nutrition, and hygiene products, building a diversified product portfolio.',
-  },
-  /* PLACEHOLDER: COPY - 2000s milestone details (owner to provide specific events) */
-  {
-    year: '2000s',
-    title: 'Distribution Growth',
-    description: 'Firose strengthens its distribution network across India, partnering with retailers, institutions, and modern trade channels to expand market reach.',
+    title: 'Business Heritage',
+    description: 'The business and product heritage that later informed FIROSE Enterprises dates back to 1980.',
   },
   {
-    year: '2020',
-    title: 'Digital Transformation Begins',
-    description: 'The current generation initiates a strategic transformation, modernizing brand identities and establishing a corporate-grade digital presence.',
+    year: '2018',
+    title: 'FIROSE Enterprises Established',
+    description: 'FIROSE Enterprises was established in Chennai, Tamil Nadu, India.',
   },
   {
-    year: '2024',
-    title: 'Future Beyond Technology Launches',
-    description: 'FBT is established as the AI engineering and cybersecurity division, marking Firose\'s expansion from consumer brands into enterprise technology.',
-  },
-  {
-    year: '2025–2026',
-    title: 'Corporate Integration',
-    description: 'Firose Enterprises launches its unified corporate platform, connecting all divisions under one digital identity with dedicated brand experiences.',
+    year: 'Today',
+    title: 'Four Operating Divisions',
+    description: 'FIROSE Enterprises operates AR Perfumes, Femison, Neat & Fresh, and Future Beyond Technology (FBT).',
   },
 ];
 
@@ -56,9 +46,9 @@ export default function TimelinePage() {
         <section className="fe-panel-strong p-5 sm:p-7 lg:p-8">
           <header className="grid gap-2">
             <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Heritage</p>
-            <h1 className="text-4xl font-normal text-[#f8f1e3] sm:text-5xl">Our Journey Since 1980</h1>
+            <h1 className="text-4xl font-normal text-[#f8f1e3] sm:text-5xl">Established 2018 · Roots Since 1980</h1>
             <p className="max-w-[72ch] text-[#b7ac97]">
-              Over four decades, Firose Enterprises has grown from a single operation in Chennai to a diversified group spanning consumer brands and enterprise technology.
+              The business and product heritage dates back to 1980. FIROSE Enterprises was established in 2018 and now operates four divisions.
             </p>
           </header>
         </section>
@@ -78,7 +68,7 @@ export default function TimelinePage() {
                     {/* Year badge (mobile: left side, desktop: center) */}
                     <div className={`absolute left-0 top-0 lg:left-1/2 lg:-translate-x-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-[#e0c89355] bg-[#1d1813] text-xs font-medium text-[#c8a86b] lg:h-auto lg:w-auto lg:px-3 lg:py-1.5`}>
                       <span className="hidden lg:inline">{milestone.year}</span>
-                      <span className="lg:hidden text-[10px]">{milestone.year.slice(-2)}</span>
+                      <span className="lg:hidden text-[9px]">{milestone.year}</span>
                     </div>
 
                     {/* Content card */}
@@ -105,7 +95,7 @@ export default function TimelinePage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link href="/about" className="fe-link-chip">About Overview</Link>
-            <Link href="/about/leadership" className="fe-link-chip">Leadership</Link>
+            <Link href="/leadership" className="fe-link-chip">Leadership</Link>
             <Link href="/brands" className="fe-btn-primary">Explore Divisions</Link>
           </div>
         </section>

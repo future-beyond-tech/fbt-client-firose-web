@@ -16,6 +16,15 @@ export default function BrochureDownload() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDownload = useCallback(async (type: 'full' | 'femison' | 'neat-fresh') => {
+    if (isLoading) return;
+
+    // Open immediately from the user gesture so popup blockers do not suppress the catalogue.
+    const win = window.open('', '_blank');
+    if (!win) {
+      alert('Please allow popups to open the printable catalogue.');
+      return;
+    }
+
     setIsLoading(true);
     try {
       // Dynamically import products data
@@ -27,26 +36,22 @@ export default function BrochureDownload() {
       let products: CatalogueProduct[] = [];
       let catalogueTitle = '';
       let catalogueSubtitle = '';
-      let filename = '';
 
       switch (type) {
         case 'full':
           products = allProducts;
-          catalogueTitle = 'Full Group Catalogue';
+          catalogueTitle = 'FIROSE Consumer Products Catalogue';
           catalogueSubtitle = 'Complete product list — Femison + Neat & Fresh (55 products)';
-          filename = 'FIROSE_Full_Catalogue.pdf';
           break;
         case 'femison':
           products = femisonProducts;
           catalogueTitle = 'Femison Catalogue';
-          catalogueSubtitle = 'Health, Herbal & Medicinal products (29 SKUs)';
-          filename = 'FIROSE_Femison_Catalogue.pdf';
+          catalogueSubtitle = 'Consumer care, personal care, and nutrition products (29 SKUs)';
           break;
         case 'neat-fresh':
           products = neatFreshProducts;
           catalogueTitle = 'Neat & Fresh Catalogue';
           catalogueSubtitle = 'Home Care & Cleaning products (26 SKUs)';
-          filename = 'FIROSE_NeatFresh_Catalogue.pdf';
           break;
       }
 
@@ -54,20 +59,17 @@ export default function BrochureDownload() {
       const html = generateCatalogueHTML(catalogueTitle, catalogueSubtitle, products);
 
       // Open in new window and print
-      const win = window.open('', '_blank');
-      if (win) {
-        win.document.write(html);
-        win.document.close();
-        win.print();
-      }
+      win.document.write(html);
+      win.document.close();
+      win.print();
     } catch (error) {
       console.error('Error downloading catalogue:', error);
-      // Fallback to simple alert
+      win.close();
       alert('Unable to generate catalogue. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isLoading]);
 
   const generateCatalogueHTML = (
     title: string,
@@ -101,7 +103,7 @@ export default function BrochureDownload() {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>${title} - FIROSE Group</title>
+      <title>${title} - FIROSE Enterprises</title>
       <style>
         * {
           margin: 0;
@@ -260,15 +262,16 @@ export default function BrochureDownload() {
     <body>
       <div class="container">
         <div class="header">
-          <div class="brand">FIROSE Group</div>
+          <div class="brand">FIROSE Enterprises</div>
           <h1 class="title">${title}</h1>
           <p class="subtitle">${subtitle}</p>
           <p class="date">Generated on ${currentDate}</p>
         </div>
 
         <div class="catalogue-info">
-          <p><strong>FIROSE Enterprises</strong> — Premium Health & Home Care Products</p>
-          <p>For more information, visit: <strong>firoseenterprises.com/brochure</strong></p>
+          <p><strong>FIROSE Enterprises</strong> — Consumer Products Catalogue</p>
+          <p>This catalogue covers Femison and Neat &amp; Fresh only.</p>
+          <p>For more information, visit: <strong>firoseenterprises.in/brochure</strong></p>
         </div>
 
         <table>
@@ -291,7 +294,7 @@ export default function BrochureDownload() {
         </div>
 
         <div class="footer">
-          <p>This catalogue was generated from <strong>firoseenterprises.com/brochure</strong></p>
+          <p>This catalogue was generated from <strong>firoseenterprises.in/brochure</strong></p>
           <p>For updates and new products, please visit our website regularly.</p>
           <p style="margin-top: 15px; color: #ccc;">---</p>
         </div>
@@ -317,11 +320,12 @@ export default function BrochureDownload() {
           <MotionWrapper>
             <div className={styles.downloadCard}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>📋</div>
-              <h3 className={styles.downloadTitle}>Full Group Catalogue</h3>
+              <h3 className={styles.downloadTitle}>Consumer Products Catalogue</h3>
               <p className={styles.downloadDesc}>
                 Complete product list — Femison + Neat & Fresh (55 products)
               </p>
               <button
+                type="button"
                 className={styles.btnPrimary}
                 onClick={() => handleDownload('full')}
                 disabled={isLoading}
@@ -346,8 +350,9 @@ export default function BrochureDownload() {
             >
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>💊</div>
               <h3 className={styles.downloadTitle}>Femison Catalogue</h3>
-              <p className={styles.downloadDesc}>Health, Herbal & Medicinal products (29 SKUs)</p>
+              <p className={styles.downloadDesc}>Consumer care, personal care, and nutrition products (29 SKUs)</p>
               <button
+                type="button"
                 className={styles.btnSecondary}
                 onClick={() => handleDownload('femison')}
                 disabled={isLoading}
@@ -376,6 +381,7 @@ export default function BrochureDownload() {
                 Home Care & Cleaning products (26 SKUs)
               </p>
               <button
+                type="button"
                 className={styles.btnSecondary}
                 onClick={() => handleDownload('neat-fresh')}
                 disabled={isLoading}

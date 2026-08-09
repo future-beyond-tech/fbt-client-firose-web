@@ -9,23 +9,28 @@ import ProofPoints from '@/app/components/ProofPoints';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import { FBT_WEBSITE_URL, divisionCatalog } from '@/app/lib/divisions';
 import { corporateVisuals } from '@/app/lib/brandVisuals';
+import { buildCorporateWhatsAppUrl, companyConfig } from '@/app/lib/company';
+import { createPageMetadata } from '@/app/lib/seo';
 
 type PageProps = {
   params: Promise<{ locale: string }>;
 };
 
-const CORPORATE_WHATSAPP =
-  'https://wa.me/919790600220?text=Hello%20FiroseEnterprises%2C%20I%20would%20like%20to%20connect.';
-const CORPORATE_INDIAMART = 'https://www.indiamart.com/firose-enterpriseschennai/';
+const CORPORATE_WHATSAPP = buildCorporateWhatsAppUrl(
+  'Hello FIROSE Enterprises, I would like to connect.'
+);
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  return {
+  return createPageMetadata({
     title: t('title'),
     description: t('description'),
-  };
+    path: '/',
+    locale,
+    absoluteTitle: `${companyConfig.name} | Four Operating Divisions`,
+  });
 }
 
 export default async function Home() {
@@ -122,7 +127,7 @@ export default async function Home() {
               <div className="relative h-[260px] sm:h-[320px]">
                 <Image
                   src={corporateVisuals.supportImage}
-                  alt="Firose product and operations support"
+                  alt="FIROSE corporate portfolio presentation"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1023px) 100vw, 42vw"
@@ -229,7 +234,7 @@ export default async function Home() {
               <Link href="/contact" className="fe-link-chip">
                 {tCommon('contactUs')}
               </Link>
-              <a href={CORPORATE_INDIAMART} target="_blank" rel="noopener noreferrer" className="fe-link-chip">
+              <a href={companyConfig.social.indiaMart} target="_blank" rel="noopener noreferrer" className="fe-link-chip">
                 {tHome('indiamartProfile')}
               </a>
               <a href={CORPORATE_WHATSAPP} target="_blank" rel="noopener noreferrer" className="fe-link-chip">

@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import { FBT_WEBSITE_URL } from '@/app/lib/divisions';
 import FbtTransitionBanner from './components/FbtTransitionBanner';
 import brandStyles from './components/fbt.module.css';
 import styles from '../brands.module.css';
+import { createPageMetadata } from '@/app/lib/seo';
 
 const FBT_HERO_IMAGE =
   'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1800&q=80';
@@ -33,11 +34,17 @@ const capabilitySignals = [
   },
 ];
 
-export const metadata: Metadata = {
-  title: 'Future Beyond Technology (FBT)',
-  description:
-    'Future Beyond Technology (FBT) is the AI and cybersecurity division under Firose Enterprises. Explore the dedicated website at futurebeyondtech.com.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Future Beyond Technology (FBT)',
+    description: 'Future Beyond Technology (FBT) is the AI engineering and cybersecurity division of FIROSE Enterprises.',
+    path: '/brands/future-beyond-technology',
+    locale,
+  });
+}
 
 export default function FutureBeyondTechnologyPage() {
   return (
@@ -101,7 +108,7 @@ export default function FutureBeyondTechnologyPage() {
       <MotionWrapper delay={0.22}>
         <section className="fe-panel p-5 sm:p-7">
           <header className="grid gap-2">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Key Metrics</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Capability Snapshot</p>
             <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">FBT at a Glance</h2>
           </header>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -113,14 +120,13 @@ export default function FutureBeyondTechnologyPage() {
               <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>AI &amp; Security</p>
               <p className="mt-1 text-sm text-[#b7ac97]">Primary Focus</p>
             </article>
-            {/* PLACEHOLDER: METRIC - FBT enterprise clients count (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Enterprise Clients</p>
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Business Enquiry</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Contact Path</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Production-Grade</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Delivery Standard</p>
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Dedicated</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Division Website</p>
             </article>
           </div>
         </section>

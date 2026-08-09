@@ -3,8 +3,9 @@
 import { FormEvent, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { buildCorporateWhatsAppUrl } from '@/app/lib/company';
+import { INQUIRY_TYPES, INTEREST_OPTIONS, type InquiryType, type InterestOption } from '@/app/lib/enquiries';
 import { MOTION_EASE, buttonPress, hoverLift } from '@/lib/motion';
-import { useToast } from '@/app/components/Toast';
 import styles from '@/app/corporate.module.css';
 
 type CorporateLeadFormProps = {
@@ -18,23 +19,30 @@ type FormState = {
   email: string;
   phone: string;
   company: string;
-  inquiryType: string;
+  countryLocation: string;
+  inquiryType: InquiryType;
+  interestedDivision: InterestOption;
   message: string;
+  website: string;
 };
 
-const CORPORATE_EMAIL = 'info.firoseenterprises@gmail.com';
-const CORPORATE_WHATSAPP = '919790600220';
+type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^[+()\-\s0-9]{7,24}$/;
 
-function buildMailToUrl(subject: string, body: string): string {
-  const normalizedBody = body.replace(/\r?\n/g, '\r\n');
-  const encodedSubject = encodeURIComponent(subject);
-  const encodedBody = encodeURIComponent(normalizedBody);
-  return `mailto:${CORPORATE_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-}
-
-function buildWhatsAppUrl(message: string): string {
-  return `https://wa.me/${CORPORATE_WHATSAPP}?text=${encodeURIComponent(message)}`;
+function createInitialForm(showInquiryType: boolean): FormState {
+  return {
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    countryLocation: '',
+    inquiryType: showInquiryType ? 'Distributor' : 'General Inquiry',
+    interestedDivision: 'Corporate / General',
+    message: '',
+    website: '',
+  };
 }
 
 export default function CorporateLeadForm({
@@ -43,28 +51,25 @@ export default function CorporateLeadForm({
   showInquiryType = false,
 }: Readonly<CorporateLeadFormProps>) {
   const reduceMotion = useReducedMotion();
-  const { showToast } = useToast();
   const tCommon = useTranslations('common');
   const tBusiness = useTranslations('businessWithUs');
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState<FormState>({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    inquiryType: 'Distributor',
-    message: '',
-  });
+  const formId = useMemo(
+    () => contextLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'enquiry',
+    [contextLabel]
+  );
+  const [form, setForm] = useState<FormState>(() => createInitialForm(showInquiryType));
+  const [startedAt, setStartedAt] = useState(() => Date.now());
+  const [status, setStatus] = useState<SubmissionStatus>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState('');
 
   const quickWhatsAppUrl = useMemo(
-    () => buildWhatsAppUrl(`Hello FiroseEnterprises, I have a ${contextLabel.toLowerCase()} enquiry.`),
+    () => buildCorporateWhatsAppUrl(`Hello FIROSE Enterprises, I have a ${contextLabel.toLowerCase()} enquiry.`),
     [contextLabel]
   );
 
   function onFieldChange(field: keyof FormState, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
-    // Clear error for this field when user starts typing
     if (errors[field]) {
       setErrors((current) => {
         const updated = { ...current };
@@ -72,197 +77,241 @@ export default function CorporateLeadForm({
         return updated;
       });
     }
+    if (status === 'error') {
+      setStatus('idle');
+      setFormError('');
+    }
   }
 
   function validateForm(): boolean {
-    const newErrors: Record<string, string> = {};
+    const nextErrors: Record<string, string> = {};
 
-    if (!form.name.trim()) {
-      newErrors.name = 'Name is required';
+    if (form.name.trim().length < 2) nextErrors.name = 'Please enter your name.';
+    if (!EMAIL_PATTERN.test(form.email.trim())) nextErrors.email = 'Please enter a valid email address.';
+    if (form.phone.trim() && !PHONE_PATTERN.test(form.phone.trim())) {
+      nextErrors.phone = 'Please enter a valid phone number.';
     }
+    if (form.message.trim().length < 10) nextErrors.message = 'Please provide at least 10 characters.';
 
-    if (!form.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!EMAIL_PATTERN.test(form.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    if (!form.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    }
-
-    if (!form.message.trim()) {
-      newErrors.message = 'Message is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status === 'submitting' || !validateForm()) return;
 
-    if (!validateForm()) {
-      return;
+    setStatus('submitting');
+    setFormError('');
+
+    try {
+      const response = await fetch('/api/enquiries', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...form, context: contextLabel, startedAt }),
+      });
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; error?: string; fieldErrors?: Record<string, string> }
+        | null;
+
+      if (!response.ok || !result?.ok) {
+        if (result?.fieldErrors) setErrors(result.fieldErrors);
+        throw new Error(
+          result?.fieldErrors?.form ||
+            result?.error ||
+            'We could not send your enquiry right now. Please try again shortly.'
+        );
+      }
+
+      setStatus('success');
+    } catch (error) {
+      setStatus('error');
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : 'We could not send your enquiry right now. Please try again shortly.'
+      );
     }
+  }
 
-    const lines = [
-      `${tCommon('name')}: ${form.name}`,
-      `${tCommon('email')}: ${form.email}`,
-      form.phone ? `${tCommon('phone')}: ${form.phone}` : '',
-      form.company ? `${tCommon('company')}: ${form.company}` : '',
-      showInquiryType ? `${tBusiness('inquiryType')}: ${form.inquiryType}` : '',
-      '',
-      `${tCommon('message')}:`,
-      form.message,
-    ].filter(Boolean);
+  function resetForm() {
+    setForm(createInitialForm(showInquiryType));
+    setErrors({});
+    setFormError('');
+    setStartedAt(Date.now());
+    setStatus('idle');
+  }
 
-    const mailtoUrl = buildMailToUrl(`${contextLabel} Enquiry`, lines.join('\n'));
-    window.location.href = mailtoUrl;
-    setSubmitted(true);
-    showToast(tCommon('emailClientToast'));
+  if (status === 'success') {
+    return (
+      <section className={styles.formPanel} role="status" aria-live="polite">
+        <p className={styles.successTitle}>Enquiry received</p>
+        <p className={styles.helperText}>
+          Thank you. Your enquiry has been received. Our business team will contact you shortly.
+        </p>
+        <div className={styles.formActions}>
+          <button type="button" className={styles.primaryAction} onClick={resetForm}>
+            {showInquiryType ? tBusiness('sendAnother') : tCommon('sendAnotherEnquiry')}
+          </button>
+        </div>
+      </section>
+    );
   }
 
   return (
-    <form className={styles.formPanel} onSubmit={handleSubmit}>
+    <form className={styles.formPanel} onSubmit={handleSubmit} noValidate aria-busy={status === 'submitting'}>
       <div className={styles.fieldGrid}>
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-name`}>{tCommon('name')}</label>
+          <label htmlFor={`${formId}-name`}>{tCommon('name')}</label>
           <input
-            id={`${contextLabel}-name`}
+            id={`${formId}-name`}
             type="text"
             value={form.name}
             onChange={(event) => onFieldChange('name', event.target.value)}
             required
             aria-required="true"
-            aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? `${contextLabel}-name-error` : undefined}
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? `${formId}-name-error` : undefined}
             autoComplete="name"
+            maxLength={120}
             placeholder={tCommon('yourName')}
           />
-          {errors.name && (
-            <p
-              id={`${contextLabel}-name-error`}
-              className="text-[12px] text-[#e07a5f]"
-              role="alert"
-            >
-              {errors.name}
-            </p>
-          )}
+          {errors.name ? <p id={`${formId}-name-error`} className={styles.fieldError} role="alert">{errors.name}</p> : null}
         </div>
 
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-email`}>{tCommon('email')}</label>
+          <label htmlFor={`${formId}-company`}>Company / Organization <span className={styles.optionalLabel}>(optional)</span></label>
           <input
-            id={`${contextLabel}-email`}
-            type="email"
-            value={form.email}
-            onChange={(event) => onFieldChange('email', event.target.value)}
-            required
-            aria-required="true"
-            aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? `${contextLabel}-email-error` : undefined}
-            autoComplete="email"
-            placeholder={tCommon('emailPlaceholder')}
-          />
-          {errors.email && (
-            <p
-              id={`${contextLabel}-email-error`}
-              className="text-[12px] text-[#e07a5f]"
-              role="alert"
-            >
-              {errors.email}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div className={styles.fieldGrid}>
-        <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-phone`}>{tCommon('phone')}</label>
-          <input
-            id={`${contextLabel}-phone`}
-            type="tel"
-            value={form.phone}
-            onChange={(event) => onFieldChange('phone', event.target.value)}
-            aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? `${contextLabel}-phone-error` : undefined}
-            autoComplete="tel"
-            placeholder={tCommon('phonePlaceholder')}
-          />
-          {errors.phone && (
-            <p
-              id={`${contextLabel}-phone-error`}
-              className="text-[12px] text-[#e07a5f]"
-              role="alert"
-            >
-              {errors.phone}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-company`}>{tCommon('company')}</label>
-          <input
-            id={`${contextLabel}-company`}
+            id={`${formId}-company`}
             type="text"
             value={form.company}
             onChange={(event) => onFieldChange('company', event.target.value)}
             autoComplete="organization"
+            maxLength={160}
             placeholder={tCommon('companyName')}
           />
         </div>
       </div>
 
-      {showInquiryType ? (
+      <div className={styles.fieldGrid}>
         <div className={styles.fieldGroup}>
-          <label htmlFor={`${contextLabel}-type`}>{tBusiness('inquiryType')}</label>
+          <label htmlFor={`${formId}-email`}>{tCommon('email')}</label>
+          <input
+            id={`${formId}-email`}
+            type="email"
+            value={form.email}
+            onChange={(event) => onFieldChange('email', event.target.value)}
+            required
+            aria-required="true"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? `${formId}-email-error` : undefined}
+            autoComplete="email"
+            maxLength={254}
+            placeholder={tCommon('emailPlaceholder')}
+          />
+          {errors.email ? <p id={`${formId}-email-error`} className={styles.fieldError} role="alert">{errors.email}</p> : null}
+        </div>
+
+        <div className={styles.fieldGroup}>
+          <label htmlFor={`${formId}-phone`}>{tCommon('phone')} <span className={styles.optionalLabel}>(optional)</span></label>
+          <input
+            id={`${formId}-phone`}
+            type="tel"
+            value={form.phone}
+            onChange={(event) => onFieldChange('phone', event.target.value)}
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? `${formId}-phone-error` : undefined}
+            autoComplete="tel"
+            maxLength={24}
+            placeholder={tCommon('phonePlaceholder')}
+          />
+          {errors.phone ? <p id={`${formId}-phone-error`} className={styles.fieldError} role="alert">{errors.phone}</p> : null}
+        </div>
+      </div>
+
+      <div className={styles.fieldGrid}>
+        <div className={styles.fieldGroup}>
+          <label htmlFor={`${formId}-location`}>Country / Location <span className={styles.optionalLabel}>(optional)</span></label>
+          <input
+            id={`${formId}-location`}
+            type="text"
+            value={form.countryLocation}
+            onChange={(event) => onFieldChange('countryLocation', event.target.value)}
+            autoComplete="country-name"
+            maxLength={120}
+            placeholder="City, state, or country"
+          />
+        </div>
+
+        <div className={styles.fieldGroup}>
+          <label htmlFor={`${formId}-type`}>{tBusiness('inquiryType')}</label>
           <select
-            id={`${contextLabel}-type`}
+            id={`${formId}-type`}
             value={form.inquiryType}
             onChange={(event) => onFieldChange('inquiryType', event.target.value)}
+            aria-invalid={Boolean(errors.inquiryType)}
+            aria-describedby={errors.inquiryType ? `${formId}-type-error` : undefined}
           >
-            <option value="Distributor">{tBusiness('becomeDistributor')}</option>
-            <option value="Bulk Order">{tBusiness('bulkOrders')}</option>
-            <option value="Private Label">{tBusiness('privateLabeling')}</option>
-            <option value="General Inquiry">{tBusiness('generalInquiry')}</option>
+            {INQUIRY_TYPES.map((option) => <option key={option} value={option}>{option}</option>)}
           </select>
+          {errors.inquiryType ? <p id={`${formId}-type-error`} className={styles.fieldError} role="alert">{errors.inquiryType}</p> : null}
         </div>
-      ) : null}
+      </div>
 
       <div className={styles.fieldGroup}>
-        <label htmlFor={`${contextLabel}-message`}>{tCommon('message')}</label>
+        <label htmlFor={`${formId}-division`}>Interested Division / Brand</label>
+        <select
+          id={`${formId}-division`}
+          value={form.interestedDivision}
+          onChange={(event) => onFieldChange('interestedDivision', event.target.value)}
+          aria-invalid={Boolean(errors.interestedDivision)}
+          aria-describedby={errors.interestedDivision ? `${formId}-division-error` : undefined}
+        >
+          {INTEREST_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+        </select>
+        {errors.interestedDivision ? <p id={`${formId}-division-error`} className={styles.fieldError} role="alert">{errors.interestedDivision}</p> : null}
+      </div>
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor={`${formId}-message`}>{tCommon('message')}</label>
         <textarea
-          id={`${contextLabel}-message`}
+          id={`${formId}-message`}
           value={form.message}
           onChange={(event) => onFieldChange('message', event.target.value)}
           placeholder={showInquiryType ? tBusiness('sharePlaceholder') : tCommon('messagePlaceholder')}
           required
           aria-required="true"
-          aria-invalid={!!errors.message}
-          aria-describedby={errors.message ? `${contextLabel}-message-error` : undefined}
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={errors.message ? `${formId}-message-error` : undefined}
+          maxLength={3000}
         />
-        {errors.message && (
-          <p
-            id={`${contextLabel}-message-error`}
-            className="text-[12px] text-[#e07a5f]"
-            role="alert"
-          >
-            {errors.message}
-          </p>
-        )}
+        {errors.message ? <p id={`${formId}-message-error`} className={styles.fieldError} role="alert">{errors.message}</p> : null}
       </div>
+
+      <div className={styles.honeypot} aria-hidden="true">
+        <label htmlFor={`${formId}-website`}>Website</label>
+        <input
+          id={`${formId}-website`}
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.website}
+          onChange={(event) => onFieldChange('website', event.target.value)}
+        />
+      </div>
+
+      {formError ? <p className={styles.formError} role="alert">{formError}</p> : null}
 
       <div className={styles.formActions}>
         <motion.button
           type="submit"
           className={styles.primaryAction}
-          aria-label={submitted ? (showInquiryType ? tBusiness('sendAnother') : tCommon('sendAnotherEnquiry')) : buttonLabel}
-          whileHover={reduceMotion ? undefined : hoverLift}
-          whileTap={reduceMotion ? undefined : buttonPress}
+          disabled={status === 'submitting'}
+          whileHover={reduceMotion || status === 'submitting' ? undefined : hoverLift}
+          whileTap={reduceMotion || status === 'submitting' ? undefined : buttonPress}
           transition={{ duration: 0.2, ease: MOTION_EASE }}
         >
-          {submitted ? (showInquiryType ? tBusiness('sendAnother') : tCommon('sendAnotherEnquiry')) : buttonLabel}
+          {status === 'submitting' ? 'Submitting…' : buttonLabel}
         </motion.button>
 
         <motion.a
@@ -279,7 +328,7 @@ export default function CorporateLeadForm({
       </div>
 
       <p className={styles.helperText} aria-live="polite">
-        {showInquiryType ? tBusiness('formNote') : tCommon('formOpensEmailClient')}
+        Your details are sent securely to the FIROSE business team. Fields marked optional may be left blank.
       </p>
     </form>
   );

@@ -1,43 +1,32 @@
-import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import { corporateVisuals } from '@/app/lib/brandVisuals';
+import { companyConfig } from '@/app/lib/company';
 import { FBT_WEBSITE_URL } from '@/app/lib/divisions';
-
-export const metadata: Metadata = {
-  title: 'Our Story',
-  description:
-    'Learn the corporate history and legacy of Firose Enterprises, a multi-division manufacturing, distribution, and technology group since 1980.',
-};
 
 const storyMilestones = [
   {
     year: '1980',
-    title: 'Foundation',
-    text: 'Firose Enterprises began as a focused entrepreneurial venture driven by integrity, craftsmanship, and disciplined execution.',
+    title: 'Business Heritage',
+    text: 'The business and product heritage that later informed FIROSE Enterprises dates back to 1980.',
   },
   {
-    year: '1990s - 2000s',
-    title: 'Category Expansion',
-    text: 'Manufacturing strength and market understanding expanded across fragrance, hygiene, and healthcare categories.',
-  },
-  {
-    year: '2020s',
-    title: 'Technology Division Launch',
-    text: 'Future Beyond Technology (FBT) was launched to lead AI-driven software engineering and cybersecurity capabilities.',
+    year: '2018',
+    title: 'FIROSE Enterprises Established',
+    text: 'FIROSE Enterprises was established in Chennai, creating a corporate platform for its operating businesses.',
   },
   {
     year: 'Today',
-    title: 'Integrated Enterprise Platform',
-    text: 'FIROSE now runs a diversified platform with quality-led products, scalable distribution, and enterprise-grade technology systems.',
+    title: 'Four Operating Divisions',
+    text: 'FIROSE Enterprises operates AR Perfumes, Femison, Neat & Fresh, and Future Beyond Technology (FBT).',
   },
 ] as const;
 
 const storyPrinciples = [
   {
-    title: 'Quality Above Convenience',
-    text: 'We prioritize reliability and product integrity over short-term shortcuts.',
+    title: 'Product Integrity Focus',
+    text: 'Product information and quality evidence are reviewed before publication.',
   },
   {
     title: 'Measured Expansion',
@@ -45,7 +34,7 @@ const storyPrinciples = [
   },
   {
     title: 'Future-Ready Thinking',
-    text: 'We combine legacy manufacturing discipline with modern AI and cybersecurity capability.',
+    text: 'We connect long-standing business heritage with modern AI and cybersecurity capability.',
   },
 ] as const;
 
@@ -87,7 +76,7 @@ export default function CorporateStory() {
         <div className="relative grid gap-8 p-5 sm:p-7 lg:grid-cols-[1.14fr_0.86fr] lg:gap-10 lg:p-10">
           <header className="grid content-start gap-4">
             <p className="inline-flex w-fit items-center rounded-full border border-[#e0c8935a] bg-[#3c301f4d] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d7bb85]">
-              Legacy Since 1980
+              Established 2018 · Roots Since 1980
             </p>
 
             <h1 className="max-w-[18ch] text-balance text-4xl font-normal leading-[1.05] text-[#f8f1e3] sm:text-5xl lg:text-6xl">
@@ -95,8 +84,8 @@ export default function CorporateStory() {
             </h1>
 
             <p className="max-w-[66ch] text-sm leading-relaxed text-[#b9ad96] sm:text-base">
-              From a modest entrepreneurial beginning to a diversified multi-division enterprise, FIROSE has grown
-              through consistency, quality discipline, and long-term trust.
+              FIROSE Enterprises was established in 2018, building on business and product heritage that dates back to
+              1980. Today, its four divisions span consumer products and enterprise technology.
             </p>
 
             <div className="flex flex-wrap gap-2 pt-1">
@@ -126,7 +115,7 @@ export default function CorporateStory() {
             </article>
             <article className="rounded-2xl border border-[#e0c89333] bg-[#110f0cce] px-4 py-3 backdrop-blur-sm">
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9ad76]">Operating Strength</p>
-              <p className="mt-1 text-base font-medium text-[#f3e8d1]">Manufacturing + Technology</p>
+              <p className="mt-1 text-base font-medium text-[#f3e8d1]">Consumer Products + Technology</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89333] bg-[#110f0cce] px-4 py-3 backdrop-blur-sm">
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9ad76]">Growth Lens</p>
@@ -168,7 +157,7 @@ export default function CorporateStory() {
             <div className="relative h-[300px] sm:h-[360px]">
               <Image
                 src={corporateVisuals.storyOperationsImage}
-                alt="Firose operations and process discipline"
+                alt="FIROSE corporate operations presentation"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1023px) 100vw, 46vw"
@@ -187,8 +176,8 @@ export default function CorporateStory() {
               experiences while building durable operating capability behind every division.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[#b7ac97] sm:text-base">
-              This is how we balance heritage and innovation: disciplined manufacturing, resilient distribution, and
-              enterprise technology under one strategic umbrella.
+              This is how the group presents heritage consumer products and enterprise technology under one corporate
+              identity while keeping each division distinct.
             </p>
 
             <div className="mt-5 grid gap-2 sm:grid-cols-3">
@@ -210,8 +199,8 @@ export default function CorporateStory() {
           <article className="rounded-3xl border border-[#e0c89331] bg-[#14110eb5] p-5 sm:p-6">
             <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">Looking Ahead</h2>
             <p className="mt-3 text-sm leading-relaxed text-[#b7ac97] sm:text-base">
-              With stronger category depth and technology leadership through FBT, FIROSE is building a global-standard
-              enterprise with long-term strategic intent.
+              FIROSE is continuing to develop its consumer-product categories and technology capability through its four
+              operating divisions.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[#b7ac97] sm:text-base">
               We continue to scale responsibly while preserving the core values that shaped our journey from day one.
@@ -219,7 +208,7 @@ export default function CorporateStory() {
 
             <div className="mt-5 flex flex-wrap gap-2">
               <a
-                href="https://www.indiamart.com/firose-enterpriseschennai/"
+                href={companyConfig.social.indiaMart}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="fe-btn-primary"
@@ -236,7 +225,7 @@ export default function CorporateStory() {
             <div className="relative h-[300px] sm:h-[360px]">
               <Image
                 src={corporateVisuals.storyQualityImage}
-                alt="Firose quality and safety standards"
+                alt="FIROSE corporate quality presentation"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1023px) 100vw, 46vw"

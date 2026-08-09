@@ -8,6 +8,7 @@ import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import { corporateVisuals } from '@/app/lib/brandVisuals';
 import { divisionCatalog, getDivisionPageHref, getDivisionWebsiteHref } from '@/app/lib/divisions';
 import { divisionMessageKeys } from '@/app/lib/divisionMessages';
+import { createPageMetadata } from '@/app/lib/seo';
 import { Link } from '@/i18n/navigation';
 
 type PageProps = {
@@ -23,10 +24,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'about' });
 
-  return {
+  return createPageMetadata({
     title: t('title'),
     description: t('description'),
-  };
+    path: '/about',
+    locale,
+  });
 }
 
 export default async function AboutPage() {
@@ -204,7 +207,7 @@ export default async function AboutPage() {
           </div>
 
           <div className="mt-4">
-            <Link href="/about/leadership" className="fe-link-chip">
+            <Link href="/leadership" className="fe-link-chip">
               {tAbout('viewFullLeadership')}
             </Link>
           </div>
@@ -228,14 +231,14 @@ export default async function AboutPage() {
               <p className="mt-1.5 text-sm text-[#b7ac97]">{tAbout('foundationDesc')}</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2024</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2018</p>
               <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: 'var(--font-display)' }}>
                 {tAbout('fbtLaunchTitle')}
               </h3>
               <p className="mt-1.5 text-sm text-[#b7ac97]">{tAbout('fbtLaunchesDesc')}</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 transition duration-500 hover:-translate-y-0.5 hover:border-[#e0c8937a]">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">2025–2026</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9ad76]">Today</p>
               <h3 className="mt-1 text-xl font-normal text-[#f2e7cf]" style={{ fontFamily: 'var(--font-display)' }}>
                 {tAbout('integrationTitle')}
               </h3>

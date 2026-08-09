@@ -1,11 +1,17 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
+import { createPageMetadata } from '@/app/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Terms of Service',
-  description: 'Terms of service for Firose Enterprises — conditions governing the use of our website.',
-};
+export async function generateMetadata({ params }: Readonly<{ params: Promise<{ locale: string }> }>): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Terms of Service',
+    description: 'Terms governing use of the FIROSE Enterprises corporate website.',
+    path: '/terms',
+    locale,
+  });
+}
 
 export default function TermsPage() {
   return (
@@ -15,7 +21,7 @@ export default function TermsPage() {
           <header className="grid gap-2">
             <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Legal</p>
             <h1 className="text-4xl font-normal text-[#f8f1e3] sm:text-5xl">Terms of Service</h1>
-            <p className="text-sm text-[#b7ac97]">Last updated: March 2026</p>
+            <p className="text-sm text-[#b7ac97]">Last updated: August 2026</p>
           </header>
         </section>
       </MotionWrapper>
@@ -74,10 +80,8 @@ export default function TermsPage() {
           <div className="grid gap-3">
             <h2 className="text-2xl font-normal text-[#f2e7cf]">Contact Us</h2>
             <p className="text-sm leading-relaxed text-[#b7ac97]">
-              If you have questions about these terms, please contact us at{' '}
-              <a href="mailto:corporate@firoseenterprises.com" className="text-[#c8a86b] underline underline-offset-2">
-                corporate@firoseenterprises.com
-              </a>.
+              If you have questions about these terms, please use our{' '}
+              <Link href="/contact" className="text-[#c8a86b] underline underline-offset-2">contact form</Link>.
             </p>
           </div>
 

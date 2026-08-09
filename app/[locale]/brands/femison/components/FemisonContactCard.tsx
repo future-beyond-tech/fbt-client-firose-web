@@ -4,7 +4,7 @@ import styles from './femison.module.css';
 type FemisonContactCardProps = {
   contact: BrandContact;
   whatsappUrl: string;
-  mailtoUrl: string;
+  mailtoUrl: string | null;
 };
 
 export default function FemisonContactCard({ contact, whatsappUrl, mailtoUrl }: Readonly<FemisonContactCardProps>) {
@@ -25,10 +25,12 @@ export default function FemisonContactCard({ contact, whatsappUrl, mailtoUrl }: 
           <span>Phone</span>
           <a href={`tel:${contact.phone}`}>{contact.phoneDisplay}</a>
         </li>
-        <li>
-          <span>Email</span>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-        </li>
+        {contact.email ? (
+          <li>
+            <span>Email</span>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </li>
+        ) : null}
         <li>
           <span>Region</span>
           <p>{contact.cityRegion}</p>
@@ -39,9 +41,7 @@ export default function FemisonContactCard({ contact, whatsappUrl, mailtoUrl }: 
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.contactAction}>
           WhatsApp
         </a>
-        <a href={mailtoUrl} className={styles.contactAction}>
-          Email
-        </a>
+        {mailtoUrl ? <a href={mailtoUrl} className={styles.contactAction}>Email</a> : null}
       </div>
     </section>
   );

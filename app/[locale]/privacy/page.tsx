@@ -1,11 +1,17 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
+import { createPageMetadata } from '@/app/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'Privacy policy for Firose Enterprises — how we collect, use, and protect your information.',
-};
+export async function generateMetadata({ params }: Readonly<{ params: Promise<{ locale: string }> }>): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Privacy Policy',
+    description: 'How FIROSE Enterprises collects, uses, and protects information submitted through this website.',
+    path: '/privacy',
+    locale,
+  });
+}
 
 export default function PrivacyPage() {
   return (
@@ -15,7 +21,7 @@ export default function PrivacyPage() {
           <header className="grid gap-2">
             <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Legal</p>
             <h1 className="text-4xl font-normal text-[#f8f1e3] sm:text-5xl">Privacy Policy</h1>
-            <p className="text-sm text-[#b7ac97]">Last updated: March 2026</p>
+            <p className="text-sm text-[#b7ac97]">Last updated: August 2026</p>
           </header>
         </section>
       </MotionWrapper>
@@ -32,14 +38,14 @@ export default function PrivacyPage() {
           <div className="grid gap-3">
             <h2 className="text-2xl font-normal text-[#f2e7cf]">How We Use Your Information</h2>
             <p className="text-sm leading-relaxed text-[#b7ac97]">
-              Information submitted through our forms is used exclusively to respond to your business or general inquiry. We do not store form submissions on our servers — our contact forms generate mailto: links that open your email client directly, or redirect to WhatsApp for messaging. Your data remains in your own email or messaging application.
+              Information submitted through our forms is validated by our website and sent to the configured business-enquiry delivery service so the appropriate team can respond. Submission data may be retained by that service and by FIROSE Enterprises for enquiry handling, follow-up, security, and record-keeping purposes.
             </p>
           </div>
 
           <div className="grid gap-3">
             <h2 className="text-2xl font-normal text-[#f2e7cf]">Third-Party Services</h2>
             <p className="text-sm leading-relaxed text-[#b7ac97]">
-              We do not sell, trade, or transfer your personal information to third parties. Our website may contain links to external division websites (arperfumes.in, femison.in, neatfresh.online, futurebeyondtech.com) and third-party platforms (IndiaMART, WhatsApp). These services have their own privacy policies, and we encourage you to review them.
+              We do not sell personal information. Enquiry details may be processed by the configured delivery service solely to route and manage your request. Our website may also contain links to external division websites and third-party platforms such as IndiaMART and WhatsApp. Those services have their own privacy policies, which we encourage you to review.
             </p>
           </div>
 
@@ -60,10 +66,8 @@ export default function PrivacyPage() {
           <div className="grid gap-3">
             <h2 className="text-2xl font-normal text-[#f2e7cf]">Contact Us</h2>
             <p className="text-sm leading-relaxed text-[#b7ac97]">
-              If you have questions about this privacy policy or wish to exercise your data rights, please contact us at{' '}
-              <a href="mailto:corporate@firoseenterprises.com" className="text-[#c8a86b] underline underline-offset-2">
-                corporate@firoseenterprises.com
-              </a>.
+              If you have questions about this privacy policy or wish to exercise your data rights, please use our{' '}
+              <Link href="/contact" className="text-[#c8a86b] underline underline-offset-2">contact form</Link>.
             </p>
           </div>
 

@@ -11,18 +11,15 @@ export type BrandVisual = {
 export const corporateVisuals = {
   heroImage:
     'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80',
-  supportImage:
-    'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=80',
+  supportImage: '/images/about.png',
   aboutHeroImage:
     'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80',
   aboutValuesImage:
     'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1800&q=80',
   storyHeroImage:
     'https://images.unsplash.com/photo-1474631245212-32dc3c8310c6?auto=format&fit=crop&w=2000&q=80',
-  storyOperationsImage:
-    'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1800&q=80',
-  storyQualityImage:
-    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1800&q=80',
+  storyOperationsImage: '/images/about.png',
+  storyQualityImage: '/images/about.png',
 };
 
 export const brandVisuals: Record<BrandDefinition['slug'], BrandVisual> = {
@@ -40,8 +37,8 @@ export const brandVisuals: Record<BrandDefinition['slug'], BrandVisual> = {
       'https://images.unsplash.com/photo-1544126592-807ade215a0b?auto=format&fit=crop&w=1400&q=80',
     heroImage:
       'https://images.unsplash.com/photo-1544126592-807ade215a0b?auto=format&fit=crop&w=1800&q=80',
-    alt: 'Family wellness and nutrition care moment',
-    highlight: 'Baby gripe water, Arwat, and glucose portfolio backed by safety-oriented quality controls.',
+    alt: 'Family-focused consumer care setting',
+    highlight: 'Baby gripe water, Arwat, glucose, and related consumer product formats.',
     focus: 'Baby Care, Arwat & Glucose',
   },
   'neat-fresh': {

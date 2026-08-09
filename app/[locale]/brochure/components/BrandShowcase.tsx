@@ -29,7 +29,7 @@ export default function BrandShowcase({
                   border: '1px solid ' + brand.color + '44',
                 }}
               >
-                Sub-Brand {index} · {productCount} Products
+                Consumer Brand {index} · {productCount} Products
               </div>
 
               {/* Brand Name */}

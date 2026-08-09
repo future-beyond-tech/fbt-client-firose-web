@@ -11,6 +11,7 @@ import {
 import { divisionMessageKeys } from '@/app/lib/divisionMessages';
 import { Link } from '@/i18n/navigation';
 import styles from './brands.module.css';
+import { createPageMetadata } from '@/app/lib/seo';
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -37,10 +38,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'brands' });
 
-  return {
+  return createPageMetadata({
     title: t('title'),
     description: t('description'),
-  };
+    path: '/brands',
+    locale,
+  });
 }
 
 export default async function BrandsOverview() {

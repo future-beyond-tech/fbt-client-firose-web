@@ -1,7 +1,8 @@
 'use client';
 
+import { Link } from '@/i18n/navigation';
 import { Product, brandMeta } from '../data/products';
-import { buildBrandWhatsAppUrl, buildBrandMailToUrl, getBrandBySlug } from '@/app/lib/brands';
+import { buildBrandWhatsAppUrl, getBrandBySlug } from '@/app/lib/brands';
 import styles from '../brochure.module.css';
 
 interface ProductCardProps {
@@ -32,7 +33,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             >
               {meta.name}
             </div>
-            {product.isNew && <div className={styles.cardNewBadge}>NEW</div>}
             <div className={styles.cardEmoji}>{product.emoji}</div>
           </div>
 
@@ -75,16 +75,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             >
               WhatsApp
             </a>
-            <a
+            <Link
               className={styles.btnSecondary}
-              href={buildBrandMailToUrl(
-                brandContact,
-                `Enquiry: ${product.name}`,
-                `Hello, I am interested in ${product.name} (${product.variant}, ${product.size}). Please share pricing and availability.`
-              )}
+              href="/business-with-us"
+              aria-label={`Submit an enquiry for ${product.name}`}
             >
-              Email
-            </a>
+              Enquire
+            </Link>
             <a
               className={styles.btnSecondary}
               href={`tel:${brandContact.phone}`}

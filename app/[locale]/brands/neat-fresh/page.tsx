@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import {
   buildBrandMailToUrl,
@@ -15,6 +15,7 @@ import NeatFreshHero from './components/NeatFreshHero';
 import NeatFreshProductSections from './components/NeatFreshProductSections';
 import brandStyles from './components/neatFresh.module.css';
 import styles from '../brands.module.css';
+import { createPageMetadata } from '@/app/lib/seo';
 
 const neatFreshBrand = getBrandBySlug('neat-fresh');
 const neatFreshContact = neatFreshBrand.contact;
@@ -31,11 +32,17 @@ const neatFreshMailToUrl = buildBrandMailToUrl(
 const neatFreshVisual = brandVisuals['neat-fresh'];
 const NEAT_FRESH_WEBSITE_URL = 'https://neatfresh.online';
 
-export const metadata: Metadata = {
-  title: 'Neat & Fresh',
-  description:
-    'Neat & Fresh is the housekeeping products brand under Firose Enterprises, serving home, office, and commercial hygiene segments. Now transitioning to neatfresh.online while maintaining the same quality standards and Firose Enterprises ownership.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Neat & Fresh',
+    description: 'Neat & Fresh is the FIROSE Enterprises housekeeping and hygiene consumer brand, with home, office, and commercial product formats.',
+    path: '/brands/neat-fresh',
+    locale,
+  });
+}
 
 export default function NeatFresh() {
   return (
@@ -59,12 +66,12 @@ export default function NeatFresh() {
           <p className={brandStyles.mastheadEyebrow}>Housekeeping Product Brand</p>
           <h1 className={brandStyles.mastheadTitle}>Neat &amp; Fresh</h1>
           <p className={brandStyles.mastheadLead}>
-            A premium hygiene division built for dependable cleaning performance across residential, workplace, and
-            institutional environments.
+            A housekeeping and hygiene portfolio with product formats for residential, workplace, and institutional
+            enquiries.
           </p>
           <div className={brandStyles.mastheadChipRow}>
             <p className={brandStyles.mastheadChip}>Surface Care</p>
-            <p className={brandStyles.mastheadChip}>Disinfection Systems</p>
+            <p className={brandStyles.mastheadChip}>Routine Cleaning</p>
             <p className={brandStyles.mastheadChip}>Institutional Supply</p>
           </div>
 
@@ -108,24 +115,21 @@ export default function NeatFresh() {
             <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">Neat &amp; Fresh at a Glance</h2>
           </header>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {/* PLACEHOLDER: METRIC - Neat & Fresh product SKUs (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Product SKUs</p>
-            </article>
-            {/* PLACEHOLDER: METRIC - Neat & Fresh institutional clients (owner to provide) */}
-            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Institutional Clients</p>
-            </article>
-            {/* PLACEHOLDER: METRIC - Neat & Fresh cities covered (owner to provide) */}
-            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Cities Covered</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>26</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Catalogue SKUs</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Quality Assured</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Standards</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>5</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Catalogue Categories</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Housekeeping</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Portfolio Position</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Pack-Led</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Usage Information</p>
             </article>
           </div>
         </section>

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import {
   buildBrandMailToUrl,
@@ -15,6 +15,7 @@ import FemisonProductSections from './components/FemisonProductSections';
 import FemisonTransitionBanner from './components/FemisonTransitionBanner';
 import brandStyles from './components/femison.module.css';
 import styles from '../brands.module.css';
+import { createPageMetadata } from '@/app/lib/seo';
 
 const femisonBrand = getBrandBySlug('femison');
 const femisonContact = femisonBrand.contact;
@@ -31,11 +32,17 @@ const femisonMailToUrl = buildBrandMailToUrl(
 const femisonVisual = brandVisuals.femison;
 const FEMISON_WEBSITE_URL = 'https://femison.in';
 
-export const metadata: Metadata = {
-  title: 'Femison',
-  description:
-    'Femison is the baby gripe water, Arwat, and glucose brand under Firose Enterprises, built for infant care and everyday family wellness. The dedicated website is available at femison.in.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Femison',
+    description: 'Femison is a FIROSE Enterprises consumer brand with baby gripe water, Arwat, glucose, and related catalogue products.',
+    path: '/brands/femison',
+    locale,
+  });
+}
 
 export default function Femison() {
   return (
@@ -59,8 +66,8 @@ export default function Femison() {
           <p className={brandStyles.mastheadEyebrow}>Baby Care &amp; Nutrition Brand</p>
           <h1 className={brandStyles.mastheadTitle}>Femison</h1>
           <p className={brandStyles.mastheadLead}>
-            A trusted infant-care and family wellness portfolio with safety-focused formulations built for pharmacy,
-            retail, and distributor channels.
+            A consumer-care portfolio covering baby gripe water, Arwat, glucose, and related products for retail and
+            distributor enquiries.
           </p>
           <div className={brandStyles.mastheadChipRow}>
             <p className={brandStyles.mastheadChip}>Baby Gripe Water</p>
@@ -73,7 +80,7 @@ export default function Femison() {
               Visit Website
             </a>
             <Link href="/business-with-us" className={brandStyles.heroSecondary}>
-              Healthcare Inquiry
+              Product &amp; Distribution Enquiry
             </Link>
           </div>
         </div>
@@ -109,23 +116,20 @@ export default function Femison() {
           </header>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>3+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Baby Care Products</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>29</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Catalogue SKUs</p>
             </article>
-            {/* PLACEHOLDER: METRIC - Femison hospitals served (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Hospitals Served</p>
+              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>5</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Catalogue Categories</p>
             </article>
-            {/* PLACEHOLDER: METRIC - Femison pharmacy partners (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Pharmacy Partners</p>
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Consumer Care</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Portfolio Position</p>
             </article>
-            {/* PLACEHOLDER: METRIC - Femison compliance status (owner to confirm FSSAI or other) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>FSSAI</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Compliant</p>
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Pack-Led</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Usage Information</p>
             </article>
           </div>
         </section>

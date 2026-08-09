@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { FBT_WEBSITE_URL } from '@/app/lib/divisions';
 import styles from './fbt.module.css';
 
