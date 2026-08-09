@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import BrandTransitionBanner from './components/BrandTransitionBanner';
 import arStyles from './components/arPerfumes.module.css';
 import styles from '../brands.module.css';
+import { createPageMetadata } from '@/app/lib/seo';
 import { brandVisuals } from '@/app/lib/brandVisuals';
 
 const AR_PERFUMES_WEBSITE_URL = 'https://arperfumes.in';
@@ -13,11 +14,17 @@ const brandWebsiteUrl = externalBrandWebsite || AR_PERFUMES_WEBSITE_URL;
 const brandWebsiteLabel = 'Visit Brand Website';
 const arVisual = brandVisuals['ar-perfumes'];
 
-export const metadata: Metadata = {
-  title: 'AR Perfumes',
-  description:
-    'Premium fragrance brand under Firose Enterprises. Explore AR Perfumes at arperfumes.in for product updates and offers.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'AR Perfumes',
+    description: 'Explore AR Perfumes, the fragrance division of FIROSE Enterprises, and visit its dedicated brand website.',
+    path: '/brands/ar-perfumes',
+    locale,
+  });
+}
 
 export default function ARPerfumesPage() {
   return (
@@ -79,28 +86,25 @@ export default function ARPerfumesPage() {
       <MotionWrapper delay={0.22}>
         <section className="fe-panel p-5 sm:p-7">
           <header className="grid gap-2">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Key Metrics</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#b59f75]">Portfolio Snapshot</p>
             <h2 className="text-3xl font-normal text-[#f8f1e3] sm:text-4xl">AR Perfumes at a Glance</h2>
           </header>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {/* PLACEHOLDER: METRIC - AR Perfumes product range count (owner to provide) */}
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>6+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Signature Fragrances</p>
-            </article>
-            {/* PLACEHOLDER: METRIC - AR Perfumes retail outlets count (owner to provide) */}
-            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Retail Outlets</p>
-            </article>
-            {/* PLACEHOLDER: METRIC - AR Perfumes distribution cities (owner to provide) */}
-            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#9e927b]" style={{ fontFamily: 'var(--font-display)' }}>X+</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Distribution Cities</p>
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Fragrance</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Portfolio Category</p>
             </article>
             <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
-              <p className="text-2xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Premium</p>
-              <p className="mt-1 text-sm text-[#b7ac97]">Quality Standard</p>
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Gift Sets</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Presentation Focus</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>WhatsApp</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Direct Order Channel</p>
+            </article>
+            <article className="rounded-2xl border border-[#e0c89331] bg-[#15120eb5] p-4 text-center">
+              <p className="text-xl font-medium text-[#f8f1e3]" style={{ fontFamily: 'var(--font-display)' }}>Dedicated</p>
+              <p className="mt-1 text-sm text-[#b7ac97]">Brand Website</p>
             </article>
           </div>
         </section>

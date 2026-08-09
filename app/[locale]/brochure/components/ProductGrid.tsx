@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { Link } from '@/i18n/navigation';
 import styles from '../brochure.module.css';
 import ProductCard from './ProductCard';
 import { Product, BrandMeta, ProductCategory } from '../data/products';
-import { buildBrandWhatsAppUrl, buildBrandMailToUrl, getBrandBySlug } from '@/app/lib/brands';
+import { buildBrandWhatsAppUrl, getBrandBySlug } from '@/app/lib/brands';
 
 interface ProductGridProps {
   products: Product[];
@@ -57,6 +58,7 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
         {/* Filter Chips */}
         <div className={styles.filterChips}>
           <button
+            type="button"
             className={activeCategory === 'all' ? styles.chipActive : styles.chip}
             onClick={() => setActiveCategory('all')}
             aria-pressed={activeCategory === 'all'}
@@ -65,6 +67,7 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
           </button>
           {brand.categories.map((cat) => (
             <button
+              type="button"
               key={cat.key}
               className={activeCategory === cat.key ? styles.chipActive : styles.chip}
               onClick={() => setActiveCategory(cat.key as ProductCategory)}
@@ -78,6 +81,7 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
         {/* View Toggle */}
         <div className={styles.viewToggle}>
           <button
+            type="button"
             className={view === 'cards' ? styles.viewToggleBtnActive : styles.viewToggleBtn}
             onClick={() => setView('cards')}
             aria-label="Card view"
@@ -86,6 +90,7 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
             ▦
           </button>
           <button
+            type="button"
             className={view === 'list' ? styles.viewToggleBtnActive : styles.viewToggleBtn}
             onClick={() => setView('list')}
             aria-label="List view"
@@ -100,6 +105,12 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
       <div className={styles.productCount}>
         Showing {filtered.length} of {products.length} products
       </div>
+
+      {filtered.length === 0 ? (
+        <p className={styles.productCount} role="status">
+          No products match the current search and category filters.
+        </p>
+      ) : null}
 
       {/* Cards View */}
       {view === 'cards' && (
@@ -132,12 +143,6 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
                   brandContact,
                   `Hello! I am interested in: ${product.name} – ${product.variant} (${product.size}). Please share details.`
                 );
-                const mailToUrl = buildBrandMailToUrl(
-                  brandContact,
-                  `Enquiry: ${product.name}`,
-                  `Hello, I am interested in ${product.name} (${product.variant}, ${product.size}). Please share pricing and availability.`
-                );
-
                 return (
                   <tr key={product.id}>
                     <td>{index + 1}</td>
@@ -164,8 +169,8 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
                       >
                         WhatsApp
                       </a>
-                      <a
-                        href={mailToUrl}
+                      <Link
+                        href="/business-with-us"
                         className={styles.btnWhatsapp}
                         style={{
                           fontSize: '0.72rem',
@@ -175,10 +180,10 @@ export default function ProductGrid({ products, brand }: ProductGridProps) {
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}
-                        aria-label={`Email for ${product.name}`}
+                        aria-label={`Submit an enquiry for ${product.name}`}
                       >
-                        Email
-                      </a>
+                        Enquire
+                      </Link>
                     </td>
                   </tr>
                 );

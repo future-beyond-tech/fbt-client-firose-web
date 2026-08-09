@@ -1,15 +1,23 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import CorporateLeadForm from '@/app/components/CorporateLeadForm';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
 import styles from '../../corporate.module.css';
+import { createPageMetadata } from '@/app/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Business With Us',
-  description:
-    'Connect with Firose Enterprises for distribution, bulk orders, private labeling, and category expansion enquiries.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Business With Us',
+    description:
+      'Connect with FIROSE Enterprises for distribution, bulk orders, category enquiries, and business partnerships.',
+    path: '/business-with-us',
+    locale,
+  });
+}
 
 export default function BusinessWithUsPage() {
   return (
@@ -18,27 +26,27 @@ export default function BusinessWithUsPage() {
       <MotionWrapper delay={0.04}>
         <section className={styles.section}>
         <header className={styles.sectionHeading}>
-          <p className={styles.eyebrow}>Lead Conversion</p>
+          <p className={styles.eyebrow}>Business Enquiries</p>
           <h1 className={styles.title}>Business With Us</h1>
           <p className={styles.lead}>
-            We work with distributors and retailers to scale our brand portfolio through disciplined channel growth.
+            Use this form to discuss distribution, bulk-order requirements, division opportunities, or other corporate enquiries.
           </p>
         </header>
 
         <div className={styles.splitGrid}>
           <article className={styles.panel}>
-            <h2 className={styles.sectionTitle}>Become a Distributor</h2>
-            <p>Regional and channel-specific distributor onboarding for qualified markets.</p>
+            <h2 className={styles.sectionTitle}>Distribution Enquiries</h2>
+            <p>Share the market, channel, and division you are interested in so the business team can review the request.</p>
           </article>
 
           <article className={styles.panel}>
-            <h2 className={styles.sectionTitle}>Bulk Orders</h2>
-            <p>Bulk supply support for modern trade, institutional demand, and channel-led requirements.</p>
+            <h2 className={styles.sectionTitle}>Bulk-Order Enquiries</h2>
+            <p>Provide the relevant products, expected volume, location, and timing for a business review.</p>
           </article>
 
           <article className={styles.panel}>
-            <h2 className={styles.sectionTitle}>Private Labeling</h2>
-            <p>Private label collaborations are available as a planned expansion track.</p>
+            <h2 className={styles.sectionTitle}>Corporate &amp; Division Enquiries</h2>
+            <p>Select the relevant division or “Corporate / General” so the request can be routed appropriately.</p>
           </article>
         </div>
         </section>

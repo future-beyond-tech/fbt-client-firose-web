@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import {
   FBT_WEBSITE_URL,
   divisionCatalog,

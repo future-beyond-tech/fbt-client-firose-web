@@ -14,13 +14,13 @@ export default function BrochureHero() {
 
           <MotionWrapper delay={0.08}>
             <h1 className={styles.heroTitle}>
-              FIROSE Group Product Catalogue
+              FIROSE Consumer Products Catalogue
             </h1>
           </MotionWrapper>
 
           <MotionWrapper delay={0.16}>
             <p className={styles.heroLead}>
-              Explore our complete product range across two trusted consumer brands — health, wellness, and home care solutions for every Indian household.
+              Explore 55 consumer products across Femison and Neat &amp; Fresh. AR Perfumes and FBT are separate divisions and are not included in this catalogue.
             </p>
           </MotionWrapper>
 
@@ -28,11 +28,11 @@ export default function BrochureHero() {
             <div className={styles.heroStats}>
               <div className={styles.heroStat}>
                 <span className={styles.heroStatValue}>55+</span>
-                <span className={styles.heroStatLabel}>Products</span>
+                <span className={styles.heroStatLabel}>Consumer Products</span>
               </div>
               <div className={styles.heroStat}>
                 <span className={styles.heroStatValue}>2</span>
-                <span className={styles.heroStatLabel}>Brands</span>
+                <span className={styles.heroStatLabel}>Consumer Brands</span>
               </div>
               <div className={styles.heroStat}>
                 <span className={styles.heroStatValue}>29</span>

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import styles from './brandTransition.module.css';
 
 export default function BrandTransitionBanner() {
@@ -25,7 +25,7 @@ export default function BrandTransitionBanner() {
             Neat &amp; Fresh is Moving to Its Own Home
           </h3>
           <p className={styles.transitionDescription}>
-            We're excited to announce that <strong>Neat &amp; Fresh</strong> is transitioning to its dedicated website at{' '}
+            <strong>Neat &amp; Fresh</strong> is transitioning to its dedicated website at{' '}
             <a 
               href="https://neatfresh.online" 
               target="_self" 
@@ -34,11 +34,11 @@ export default function BrandTransitionBanner() {
             >
               neatfresh.online
             </a>
-            . Neat &amp; Fresh remains a proud brand of{' '}
+            . It remains presented as an operating division of{' '}
             <Link href="/" className={styles.transitionLink}>
               Firose Enterprises
             </Link>
-            , maintaining the same quality standards and commitment you trust.
+            .
           </p>
         </div>
 
@@ -75,11 +75,11 @@ export default function BrandTransitionBanner() {
           <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
         </svg>
         <p className={styles.ownershipText}>
-          <strong>Brand Ownership:</strong> Neat &amp; Fresh is a registered brand owned and operated by{' '}
+          <strong>Division Relationship:</strong> Neat &amp; Fresh is presented as an operating division of{' '}
           <Link href="/" className={styles.ownershipLink}>
             Firose Enterprises
           </Link>
-          . All product quality, customer service, and business operations remain under Firose Enterprises management.
+          . Visit the dedicated Neat &amp; Fresh website for current brand-specific information.
         </p>
       </div>
     </div>

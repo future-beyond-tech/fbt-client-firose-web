@@ -4,22 +4,22 @@ const focusAreas = [
   {
     title: 'Portfolio Positioning',
     description:
-      'Femison combines baby gripe water, Arwat formulations, and glucose products for infant care and family wellness.',
-    bullets: ['Infant comfort support products', 'Arwat health formulations', 'Glucose products for all age groups'],
+      'Femison combines baby gripe water, Arwat, glucose, and related named products in a consumer-care catalogue.',
+    bullets: ['Baby gripe water products', 'Arwat product formats', 'Glucose pack options'],
   },
   {
-    title: 'Safety & Quality Assurance',
-    description: 'Quality systems emphasize consistency, handling discipline, and product integrity.',
-    bullets: ['Controlled process checkpoints', 'Batch consistency focus', 'Packaging reliability standards'],
+    title: 'Product Information',
+    description: 'The catalogue presents product names, variants, pack sizes, and sourced pricing where available.',
+    bullets: ['Product and variant names', 'Pack-size information', 'Direct enquiry options'],
   },
   {
     title: 'Channel Use-Cases',
     description: 'Prepared for pharmacy, retail, and distributor-oriented demand environments.',
-    bullets: ['Medical store distribution', 'General retail and grocery fit', 'Institutional inquiry readiness'],
+    bullets: ['Retail enquiries', 'General trade discussions', 'Distributor enquiries'],
   },
 ];
 
-const trustSignals = ['Infant-safe communication focus', 'Safety-led production controls', 'Compliance-ready documentation'];
+const trustSignals = ['Pack directions apply', 'Documentation shared when verified', 'Claims require supporting evidence'];
 
 export default function FemisonProductSections() {
   return (
@@ -47,9 +47,10 @@ export default function FemisonProductSections() {
       </div>
 
       <article className={styles.productCard}>
-        <h4 className={styles.productTitle}>Compliance &amp; Trust Indicators</h4>
+        <h4 className={styles.productTitle}>Information &amp; Documentation</h4>
         <p className={styles.productText}>
-          Certification and assurance artifacts are available for onboarding and regulatory discussions.
+          Applicable product documentation can be discussed during an enquiry. Certifications are not represented here
+          until supporting records are verified.
         </p>
         <div className={styles.heroChipRow}>
           {trustSignals.map((signal) => (

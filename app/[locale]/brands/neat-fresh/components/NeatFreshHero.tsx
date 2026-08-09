@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import styles from './neatFresh.module.css';
 
 type NeatFreshHeroProps = {
@@ -8,8 +8,8 @@ type NeatFreshHeroProps = {
 
 export default function NeatFreshHero({ whatsappUrl, contactPerson }: Readonly<NeatFreshHeroProps>) {
   const readinessBlocks = [
-    { label: 'Delivery Model', value: 'Regional + Bulk Logistics' },
-    { label: 'Channel Fit', value: 'Retail, Office, Institutional' },
+    { label: 'Catalogue Position', value: 'Housekeeping & Hygiene' },
+    { label: 'Enquiry Channels', value: 'Retail & Institutional' },
     { label: 'Partner Contact', value: contactPerson },
   ];
 
@@ -18,14 +18,13 @@ export default function NeatFreshHero({ whatsappUrl, contactPerson }: Readonly<N
       <p className={styles.heroBadge}>Operational Readiness</p>
       <h2 className={styles.heroTitle}>Channel-Ready Hygiene Portfolio</h2>
       <p className={styles.heroLead}>
-        Structured for repeat procurement and long-term distributor growth with consistent formulations, dependable
-        packaging, and scalable supply.
+        Organized for catalogue discovery, pack-size comparison, and retail, distributor, or institutional enquiries.
       </p>
 
       <div className={styles.heroChipRow}>
-        <p className={styles.heroChip}>Standardized SKUs</p>
-        <p className={styles.heroChip}>Procurement Friendly Packs</p>
-        <p className={styles.heroChip}>Repeat Order Reliability</p>
+        <p className={styles.heroChip}>Named Product Portfolio</p>
+        <p className={styles.heroChip}>Pack-Size Information</p>
+        <p className={styles.heroChip}>Direct Enquiry Route</p>
       </div>
 
       <div className={styles.readinessGrid}>

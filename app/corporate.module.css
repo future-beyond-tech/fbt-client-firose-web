@@ -259,6 +259,46 @@
   font-size: var(--text-sm);
 }
 
+.fieldError,
+.formError {
+  color: #f09a83;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.formError {
+  border: 1px solid rgba(240, 154, 131, 0.38);
+  border-radius: 12px;
+  background: rgba(88, 34, 24, 0.24);
+  padding: 0.7rem 0.8rem;
+}
+
+.optionalLabel {
+  color: #958a76;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.successTitle {
+  color: #f2e7cf;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.primaryAction:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
 @media (max-width: 640px) {
   .title {
     max-width: 100%;

@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import BreadcrumbSchema from '@/app/components/BreadcrumbSchema';
 import MotionWrapper from '@/app/components/motion/MotionWrapper';
+import { createPageMetadata } from '@/app/lib/seo';
 import styles from '../../corporate.module.css';
 
-export const metadata: Metadata = {
-  title: 'Thank You',
-  description: 'Thank you for your enquiry. The Firose Enterprises team will be in touch shortly.',
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({ params }: Readonly<{ params: Promise<{ locale: string }> }>): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata({
+    title: 'Thank You',
+    description: 'Business enquiry confirmation from FIROSE Enterprises.',
+    path: '/thank-you',
+    locale,
+    noIndex: true,
+  });
+}
 
 export default function ThankYouPage() {
   return (
@@ -56,7 +62,7 @@ export default function ThankYouPage() {
               Thank You for Reaching Out
             </h1>
             <p className={styles.lead} style={{ maxWidth: '52ch', margin: '0.35rem auto 0' }}>
-              We have received your enquiry and our team will get back to you within 24 hours. We appreciate your interest in Firose Enterprises.
+              This page is retained for compatibility. New enquiries are confirmed directly within the form after successful delivery.
             </p>
           </header>
 

@@ -43,7 +43,7 @@ function isDivisionsActive(pathname: string): boolean {
 
 function navClassName(item: NavItem, active: boolean): string {
   const base =
-    'inline-flex min-h-10 items-center justify-center rounded-md border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] transition md:px-3.5';
+    'inline-flex min-h-11 items-center justify-center rounded-md border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] transition xl:px-3.5';
   const activeStyle = active
     ? 'border-[#e0c8937a] bg-[#3d30206b] text-[#f4e6c8]'
     : 'border-transparent text-[#ab9f88] hover:border-[#d8bc8760] hover:bg-[#2a22166e] hover:text-[#f4e6c8]';
@@ -56,7 +56,7 @@ function navClassName(item: NavItem, active: boolean): string {
 
 function divisionTriggerClass(active: boolean, open: boolean): string {
   const base =
-    'inline-flex min-h-10 items-center justify-center gap-1 rounded-md border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] transition md:px-3.5';
+    'inline-flex min-h-11 items-center justify-center gap-1 rounded-md border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] transition xl:px-3.5';
   const activeStyle = active || open
     ? 'border-[#e0c8937a] bg-[#3d30206b] text-[#f4e6c8]'
     : 'border-transparent text-[#ab9f88] hover:border-[#d8bc8760] hover:bg-[#2a22166e] hover:text-[#f4e6c8]';
@@ -66,7 +66,7 @@ function divisionTriggerClass(active: boolean, open: boolean): string {
 
 function divisionLinkClass(active: boolean): string {
   const base =
-    'inline-flex min-h-10 items-center justify-between rounded-md border px-3 py-2 text-xs font-medium uppercase tracking-[0.1em] transition';
+    'inline-flex min-h-11 items-center justify-between rounded-md border px-3 py-2 text-xs font-medium uppercase tracking-[0.1em] transition';
   const activeStyle = active
     ? 'border-[#e0c8937a] bg-[#3d30206b] text-[#f4e6c8]'
     : 'border-transparent text-[#b8ad95] hover:border-[#d8bc8760] hover:bg-[#2a22166e] hover:text-[#f4e6c8]';
@@ -208,7 +208,7 @@ export default function CorporateHeader() {
 
         <motion.button
           type="button"
-          className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#d8bc8770] bg-[#2a22166e] px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#f4e6c8] md:hidden"
+          className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#d8bc8770] bg-[#2a22166e] px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#f4e6c8] xl:hidden"
           aria-expanded={menuOpen}
           aria-controls="corporate-mobile-nav"
           aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
@@ -218,7 +218,7 @@ export default function CorporateHeader() {
           {menuOpen ? tCommon('close') : tCommon('menu')}
         </motion.button>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label={t('primaryNavigation')}>
+        <nav className="hidden items-center gap-1 xl:flex" aria-label={t('primaryNavigation')}>
           {NAV_ITEMS.slice(0, 2).map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -330,7 +330,7 @@ export default function CorporateHeader() {
         {menuOpen ? (
           <motion.nav
             id="corporate-mobile-nav"
-            className="border-t border-[#e0c89322] bg-[#0c0a08f5] md:hidden"
+            className="border-t border-[#e0c89322] bg-[#0c0a08f5] xl:hidden"
             aria-label={t('mobilePrimaryNavigation')}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}

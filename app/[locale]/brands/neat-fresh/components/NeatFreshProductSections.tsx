@@ -4,12 +4,12 @@ const productGroups = [
   {
     title: 'Home Cleaning Range',
     description: 'General cleaners and household formulations for daily hygiene.',
-    bullets: ['Floor cleaners', 'Bathroom care', 'Kitchen-safe cleaning variants'],
+    bullets: ['Floor-cleaning products', 'Bathroom-care products', 'Kitchen-cleaning products'],
   },
   {
-    title: 'Disinfectant Solutions',
-    description: 'Hygiene control products for routine and high-frequency touchpoints.',
-    bullets: ['Liquid disinfectants', 'Surface sanitation products', 'High-contact area protocols'],
+    title: 'Floor & Surface Care',
+    description: 'Named liquid and powder product formats for routine housekeeping use.',
+    bullets: ['Floor-care liquids', 'Surface-cleaning products', 'Pack directions apply'],
   },
   {
     title: 'Institutional Formats',

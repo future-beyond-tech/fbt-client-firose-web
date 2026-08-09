@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import styles from './femison.module.css';
 
 type FemisonHeroProps = {
@@ -8,24 +8,23 @@ type FemisonHeroProps = {
 
 export default function FemisonHero({ whatsappUrl, contactPerson }: Readonly<FemisonHeroProps>) {
   const readinessBlocks = [
-    { label: 'Clinical Position', value: 'Infant & Family Wellness' },
-    { label: 'Channel Coverage', value: 'Pharmacy, Retail, Distribution' },
+    { label: 'Portfolio Position', value: 'Consumer & Family Care' },
+    { label: 'Enquiry Channels', value: 'Retail & Distribution' },
     { label: 'Partner Contact', value: contactPerson },
   ];
 
   return (
     <section className={styles.hero}>
       <p className={styles.heroBadge}>Operational Readiness</p>
-      <h2 className={styles.heroTitle}>Healthcare-Ready Product Architecture</h2>
+      <h2 className={styles.heroTitle}>Consumer-Care Product Architecture</h2>
       <p className={styles.heroLead}>
-        Built for healthcare and retail continuity with disciplined quality controls, documented process checkpoints,
-        and dependable partner support.
+        Organized for clear catalogue discovery, pack-size comparison, and direct product or distribution enquiries.
       </p>
 
       <div className={styles.heroChipRow}>
-        <p className={styles.heroChip}>Safety-Oriented Formulations</p>
-        <p className={styles.heroChip}>Regulatory-Aware Documentation</p>
-        <p className={styles.heroChip}>Distributor Onboarding Ready</p>
+        <p className={styles.heroChip}>Named Product Portfolio</p>
+        <p className={styles.heroChip}>Pack-Size Information</p>
+        <p className={styles.heroChip}>Direct Enquiry Route</p>
       </div>
 
       <div className={styles.readinessGrid}>
@@ -41,7 +40,7 @@ export default function FemisonHero({ whatsappUrl, contactPerson }: Readonly<Fem
 
       <div className={styles.heroActionRow}>
         <Link href="/business-with-us" className={styles.heroPrimary}>
-          Start Healthcare Inquiry
+          Start Product Enquiry
         </Link>
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.heroSecondary}>
           WhatsApp Brand Team

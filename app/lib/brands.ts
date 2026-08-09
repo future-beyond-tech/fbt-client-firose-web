@@ -1,3 +1,5 @@
+import { companyConfig } from './company';
+
 export type BrandContact = {
   personName: string;
   role: string;
@@ -5,7 +7,7 @@ export type BrandContact = {
   phoneDisplay: string;
   whatsappNumber: string;
   whatsappDisplay: string;
-  email: string;
+  email: string | null;
   cityRegion: string;
 };
 
@@ -26,14 +28,14 @@ export const brandCatalog: BrandDefinition[] = [
     shortDescription: 'Housekeeping products for homes, offices, and commercial facilities.',
     portfolioDescription: 'Hygiene-first cleaning products for household, office, and commercial spaces.',
     contact: {
-      personName: 'Neat & Fresh Distribution Lead',
-      role: 'Brand Distribution Contact',
+      personName: 'Neat & Fresh Enquiries',
+      role: 'Housekeeping Products Contact',
       phone: '+91 9790600220',
       phoneDisplay: '+91 9790600220',
       whatsappNumber: '919790600220',
       whatsappDisplay: '+91 9790600220',
-      email: 'info.firoseenterprises@gmail.com',
-      cityRegion: 'India',
+      email: companyConfig.publicEnquiryEmail,
+      cityRegion: companyConfig.location,
     },
   },
   {
@@ -43,14 +45,14 @@ export const brandCatalog: BrandDefinition[] = [
     shortDescription: 'Premium fragrance label with signature attars and gifting collections.',
     portfolioDescription: 'Premium fragrance brand with signature attars, product highlights, and brand-led storytelling.',
     contact: {
-      personName: 'AR Perfumes Brand Lead',
+      personName: 'AR Perfumes Enquiries',
       role: 'Fragrance Sales Contact',
       phone: '+91 7904674841',
       phoneDisplay: '+91 7904674841',
       whatsappNumber: '917904674841',
       whatsappDisplay: '+91 7904674841',
-      email: 'contact.arperfumes@gmail.com',
-      cityRegion: 'India',
+      email: companyConfig.publicEnquiryEmail,
+      cityRegion: companyConfig.location,
     },
   },
   {
@@ -58,18 +60,18 @@ export const brandCatalog: BrandDefinition[] = [
     name: 'Femison',
     category: 'Baby Care & Nutrition',
     shortDescription:
-      'Baby gripe water, Arwat formulations, and glucose products developed for infant comfort and family wellness.',
+      'Baby gripe water, Arwat, glucose, and related consumer-care catalogue products.',
     portfolioDescription:
-      'A healthcare and nutrition portfolio spanning baby gripe water, Arwat, and glucose products for everyday household use.',
+      'A consumer-care portfolio spanning baby gripe water, Arwat, glucose, and related named products.',
     contact: {
-      personName: 'Femison Medical Liaison Lead',
-      role: 'Healthcare & Retail Channel Contact',
+      personName: 'Femison Enquiries',
+      role: 'Consumer Products Contact',
       phone: '+91 9790600220',
       phoneDisplay: '+91 9790600220',
       whatsappNumber: '919790600220',
       whatsappDisplay: '+91 9790600220',
-      email: 'info.firoseenterprises@gmail.com',
-      cityRegion: 'India',
+      email: companyConfig.publicEnquiryEmail,
+      cityRegion: companyConfig.location,
     },
   },
 ];
@@ -92,7 +94,8 @@ export function buildBrandWhatsAppUrl(contact: BrandContact, message: string): s
   return `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-export function buildBrandMailToUrl(contact: BrandContact, subject: string, body?: string): string {
+export function buildBrandMailToUrl(contact: BrandContact, subject: string, body?: string): string | null {
+  if (!contact.email) return null;
   const normalizedBody = (body ?? '').replace(/\r?\n/g, '\r\n');
   const encodedSubject = encodeURIComponent(subject);
   const encodedBody = encodeURIComponent(normalizedBody);

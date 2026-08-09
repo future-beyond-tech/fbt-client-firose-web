@@ -14,10 +14,10 @@ type ProofPoint = Readonly<{
 export default function ProofPoints() {
   const t = useTranslations('proofPoints');
   const proofPoints: ProofPoint[] = [
-    { value: 46, suffix: '+', label: t('yearsHeritage') },
+    { value: 1980, suffix: '', label: t('yearsHeritage') },
     { value: 4, suffix: '', label: t('operatingDivisions') },
-    { value: 50, suffix: '+', label: t('distributionCities') },
-    { value: 200, suffix: '+', label: t('retailPartners') },
+    { value: 55, suffix: '+', label: t('distributionCities') },
+    { value: 2018, suffix: '', label: t('retailPartners') },
   ];
 
   return (

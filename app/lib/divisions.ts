@@ -49,7 +49,7 @@ export const divisionCatalog: DivisionDefinition[] = [
     name: 'Femison',
     category: 'Baby Care & Nutrition',
     description:
-      'Healthcare and nutrition division offering baby gripe water, Arwat formulations, and glucose products for everyday family use.',
+      'Consumer-care division with baby gripe water, Arwat, glucose, and related named catalogue products.',
     href: '/brands/femison',
     image: brandVisuals.femison.cardImage,
     imageAlt: brandVisuals.femison.alt,
@@ -59,7 +59,7 @@ export const divisionCatalog: DivisionDefinition[] = [
     name: 'Neat & Fresh',
     category: 'Hygiene / FMCG',
     description:
-      'Premium hygiene and cleanliness solutions for daily essentials across homes, offices, and institutional channels.',
+      'Housekeeping and hygiene product portfolio for household, office, and institutional channels.',
     href: NEAT_FRESH_WEBSITE_URL,
     external: true,
     image: brandVisuals['neat-fresh'].cardImage,

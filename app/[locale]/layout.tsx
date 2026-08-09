@@ -14,6 +14,7 @@ import WelcomeOverlay from '@/app/components/WelcomeOverlay';
 import { ToastProvider } from '@/app/components/Toast';
 import MotionProvider from '@/app/components/motion/MotionProvider';
 import RouteTransition from '@/app/components/motion/RouteTransition';
+import { absoluteCompanyUrl, companyConfig } from '@/app/lib/company';
 import { FBT_WEBSITE_URL, divisionCatalog, type DivisionDefinition } from '@/app/lib/divisions';
 import '@/app/globals.css';
 
@@ -25,13 +26,22 @@ export function generateStaticParams() {
 
 /* ─── Constants ───────────────────────────────────────────────────────── */
 
-const ORGANIZATION_ID = 'https://firoseenterprises.com/#organization';
-const ORGANIZATION_URL = 'https://firoseenterprises.com';
+const ORGANIZATION_ID = `${companyConfig.websiteUrl}/#organization`;
+const ORGANIZATION_URL = companyConfig.websiteUrl;
+const WEBSITE_ID = `${companyConfig.websiteUrl}/#website`;
 const FEMISON_WEBSITE_URL = 'https://femison.in';
 const FOOTER_EXTERNAL_DIVISION_LINKS: Partial<Record<DivisionDefinition['id'], string>> = {
   femison: FEMISON_WEBSITE_URL,
   'future-beyond-technology': FBT_WEBSITE_URL,
 };
+
+const configuredSocialLinks = [
+  { label: 'Instagram', href: companyConfig.social.instagram },
+  { label: 'LinkedIn', href: companyConfig.social.linkedIn },
+  { label: 'YouTube', href: companyConfig.social.youtube },
+  { label: 'Amazon', href: companyConfig.social.amazon },
+  { label: 'IndiaMART', href: companyConfig.social.indiaMart },
+].filter((link): link is { label: string; href: string } => Boolean(link.href));
 
 const subOrganizationSchema = divisionCatalog.map((division) => ({
   '@type': 'Organization',
@@ -45,35 +55,49 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   '@id': ORGANIZATION_ID,
-  name: 'Firose Enterprises',
+  name: companyConfig.name,
   url: ORGANIZATION_URL,
+  foundingDate: String(companyConfig.establishedYear),
+  location: {
+    '@type': 'Place',
+    name: companyConfig.location,
+  },
   description:
-    'Firose Enterprises is a diversified enterprise group operating AR Perfumes, Femison, Neat & Fresh, and Future Beyond Technology across fragrance, baby care and nutrition, hygiene FMCG, AI engineering, and cybersecurity.',
+    'FIROSE Enterprises, established in 2018 with business heritage dating back to 1980, operates AR Perfumes, Femison, Neat & Fresh, and Future Beyond Technology.',
   keywords:
     'Neat & Fresh, hygiene, cleanliness, daily essentials, premium care, housekeeping products, FMCG, AR Perfumes, Femison, Future Beyond Technology',
   brand: divisionCatalog.map((division) => division.name),
   subOrganization: subOrganizationSchema,
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      contactType: 'customer support',
-      email: 'corporate@firoseenterprises.com',
-      telephone: '+91-9790600220',
-      areaServed: 'IN',
-    },
-  ],
+  sameAs: configuredSocialLinks.map((link) => link.href),
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'business enquiries',
+    telephone: companyConfig.phone,
+    areaServed: 'IN',
+    ...(companyConfig.publicEnquiryEmail ? { email: companyConfig.publicEnquiryEmail } : {}),
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': WEBSITE_ID,
+  name: companyConfig.name,
+  url: ORGANIZATION_URL,
+  publisher: { '@id': ORGANIZATION_ID },
+  inLanguage: routing.locales,
 };
 
 /* ─── Metadata ────────────────────────────────────────────────────────── */
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://firoseenterprises.com'),
+  metadataBase: new URL(companyConfig.websiteUrl),
   title: {
-    default: 'Firose Enterprises',
-    template: '%s | Firose Enterprises',
+    default: companyConfig.name,
+    template: `%s | ${companyConfig.name}`,
   },
   description:
-    'Firose Enterprises is the parent group for AR Perfumes, Femison, Neat & Fresh, and Future Beyond Technology, built for trusted consumer products, baby care and nutrition offerings, and enterprise-grade technology systems.',
+    'FIROSE Enterprises operates four divisions across fragrance, consumer care, housekeeping and hygiene, and enterprise technology.',
   keywords: [
     'Firose Enterprises',
     'AR Perfumes',
@@ -95,21 +119,38 @@ export const metadata: Metadata = {
     'secure systems',
   ],
   openGraph: {
-    title: 'Firose Enterprises',
+    title: companyConfig.name,
     description:
-      'One group. Multiple trusted divisions across fragrance, baby care and nutrition, hygiene FMCG, and AI-driven technology systems.',
+      'Established in 2018 with business heritage dating back to 1980, FIROSE Enterprises operates four divisions.',
     url: ORGANIZATION_URL,
-    siteName: 'Firose Enterprises',
-    locale: 'en_US',
+    siteName: companyConfig.name,
+    locale: 'en_IN',
     type: 'website',
+    images: [
+      {
+        url: absoluteCompanyUrl('/images/about-social.jpg'),
+        width: 1536,
+        height: 1024,
+        alt: `${companyConfig.name} corporate presentation`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: companyConfig.name,
+    description:
+      'Four operating divisions across fragrance, consumer care, housekeeping and hygiene, and enterprise technology.',
+    images: [absoluteCompanyUrl('/images/about-social.jpg')],
   },
   alternates: {
+    canonical: ORGANIZATION_URL,
     languages: {
-      en: 'https://firoseenterprises.com',
-      ta: 'https://firoseenterprises.com/ta',
-      hi: 'https://firoseenterprises.com/hi',
-      te: 'https://firoseenterprises.com/te',
-      kn: 'https://firoseenterprises.com/kn',
+      en: ORGANIZATION_URL,
+      ta: `${ORGANIZATION_URL}/ta`,
+      hi: `${ORGANIZATION_URL}/hi`,
+      te: `${ORGANIZATION_URL}/te`,
+      kn: `${ORGANIZATION_URL}/kn`,
+      'x-default': ORGANIZATION_URL,
     },
   },
   icons: {
@@ -156,22 +197,29 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   // Get all messages for this locale
   const messages = await getMessages();
+  const clientMessages = {
+    common: messages.common,
+    nav: messages.nav,
+    trustBar: messages.trustBar,
+    whatsappFloat: messages.whatsappFloat,
+    divisionCard: messages.divisionCard,
+    divisions: messages.divisions,
+    brandNav: messages.brandNav,
+    heroSection: messages.heroSection,
+    proofPoints: messages.proofPoints,
+    leadershipPage: messages.leadershipPage,
+    businessWithUs: messages.businessWithUs,
+  };
   const tCommon = await getTranslations('common');
   const tFooter = await getTranslations('footer');
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth" id="top">
+    <html lang={locale} data-scroll-behavior="smooth" id="top" suppressHydrationWarning>
       <head>
         <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
-        <link rel="alternate" hrefLang="en" href="https://firoseenterprises.com" />
-        <link rel="alternate" hrefLang="ta" href="https://firoseenterprises.com/ta" />
-        <link rel="alternate" hrefLang="hi" href="https://firoseenterprises.com/hi" />
-        <link rel="alternate" hrefLang="te" href="https://firoseenterprises.com/te" />
-        <link rel="alternate" hrefLang="kn" href="https://firoseenterprises.com/kn" />
-        <link rel="alternate" hrefLang="x-default" href="https://firoseenterprises.com" />
       </head>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages} timeZone="Asia/Kolkata">
+        <NextIntlClientProvider locale={locale} messages={clientMessages} timeZone="Asia/Kolkata">
           <MotionProvider>
             <ToastProvider>
               <div className="fe-shell">
@@ -182,6 +230,10 @@ export default async function LocaleLayout({ children, params }: Props) {
                 <script
                   type="application/ld+json"
                   dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+                />
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
                 />
 
                 <RouteTransition>{children}</RouteTransition>
@@ -200,6 +252,21 @@ export default async function LocaleLayout({ children, params }: Props) {
                         <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#9e927b]">
                           {tCommon('trustedAcrossIndia')}
                         </p>
+                        {configuredSocialLinks.length > 0 ? (
+                          <nav className="mt-2 flex flex-wrap gap-2" aria-label="Digital presence">
+                            {configuredSocialLinks.map((link) => (
+                              <a
+                                key={link.label}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="rounded-full border border-[#e0c89325] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[#b7ac97] transition hover:border-[#e0c89362] hover:text-[#e8d5ac] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d7bb85]"
+                              >
+                                {link.label}
+                              </a>
+                            ))}
+                          </nav>
+                        ) : null}
                       </div>
 
                       <div className="grid gap-3">
