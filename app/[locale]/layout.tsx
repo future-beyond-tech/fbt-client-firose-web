@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
+import { Analytics } from '@vercel/analytics/next';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import CorporateHeader from '@/app/components/CorporateHeader';
@@ -341,6 +342,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             </ToastProvider>
           </MotionProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
